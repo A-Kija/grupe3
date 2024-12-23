@@ -1,0 +1,17 @@
+h1 {
+    color: #dc143c; /* crimson hex RGB kodas */
+    font-size: 100px;
+    font-weight: 900; /* priklauso nuo pačio fonto */
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    font-family: "Ubuntu", serif;
+}
+
+p {
+    color: rgb(97, 17, 103);
+    font-size: 2vw;
+}
+
+span {
+    color: darkgreen;
+}
