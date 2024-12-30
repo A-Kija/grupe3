@@ -1,0 +1,72 @@
+body {
+    padding-bottom: 200px;
+    margin: 0;
+}
+
+h1 {
+    color: crimson;
+    margin: 10px 20px;
+    padding-left: 40px;
+    margin-top: 100px;
+}
+
+li {
+    color: darkmagenta!important;
+}
+
+#nepakartojamas {
+    color: lightcoral;
+}
+
+.antras-pavadinimas {
+    font-size: 30px;
+}
+
+
+[data-mano-spalva] {
+    color: brown
+}
+
+.mano-puikus-pavadinimas {
+    color: greenyellow;
+}
+
+li.mano-puikus-pavadinimas {
+    color: black;
+}
+
+.mano-puikus-pavadinimas {
+    color: darkorange;
+}
+
+section {
+    
+    width: 100%;
+    background-color: lightgray;
+}
+
+  
+
+div {
+    border: 1px solid skyblue;
+    display: inline-block;
+    width: calc(33.3333% - 20px);
+    box-sizing: border-box;
+    font-size: 16px;
+    margin: 0 10px;
+   
+}
+
+div.container {
+    width: 100%;
+    max-width: 800px;
+    display: block;
+    margin: 0 auto;
+    border: 0;
+    background-color: tomato;
+    font-size: 0;
+} 
+
+
+
+
