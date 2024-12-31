@@ -1,0 +1,94 @@
+section#page-1 {
+    width: 100%;
+}
+
+section#page-1 .bin {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 0;
+}
+
+section#page-1 .bin .block {
+    display: inline-block;
+    width: calc(33.3333% - 36px);
+    /* padingas 2*7 + borderis 2*1 + marginas 2*10 */
+    margin: 10px;
+    font-size: 16px;
+    padding: 7px;
+    border: 1px solid #ccc;
+    min-width: 150px;
+    /* box-sizing: border-box; */
+}
+
+.abs-position {
+    position: absolute;
+    background-color: #d2691e;
+    padding: 10px;
+    top: 10px;
+    left: 100px;
+    z-index: 10;
+    /* display: none; */
+}
+
+.ch2.abs-position {
+    background-color: #ffc0cb;
+    left: 200px;
+    z-index: 5;
+}
+
+.abs-parent {
+    position: relative;
+    background-color: greenyellow;
+    padding: 10px;
+}
+
+.stat-position {
+    background-color: #f0808070;
+    padding: 10px;
+}
+
+.svg-parent {
+    position: relative;
+    margin-top: 50px;
+    height: 2000px;
+    border: 1px solid #ccc;
+}
+
+.svg-parent h3 {
+    position: absolute;
+    z-index: 100;
+    top: 40px;
+    left: 20px;
+}
+
+.svg-parent svg {
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100px;
+}
+
+.svg-parent svg.c {
+    left: 150px;
+    z-index: 10;
+}
+
+.svg-parent svg.b {
+    left: 0;
+    z-index: 50;
+}
+
+body > section.svg-parent > svg.c > path:nth-child(2) {
+    fill: pink;
+}
+
+.fix-pos {
+    position: fixed;
+    top: 100px;
+    left: 100px;
+    background-color: #f08080;
+    padding: 10px;
+    z-index: 20;
+}
+
