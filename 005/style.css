@@ -122,3 +122,11 @@ label::before {
 .check-block {
     display: none;
 }
+
+section div {
+    color:cornflowerblue;
+}
+
+section:has(.bilekas) div {
+    color: darkred;
+}
