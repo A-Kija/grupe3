@@ -7,7 +7,15 @@ $color-red: pink;
 
 body {
     margin: 0;
+    font-family: monospace;
+    background-color: aliceblue;
 }
+
+@media only screen and (min-width: 1000px) {
+    body {
+      background-color: darkblue;
+    }
+  }
 
 header {
     width: 100%;
@@ -55,6 +63,7 @@ section.hero {
             display: flex;
             height: calc(100vh - 80px);
             align-items: flex-end;
+            padding: 0 20px;
 
             .hero-box {
                 background-color: #6495ed77;
@@ -87,12 +96,70 @@ section.hero {
             height: 100vh;
             display: flex;
             width: 100%;
+            overflow: hidden;
 
             img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+                transform: scale(1);
+                filter: brightness(1);
+                animation-name: hero; 
+                animation-duration: 60s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
             }
         }
     }
 }
+
+@keyframes hero {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+
+    95% {
+        transform: scale(2);
+        filter: brightness(1);
+    }
+    99% {
+        transform: scale(2);
+        filter: brightness(0.1);
+    }
+
+    100% {
+        transform: scale(1);
+        filter: brightness(0.1);
+    }
+}
+
+section.boxes {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2.header {
+        font-size: 40px;
+        color: $color-red;
+        margin: 40px 0;
+    }
+
+    .boxes-bin {
+        display: flex;
+        width: 100%;
+        max-width: $xl;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        row-gap: 40px;
+        padding: 0 20px;
+
+        .box {
+            width: 30%;
+            padding: 10px 100px 10px 10px;
+            border: 1px solid $color-red;
+        }
+    }
+}
+
