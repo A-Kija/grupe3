@@ -47,6 +47,37 @@ section.hero {
 
         width: 100%;
         display: flex;
+        justify-content: center;
+
+        .hero-box-content {
+            width: 100%;
+            max-width: $xl;
+            display: flex;
+            height: calc(100vh - 80px);
+            align-items: flex-end;
+
+            .hero-box {
+                background-color: #6495ed77;
+                display: flex;
+                flex-direction: column;
+                padding: 50px 30px;
+                margin-bottom: 150px;
+                row-gap: 20px;
+                
+                h1 {
+                    font-size: 50px;
+                    color: $color-red;
+                    margin-bottom: 20px;
+                    margin: 0;
+                }
+                p {
+                    font-size: 20px;
+                    color: $color-red;
+                    margin: 0;
+                    max-width: 550px;
+                }
+            }
+        }
 
 
         .hero-image {
