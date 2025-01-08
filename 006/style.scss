@@ -89,9 +89,54 @@ header {
                     color: darken($color-red, 10%);
                 }
             }
+            li.close {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                label {
+                    width: 40px;
+                    height: 41px;
+                    display: block;
+                    position: relative;
+                    cursor: pointer;
+                    &::before {
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        width: 40px;
+                        height: 5px;
+                        top: 18px;
+                        background-color: black;
+                        transform: rotate(45deg);
+                        transition: all 0.3s;
+                    }
+                    &::after {
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        width: 40px;
+                        height: 5px;
+                        top: 18px;
+                        background-color: black;
+                        transform: rotate(-45deg);
+                        transition: all 0.3s;
+                    }
+                    &:hover::before {
+                        transform: rotate(135deg);
+                        background-color: $color-red;
+                    }
+                    &:hover::after {
+                        transform: rotate(-135deg);
+                        background-color: $color-red;
+                    }
+                }
+            }
         }
         #mob-nav:checked + ul {
             right: 0;
+        }
+        #mob-nav {
+            display: none;
         }
     }
 }
