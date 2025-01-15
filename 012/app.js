@@ -124,5 +124,19 @@ for (let i = 0; i < 7; i++) {
 
 document.querySelector('.a').innerHTML = circlesHtmlA;
 
-// Nupaišyti 9 orandžinius apskritimus su raide "B"
+// Nupaišyti 7 orandžinius/mėlynus apskritimus su raide "A" (oranžinis-mėlynas-oranžinis-mėlynas-...)
+
+let circlesHtmlAM = '';
+
+for (let i = 0; i < 7; i++) {
+    if (i % 2 == 0) {
+        circlesHtmlAM += `<div class="letter">A</div>`;
+    } else {
+        circlesHtmlAM += `<div class="letter" style="background: darkblue;">A</div>`;
+    }
+}
+
+document.querySelector('.b').innerHTML = circlesHtmlAM;
+
+
 
