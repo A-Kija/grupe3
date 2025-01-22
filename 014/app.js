@@ -147,6 +147,23 @@ console.log('ilgiausias zodis:', zodis);
 const words = ['labas', 'rytas', 'Lietuva', 'sakau', 'tau', 'aš', 'esantis', 'čia', 'miške', 'barsukas'];
 // 4. Rasti ilgiausius žodžius, jeigu yra keli, tai visus - sukuriamas naujas masyvas
 
+let ilgiausiZodziai = [];
+let maxZodis = words[0].length;
+
+for (let i = 0; i < words.length; i++) {
+    if (words[i].length > maxZodis) {
+        maxZodis = words[i].length;
+        ilgiausiZodziai = [];
+        console.log(i);
+    }
+    if (words[i].length === maxZodis) {
+        ilgiausiZodziai.push(words[i]);
+    }
+}
+
+console.log('ilgiausi zodziai:', ilgiausiZodziai);
+
+
 
 
 
