@@ -11,6 +11,9 @@ fetch(URL)
         console.log(data);
         books = data;
         printBookTitles(books);
+        printBookImages(books);
+        printBookAuthors(books);
+        printBookAuthorsAndTitles(books);
     });
 
 
@@ -45,5 +48,39 @@ const printBookTitles = books => {
     });
 }
 
+const printBookImages = books => {
+    const ul = document.querySelector('ul#nr2');
+    ul.innerHTML = '';
+    books.forEach(book => {
+        const li = document.createElement('li');
+        const img = document.createElement('img');
+        // img.src = book.img;
+        img.setAttribute('src', book.img); // universalus būdas, veikia ir su kitais atributais
+        img.style.width = '100px'; // nebūtina, tik dėl gražumo
+        li.appendChild(img);
+        ul.appendChild(li);
+    });
+}
+
+const printBookAuthors = books => {
+    const ul = document.querySelector('ul#nr3');
+    ul.innerHTML = '';
+    books.forEach(book => {
+        const li = document.createElement('li');
+        li.innerText = book.author;
+        ul.appendChild(li);
+    });
+}
+
+
+const printBookAuthorsAndTitles = books => {
+    const ul = document.querySelector('ul#nr4');
+    ul.innerHTML = '';
+    books.forEach(book => {
+        const li = document.createElement('li');
+        li.innerText = `${book.title} - ${book.author}`;
+        ul.appendChild(li);
+    });
+}
 
 
