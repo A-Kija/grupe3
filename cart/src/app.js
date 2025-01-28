@@ -1,0 +1,1 @@
+console.log('Sveiki atvykę į mano parduotuvę!');
