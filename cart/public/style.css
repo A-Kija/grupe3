@@ -1,0 +1,64 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "DM Sans", serif;
+  margin: 0;
+  padding: 0;
+  background-color: #FEFDFF;
+  color: #1D1E18;
+}
+
+.book-app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.book-app header {
+  background-color: yellow;
+  height: 85px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.book-app header .top {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+.book-app header .top nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+}
+.book-app header .top nav ul a {
+  text-decoration: none;
+  color: #ED217C;
+  font-size: 22px;
+  margin: 0 10px;
+  font-weight: 100;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+}
+.book-app header .top nav ul a:hover {
+  color: #1B998B;
+}
+.book-app header .top .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.book-app header .top .logo svg {
+  width: 50px;
+  height: 50px;
+  fill: #ED217C;
+}
