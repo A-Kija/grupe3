@@ -82,6 +82,46 @@ body {
                     fill: $red;
                 }
 
+                span {
+                    font-size: 18px;
+                    font-weight: 200;
+                    color: $blue;
+                    font-family: $noto;
+                }
+
+            }
+            .cart {
+                position: relative;
+                cursor: pointer;
+                top: 8px;
+                &__icon {
+                    svg {
+                        width: 50px;
+                        height: 50px;
+                        fill: $green;
+                        transition: $trans;
+                    }
+                }
+                &__count {
+                    position: absolute;
+                    top: -10px;
+                    right: -25px;
+                    background-color: $green;
+                    color: $white;
+                    border-radius: 50%;
+                    padding: 5px 10px;
+                    font-size: 14px;
+                    font-weight: 100;
+                    transition: $trans;
+                }
+                &:hover {
+                    .cart__icon svg {
+                        fill: darken($green, 10%);
+                    }
+                    .cart__count {
+                        background-color: darken($green, 10%);
+                    }
+                }
             }
         }
 

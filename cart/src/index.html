@@ -58,25 +58,52 @@
                     </ul>
                 </nav>
                 <div class="cart">
-                    <div class="cart__icon"></div>
+                    <div class="cart__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="512" height="512">
+                            <g id="gift_box-shopping_cart" data-name="gift box-shopping cart">
+                                <path d="M16,13a1,1,0,0,0-1-1H5a1,1,0,0,0,0,2H15A1,1,0,0,0,16,13Z" />
+                                <path d="M34.5,14H37a1,1,0,0,1-.707-.293L35.586,13H34.5a.5.5,0,0,0,0,1Z" />
+                                <rect x="36" y="16" width="2" height="4" />
+                                <rect x="36" y="22" width="2" height="13" />
+                                <path d="M40,35h4a1,1,0,0,0,1-1V22H40Z" />
+                                <path d="M40,20h7V17a1,1,0,0,0-1-1H40Z" />
+                                <path
+                                    d="M40,13.5a.5.5,0,0,0-.5-.5H38.414l-.707.707A1,1,0,0,1,37,14h2.5A.5.5,0,0,0,40,13.5Z" />
+                                <path d="M30,35h4V22H29V34A1,1,0,0,0,30,35Z" />
+                                <path d="M34,16H28a1,1,0,0,0-1,1v3h7Z" />
+                                <polygon
+                                    points="26 12 28 12 28 10 30 10 30 8 28 8 28 6 26 6 26 8 24 8 24 10 26 10 26 12" />
+                                <polygon points="37 8 39 8 39 6 41 6 41 4 39 4 39 2 37 2 37 4 35 4 35 6 37 6 37 8" />
+                                <polygon
+                                    points="48 12 50 12 50 10 52 10 52 8 50 8 50 6 48 6 48 8 46 8 46 10 48 10 48 12" />
+                                <path
+                                    d="M56,53a4,4,0,0,0-3.858,3H30.858a3.981,3.981,0,0,0-7.716,0H21V48H19v9a1,1,0,0,0,1,1h3.142a3.981,3.981,0,0,0,7.716,0H52.142A3.993,3.993,0,1,0,56,53Z" />
+                                <path
+                                    d="M59,38.526V28H47v6a3,3,0,0,1-3,3H30a3,3,0,0,1-3-3V28H19.309L16.986,14.836l-1.972.328L17.19,28.945,18.338,41H46v2H18.528l.381,4H48.643ZM48,41h2v2H48Z" />
+                            </g>
+                        </svg>
+                    </div>
                     <div class="cart__count">0</div>
                 </div>
             </div>
         </header>
         <main>
-            <div class="products">
-                <div class="product">
-                    <div class="product__image"></div>
-                    <div class="product__title">Knyga 1</div>
-                    <div class="product__price">9.99 €</div>
-                    <button class="product__add">Į krepšelį</button>
-                </div>
-            </div>
+            <div class="products" data-books></div>
         </main>
-
-
-
     </div>
+
+    <template data-book-template>
+        <div class="product" data-book>
+            <div class="product__image"><img data-image></div>
+            <div data-title class="product__title"></div>
+            <div data-author class="product__author"></div>
+            <div data-price class="product__price"></div>
+            <div class="product__action">
+                <input data-count type="number" class="product__quantity" value="1">
+                <button data-add class="product__add">Į krepšelį</button>
+            </div>
+        </div>
+    </template>
 
 
 </body>
