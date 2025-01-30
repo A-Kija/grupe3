@@ -24,7 +24,7 @@ const renderBooks = books => {
         title.innerText = book.title;
         author.innerText = book.author;
         image.src = book.img;
-        price.innerText = book.price;
+        price.innerText = book.price.toFixed(2) + ' €';
         booksDiv.appendChild(div);
         
     });
