@@ -10,13 +10,24 @@ const init = _ => { // iškart iškviečiamas, kai užkraunamas puslapis
 }
 
 const addToCart = id => {
-    cart.push({id, count: 1});
+    const bookInCart = cart.find(book => book.id === id);
+    if (bookInCart) {
+        bookInCart.count++;
+    } else {
+        cart.unshift({id, count: 1});
+    }
     localStorage.setItem('cart', JSON.stringify(cart));
     renderCart();
 }
 
 const removeFromCart = id => {
     cart = cart.filter(book => book.id !== id);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+}
+
+const clearCart = _ => {
+    cart = [];
     localStorage.setItem('cart', JSON.stringify(cart));
     renderCart();
 }
@@ -38,6 +49,8 @@ const cartAddEventListeners = _ => {
             removeFromCart(parseInt(button.dataset.id));
         });
     });
+    const clearButton = document.querySelector('[data-clear]');
+    clearButton.addEventListener('click', clearCart);
 }
 
 
@@ -49,6 +62,12 @@ const getBooks = _ => {
             renderBooks();
             renderCart();
         });
+}
+
+const showCartTopCount = _ => {
+    const cartCount = document.querySelector('[data-cart-top-count]');
+    const count = cart.reduce((sum, book) => sum + book.count, 0);
+    cartCount.innerText = count;
 }
 
 const renderBooks = _ => {
@@ -75,10 +94,18 @@ const renderBooks = _ => {
 const renderCart = _ => {
     const booksDiv = document.querySelector('[data-cart-list]');
     const bookTemplate = document.querySelector('[data-cart-template]');
+    const totalPrice = document.querySelector('[data-cart-total-template]');
+    const cartEmpty = document.querySelector('[data-cart-empty-template]');
     booksDiv.innerHTML = '';
-    const booksInCart = cart.map(book => {
-        const bookData = books.find(bookData => bookData.id === book.id);
-        return {...bookData, count: book.count};
+    if (cart.length === 0) {
+        const div = cartEmpty.content.cloneNode(true);
+        booksDiv.appendChild(div);
+        showCartTopCount();
+        return;
+    }
+    const booksInCart = cart.map(bookInCart => {
+        const bookData = books.find(bookData => bookData.id === bookInCart.id);
+        return {...bookData, count: bookInCart.count, price: bookData.price * bookInCart.count};
     });
     booksInCart.forEach(book => {
         const div = bookTemplate.content.cloneNode(true);
@@ -94,7 +121,13 @@ const renderCart = _ => {
         button.dataset.id = book.id;
         booksDiv.appendChild(div);
     });
+    const totalDiv = totalPrice.content.cloneNode(true);
+    const totalSum = booksInCart.reduce((sum, book) => sum + book.price, 0);
+    const total = totalDiv.querySelector('[data-total-price]');
+    total.innerText = totalSum.toFixed(2) + ' €';
+    booksDiv.appendChild(totalDiv);
     cartAddEventListeners();
+    showCartTopCount();
 }
 
 init();
