@@ -4,17 +4,21 @@ let books = null; // null reiškia, kad dar nepasibaigė užklausa į serverį
 
 
 
-const init = _ => {
+const init = _ => { // iškart iškviečiamas, kai užkraunamas puslapis
     getBooks();
     cart = JSON.parse(localStorage.getItem('cart')) || [];
-    renderCart(cart);
 }
 
 const addToCart = id => {
-    const book = books.find(book => book.id === id);
-    cart.push(book);
+    cart.push({id, count: 1});
     localStorage.setItem('cart', JSON.stringify(cart));
-    renderCart(cart);
+    renderCart();
+}
+
+const removeFromCart = id => {
+    cart = cart.filter(book => book.id !== id);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
 }
 
 const booksAddEventListeners = _ => {
@@ -26,17 +30,28 @@ const booksAddEventListeners = _ => {
     });
 }
 
+const cartAddEventListeners = _ => {
+    const cartList = document.querySelector('[data-cart-list]');
+    removeButtons = cartList.querySelectorAll('[data-remove]');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', _ => {
+            removeFromCart(parseInt(button.dataset.id));
+        });
+    });
+}
+
+
 const getBooks = _ => {
     fetch(URL)
         .then(response => response.json())
         .then(data => {
             books = data;
-            renderBooks(books);
-            booksAddEventListeners();
+            renderBooks();
+            renderCart();
         });
 }
 
-const renderBooks = books => {
+const renderBooks = _ => {
     const booksDiv = document.querySelector('[data-books]');
     const bookTemplate = document.querySelector('[data-book-template]');
     booksDiv.innerHTML = '';
@@ -54,13 +69,18 @@ const renderBooks = books => {
         button.dataset.id = book.id;
         booksDiv.appendChild(div);
     });
+    booksAddEventListeners();
 }
 
-const renderCart = books => {
+const renderCart = _ => {
     const booksDiv = document.querySelector('[data-cart-list]');
     const bookTemplate = document.querySelector('[data-cart-template]');
     booksDiv.innerHTML = '';
-    books.forEach(book => {
+    const booksInCart = cart.map(book => {
+        const bookData = books.find(bookData => bookData.id === book.id);
+        return {...bookData, count: book.count};
+    });
+    booksInCart.forEach(book => {
         const div = bookTemplate.content.cloneNode(true);
         const title = div.querySelector('[data-title]');
         const count = div.querySelector('[data-count]');
@@ -68,12 +88,13 @@ const renderCart = books => {
         const price = div.querySelector('[data-price]');
         const button = div.querySelector('[data-remove]');
         title.innerText = book.title;
-        count.innerText = 1;
+        count.innerText = book.count;
         image.src = book.img;
         price.innerText = book.price.toFixed(2) + ' €';
         button.dataset.id = book.id;
         booksDiv.appendChild(div);
     });
+    cartAddEventListeners();
 }
 
 init();
