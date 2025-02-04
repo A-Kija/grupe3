@@ -7,17 +7,30 @@ let books = null; // null reiškia, kad dar nepasibaigė užklausa į serverį
 const init = _ => { // iškart iškviečiamas, kai užkraunamas puslapis
     getBooks();
     cart = JSON.parse(localStorage.getItem('cart')) || [];
+    showCart();
 }
 
-const addToCart = id => {
+const showCart = _ => {
+    const cartIcon = document.querySelector('[data-cart-icon]');
+    cartIcon.addEventListener('click', _ => {
+        const dataCart = document.querySelector('[data-cart]');
+        if (dataCart.dataset.cart === 'hide') {
+            dataCart.dataset.cart = 'show';
+        } else {
+            dataCart.dataset.cart = 'hide';
+        }
+    });
+}
+
+const addToCart = (id, count) => {
     const bookInCart = cart.find(book => book.id === id);
     if (bookInCart) {
-        bookInCart.count++;
+        bookInCart.count += count;
     } else {
-        cart.unshift({id, count: 1});
+        cart.unshift({id, count});
     }
     localStorage.setItem('cart', JSON.stringify(cart));
-    renderCart();
+    renderCart(true);
 }
 
 const removeFromCart = id => {
@@ -34,11 +47,20 @@ const clearCart = _ => {
 
 const booksAddEventListeners = _ => {
     addButtons = document.querySelectorAll('[data-add]');
+    valueInputs = document.querySelectorAll('[data-count]');
     addButtons.forEach(button => {
         button.addEventListener('click', _ => {
-            addToCart(parseInt(button.dataset.id));
+            const valueInput = button.closest('[data-book]').querySelector('[data-count]');
+            addToCart(parseInt(button.dataset.id), parseInt(valueInput.value));
+            valueInput.value = 1;
         });
     });
+    valueInputs.forEach(input => {
+        input.addEventListener('input', _ => {
+            parseInt(input.value) < 1 && (input.value = 1); // taip galima parašyti if'ą vienoje eilutėje
+        });
+    });
+    
 }
 
 const cartAddEventListeners = _ => {
@@ -91,7 +113,7 @@ const renderBooks = _ => {
     booksAddEventListeners();
 }
 
-const renderCart = _ => {
+const renderCart = (show = false) => {
     const booksDiv = document.querySelector('[data-cart-list]');
     const bookTemplate = document.querySelector('[data-cart-template]');
     const totalPrice = document.querySelector('[data-cart-total-template]');
@@ -128,6 +150,7 @@ const renderCart = _ => {
     booksDiv.appendChild(totalDiv);
     cartAddEventListeners();
     showCartTopCount();
+    show && (document.querySelector('[data-cart]').dataset.cart = 'show');
 }
 
 init();

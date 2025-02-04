@@ -14,6 +14,8 @@ $trans: all 0.3s ease-in-out;
 $noto: "Noto Serif", serif; // 100-900
 $dm: "DM Sans", serif; // 100-1000
 
+@use "sass:color";
+
 * {
     box-sizing: border-box;
 }
@@ -128,7 +130,7 @@ body {
                         font-family: $dm;
 
                         &:hover {
-                            background-color: darken($red, 10%);
+                            background-color: color.adjust($red, $lightness: -10%);
                         }
                     }
                 }
@@ -157,12 +159,15 @@ body {
 
                 &:hover {
                     .cart__icon svg {
-                        fill: darken($green, 10%);
+                        fill: color.adjust($green, $lightness: -10%);
                     }
 
                     .cart__count {
-                        background-color: darken($green, 10%);
+                        background-color: color.adjust($green, $lightness: -10%);
                     }
+                }
+                &__wrap {
+                    padding: 10px;
                 }
 
                 &__list {
@@ -171,9 +176,10 @@ body {
                     right: -30px;
                     width: 300px;
                     background-color: $white;
-                    padding: 10px;
                     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                     cursor: default;
+                    overflow: hidden;
+                    transition: $trans;
                     .product {
                         display: flex;
                         margin: 10px 0;
@@ -223,15 +229,26 @@ body {
                                     transition: $trans;
                                 }
                                 &:hover svg {
-                                    fill: darken($red, 10%);
+                                    fill: color.adjust($red, $lightness: -10%);
                                 }
                             }
                         }
                     }
 
                 }
+                &[data-cart="hide"] {
+                    .cart__list {
+                        height: 0;
+                        max-height: 0;
+                    }
+                }
+                &[data-cart="show"] {
+                    .cart__list {
+                        height: unset;
+                        max-height: unset;
+                    }
+                }
             }
-
         }
 
     }
@@ -343,7 +360,7 @@ body {
                         font-family: $dm;
 
                         &:hover {
-                            background-color: darken($green, 10%);
+                            background-color: color.adjust($green, $lightness: -10%);
                         }
                     }
                 }
