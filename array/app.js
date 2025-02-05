@@ -52,3 +52,5 @@ console.log(olderDogs);
 
 console.clear();
 
+// some, find, filter, map, reduce, sort, findIndex, findLast, includes
+
