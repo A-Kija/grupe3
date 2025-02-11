@@ -64,7 +64,7 @@ class Stikline {
     stiklinejeYra() {
         console.log(this.turis + ' stiklineje yra: ' + this.kiekis + ' vandens.');
     }
-    
+
 }
 
 
@@ -114,7 +114,19 @@ class Krepsys {
 
     deti(grybas) {
 
+        // if (grybas.valgomas && !grybas.sukirmijes) {
+        //     this.prikrauta += grybas.svoris;
+        // }
+
+        grybas.valgomas && !grybas.sukirmijes && (this.prikrauta += grybas.svoris);
+
+
+        return this.dydis >= this.prikrauta; // dydis didesnis - telpa dar kraunam
     }
-
-
 }
+
+const krepsys = new Krepsys();
+
+while (krepsys.deti(new Grybas())) {} // čia neturi būti jokio tikrinimo
+
+console.log(krepsys);
