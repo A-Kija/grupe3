@@ -220,3 +220,92 @@ manoArejus.forEach(value => {
     // ciklo valdymo operatoriai neveikia nes ne ciklas
     console.log(value);
 });
+
+console.log('-----------------');
+
+// FOR-IN per NE COUNTABLE objektus
+
+for (const key in manoObjektas) {
+    console.log(key, manoObjektas[key]);
+}
+
+// FOR-IN per COUNTABLE objektus
+
+for (const key in manoArejus) {
+    console.log(key, manoArejus[key]);
+}
+console.log('-----------------');
+
+console.log([...manoMapas]);
+
+// Teorinis atvejis, kai galima naudoti FOR-IN, bet  kai yra geresnių būdų
+for (const key in [...manoMapas]) {
+    console.log([...manoMapas][key][0], [...manoMapas][key][1]);
+}
+
+console.clear();
+// SWITCH
+
+const dydis = 'M';
+
+if (dydis === 'S') {
+    console.log('Tikrinam S');
+}
+if (dydis === 'S' || dydis === 'M') {
+    console.log('Tikrinam M');
+}
+if (dydis === 'S' || dydis === 'M' || dydis === 'L') {
+    console.log('Tikrinam L');
+}
+if (dydis === 'S' || dydis === 'M' || dydis === 'L' || dydis === 'XL') {
+    console.log('Tikrinam XL');
+}
+console.log('Netelpa');
+
+console.log('-----------------');
+
+switch (dydis) {
+    case 'S':
+        console.log('Tikrinam S');
+    case 'M':
+        console.log('Tikrinam M');
+    case 'L':
+        console.log('Tikrinam L');
+    case 'XL':
+        console.log('Tikrinam XL');
+    default:
+        console.log('Netelpa');
+}
+
+console.log('-----------------');
+
+if (dydis === 'S') {
+    console.log('Tikrinam S');
+} else if (dydis === 'M') {
+    console.log('Tikrinam M');
+} else if (dydis === 'L') {
+    console.log('Tikrinam L');
+} else if (dydis === 'XL') {
+    console.log('Tikrinam XL');
+} else {
+    console.log('Netelpa');
+}
+
+console.log('-----------------');
+
+switch (dydis) {
+    case 'S':
+        console.log('Tikrinam S');
+        break;
+    case 'M':
+        console.log('Tikrinam M');
+        break;
+    case 'L':
+        console.log('Tikrinam L');
+        break;
+    case 'XL':
+        console.log('Tikrinam XL');
+        break;
+    default:
+        console.log('Netelpa');
+}
