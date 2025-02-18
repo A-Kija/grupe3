@@ -1,10 +1,12 @@
 import Dot from './Dot.js';
+import Crud from './Crud.js';
 
-export default class Panel {
+export default class Panel extends Crud {
 
     #dots = [];
 
     constructor(cols, rows, dotSize) {
+        super();
         this.startEnd = false;
         this.color = 'black';
         this.panel = document.querySelector('[data-panel]');
@@ -24,6 +26,7 @@ export default class Panel {
         this.panel.addEventListener('mousedown', _ => this.startEnd = true);
         this.panel.addEventListener('mouseup', _ => this.startEnd = false);
         this.clearButton.addEventListener('click', _ => this.clear());
+        this.panelColor.addEventListener('input', _ => this.color = this.panelColor.value);
 
     }
 

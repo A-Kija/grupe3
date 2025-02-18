@@ -15,8 +15,8 @@ export default class Dot {
 
         this.element.addEventListener('mouseover', _ => {
             if (panel.startEnd) {
-                this.element.style.backgroundColor = 'black';
-                this.#active = true;
+                this.element.style.backgroundColor = panel.color;
+                this.#active = panel.color;
             }
         });
     }
@@ -27,7 +27,7 @@ export default class Dot {
 
     set dot(value) {
         this.#active = value;
-        this.element.style.backgroundColor = value ? 'black' : 'transparent';
+        this.element.style.backgroundColor = value ? value : 'transparent';
     }
 
 

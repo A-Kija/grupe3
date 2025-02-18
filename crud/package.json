@@ -11,7 +11,8 @@
   "license": "ISC",
   "description": "CRUD",
   "dependencies": {
-    "laravel-mix": "^6.0.49"
+    "laravel-mix": "^6.0.49",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "resolve-url-loader": "^5.0.0",
