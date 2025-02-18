@@ -10,3 +10,33 @@ section.panel {
     background-color: #f4f4f4;
     border: 1px solid #ccc;
 }
+
+section.panel-control {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 3px;
+        transition: all 0.3s;
+        &:hover {
+            background-color: #0056b3;
+        }
+    }
+    input[type="color"] {
+        border-radius: 3px;
+        border: none;
+        padding: 0;
+        background-color: transparent;
+        cursor: pointer;
+        height: 42px;
+        width: 42px;
+    }
+}

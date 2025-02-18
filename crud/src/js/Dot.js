@@ -2,7 +2,7 @@ export default class Dot {
 
     #active = false;
 
-    constructor(x, y, size) {
+    constructor(x, y, size, panel) {
         this.x = x;
         this.y = y;
         this.size = size;
@@ -14,8 +14,10 @@ export default class Dot {
         this.element.style.top = y * size + 'px';
 
         this.element.addEventListener('mouseover', _ => {
-            this.element.style.backgroundColor = 'black';
-            this.#active = true;
+            if (panel.startEnd) {
+                this.element.style.backgroundColor = 'black';
+                this.#active = true;
+            }
         });
     }
 
