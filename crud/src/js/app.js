@@ -1,4 +1,5 @@
-import Panel from './Panel.js';
+import View from './View.js';
 
 
-const panel = new Panel(10, 10, 10);
+const view = new View();
+

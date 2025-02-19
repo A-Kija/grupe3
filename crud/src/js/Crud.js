@@ -2,8 +2,8 @@ import LocalStorage from './LocalStorage';
 
 export default class Crud extends LocalStorage {
 
-    constructor() {
-        super();
+    constructor(dataKey) {
+        super(dataKey);
     }
 
     // Veiksmai

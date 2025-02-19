@@ -5,8 +5,8 @@ export default class Panel extends Crud {
 
     #dots = [];
 
-    constructor(cols, rows, dotSize) {
-        super();
+    constructor(cols, rows, dotSize, dataKey) {
+        super(dataKey);
         this.startEnd = false;
         this.color = 'black';
         this.panel = document.querySelector('[data-panel]');
@@ -29,6 +29,18 @@ export default class Panel extends Crud {
         this.panelColor.addEventListener('input', _ => this.color = this.panelColor.value);
 
     }
+
+    getDotsData() {
+        const data = [];
+        for (let x = 0; x < this.#dots.length; x++) {
+            data[x] = [];
+            for (let y = 0; y < this.#dots[x].length; y++) {
+                data[x][y] = this.#dots[x][y].dot;
+            }
+        }
+        return data;
+    }
+
 
     clear() {
         for (let x = 0; x < this.#dots.length; x++) {

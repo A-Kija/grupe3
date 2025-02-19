@@ -1,15 +1,26 @@
+import { v4 as uuidv4 } from 'uuid';
+
+
+
 export default class LocalStorage {
 
 
-    constructor(key) {
-        this.key = key;
-        this.data = JSON.parse(localStorage.getItem(this.key)) || [];
+    constructor(dataKey) {
+        this.dataKey = dataKey; // Kur saugosim duomenis
+        this.data = JSON.parse(localStorage.getItem(this.dataKey)) || []; // jeigu nieko nėra, tuomet tuščias masyvas
+    }
+
+    save() {
+        localStorage.setItem(this.dataKey, JSON.stringify(this.data)); // išsaugom duomenis į localStorage
     }
 
      // Veiksmai
 
-     store(data) {
+    store(data) {
         console.log('Data stored:', data); // naujo įrašo saugojimas
+        const id = uuidv4();
+        this.data.push({ id, ...data }); // pridedam naują įrašą į masyvą
+        this.save(); // išsaugom duomenis
     }
 
     update(data, id) {
