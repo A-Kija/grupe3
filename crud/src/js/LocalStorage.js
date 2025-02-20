@@ -49,7 +49,8 @@ export default class LocalStorage {
     // Vaizdai po veiksmų
 
     read() {
-        console.log('Data read:', id); // visų įrašų gavimas
+        console.log('Data read:'); // visų įrašų gavimas
+        return this.data;
     }
 
     show(id) {

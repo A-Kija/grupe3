@@ -9,6 +9,17 @@ h1 {
     margin: 20px 0;
 }
 
+a {
+    text-decoration: none;
+    color: #007bff;
+    cursor: pointer;
+    padding: 20px 0 0 100px;
+    display: inline-block;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
 section.panel {
     position: relative;
     margin: 20px auto;
