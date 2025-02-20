@@ -1,7 +1,7 @@
 import Dot from './Dot.js';
-import Crud from './Crud.js';
+import LS from './LocalStorage.js'; // Importuojam LocalStorage klasę, galiu keisti pavadinimą
 
-export default class Panel extends Crud {
+export default class Panel extends LS {
 
     #dots = [];
 
@@ -48,6 +48,7 @@ export default class Panel extends Crud {
                 this.#dots[x][y].dot = false;
             }
         }
+        this.panelColor.value = this.color = 'black';
     }
 
 
