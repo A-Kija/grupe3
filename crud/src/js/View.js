@@ -15,8 +15,32 @@ export default class View {
         if (document.querySelector('[data-crud-view-delete]')) {
             this.viewDelete();
         }
+        // Edit view
+        if (document.querySelector('[data-crud-view-edit]')) {
+            this.viewEdit();
+        }
     }
-    
+
+    viewEdit() {
+        
+        const id = window.location.hash.replace('#', '');
+        this.panel = new Panel('dots', id);
+
+        const editPanel = this.panel.edit(id);
+
+        if (!editPanel) {
+            window.location.href = 'index.html';
+            return;
+        }
+
+        const panelControl = document.querySelector('[data-panel-controls]');
+        const updateButton = document.querySelector('[data-panel-update]');
+        const cancelButton = document.querySelector('[data-panel-cancel]');
+
+
+
+    }
+
 
     viewCreate() {
         this.panel = new Panel('dots', 10, 10, 10);
@@ -28,7 +52,7 @@ export default class View {
             window.location.href = 'index.html'; // nukreipimas į index.html vaizdas po veiksmo
         });
         storeButton.addEventListener('click', _ => {
-            this.panel.store({dots: this.panel.getDotsData(), dotSize: this.panel.dotSize}); // išsaugom duomenis store metodu
+            this.panel.store({ dots: this.panel.getDotsData(), dotSize: this.panel.dotSize }); // išsaugom duomenis store metodu
             this.panel.clear(); // išvalom panelį. Nebūtina, nes po nukreipimo viskas išnyksta
             window.location.href = 'index.html'; // nukreipimas į index.html vaizdas po veiksmo
         });
@@ -44,7 +68,7 @@ export default class View {
             panelElement.style.width = panel.dots.length * panel.dotSize + 'px';
             panelElement.style.height = panel.dots.length * panel.dotSize + 'px';
             panelElement.style.position = 'relative';
-            
+
             panel.dots.forEach((row, x) => {
                 row.forEach((dot, y) => {
                     // signature start
@@ -86,8 +110,24 @@ export default class View {
         this.panel = new Panel('dots');
         const id = window.location.hash.replace('#', '');
 
+        const deletePanel = this.panel.Delete(id);
+
+        const panelControl = document.querySelector('[data-panel-controls]');
         const destroyButton = document.querySelector('[data-panel-destroy]');
         const cancelButton = document.querySelector('[data-panel-cancel]');
+
+        if (!deletePanel) {
+            // window.location.href = 'index.html';
+            // return;
+            destroyButton.remove();
+            cancelButton.remove();
+            const message = document.createElement('div');
+            message.style.color = 'crimson';
+            message.textContent = 'Signature not found.';
+            panelControl.appendChild(message);
+        }
+
+
         cancelButton.addEventListener('click', _ => {
             window.location.href = 'index.html';
         });

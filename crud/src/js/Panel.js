@@ -5,24 +5,44 @@ export default class Panel extends LS {
 
     #dots = [];
 
-    constructor(dataKey, cols, rows, dotSize) {
+    constructor(dataKey, colsOrId, rows, dotSize) {
         super(dataKey);
-        if (cols === undefined || rows === undefined || dotSize === undefined) {
-            return; // imituojame overload 1. Funkcija veiks su 1 argumentu 2. Funkcija veiks su 4 argumentais 
+        if (colsOrId === undefined ) {
+            return; // imituojame overload 1. Funkcija veiks su 1 argumentu. Nereikia aktyvaus panelio (read) 
         }
+           
+        if (colsOrId && rows && dotSize) {
+            this.dotSize = dotSize;
+            this.cols = colsOrId;
+            this.rows = rows;
+            this.type = 'create';
+            // Funkcija su 4 argumentais (create)
+        } else {
+            this.data = this.data.find(item => item.id === colsOrId);
+            this.dotSize = this.data.dotSize;
+            this.cols = this.data.dots.length;
+            this.rows = this.data.dots[0].length;
+            this.type = 'edit';
+            // Funkcija su 2 argumentais (edit)
+        }
+        
         this.startEnd = false;
         this.color = 'black';
         this.panel = document.querySelector('[data-panel]');
         this.clearButton = document.querySelector('[data-panel-clear]');
         this.panelColor = document.querySelector('[data-panel-color]');
-        this.dotSize = dotSize;
-        this.panel.style.width = cols * this.dotSize + 'px';
-        this.panel.style.height = rows * this.dotSize + 'px';
 
-        for (let x = 0; x < cols; x++) {
+
+        this.panel.style.width = this.cols * this.dotSize + 'px';
+        this.panel.style.height = this.rows * this.dotSize + 'px';
+
+        for (let x = 0; x < this.cols; x++) {
             this.#dots[x] = [];
-            for (let y = 0; y < rows; y++) {
+            for (let y = 0; y < this.rows; y++) {
                 this.#dots[x][y] = new Dot(x, y, this.dotSize, this);
+                if (this.type === 'edit') {
+                    this.#dots[x][y].dot = this.data.dots[x][y];
+                }
                 this.panel.appendChild(this.#dots[x][y].element);
             }
         }

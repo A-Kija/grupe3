@@ -39,12 +39,14 @@ export default class LocalStorage {
         console.log('Data create'); // prieš naujo įrašo sukurimą
     }
 
-    edit(data, id) {
-        console.log('Data edit:', data, id); // prieš esamo įrašo redagavimą pagal id
+    edit(id) {
+        console.log('Data edit:', id); // prieš esamo įrašo redagavimą pagal id
+        return this.data.find(item => item.id === id); // grąžinam įrašą pagal
     }
 
     Delete(id) {
         console.log('Data delete:', id); // patvirtinimas prieš esamo įrašo pašalinimą pagal id
+        return this.data.find(item => item.id === id); // grąžinam įrašą pagal id
     }
 
 

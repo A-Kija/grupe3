@@ -3,5 +3,6 @@
     "/public/style.css": "/public/style.css",
     "/public/create.html": "/public/create.html",
     "/public/index.html": "/public/index.html",
-    "/public/delete.html": "/public/delete.html"
+    "/public/delete.html": "/public/delete.html",
+    "/public/edit.html": "/public/edit.html"
 }
