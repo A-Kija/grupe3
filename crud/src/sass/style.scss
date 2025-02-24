@@ -20,6 +20,28 @@ a {
     }
 }
 
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.3s;
+    &:hover {
+        background-color: #0056b3;
+    }
+}
+input[type="color"] {
+    border-radius: 3px;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+    height: 42px;
+    width: 42px;
+}
+
 section.panel {
     position: relative;
     margin: 20px auto;
@@ -33,26 +55,23 @@ section.panel-control {
     justify-content: center;
     align-items: center;
     column-gap: 10px;
+}
 
+section.panels {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 20px;
+    row-gap: 20px;
+    padding: 20px;
+    column-gap: 40px;
+    row-gap: 60px;
+}
+
+.dot-signature {
     button {
-        padding: 10px 20px;
-        border: none;
-        background-color: #007bff;
-        color: #fff;
-        cursor: pointer;
-        border-radius: 3px;
-        transition: all 0.3s;
-        &:hover {
-            background-color: #0056b3;
-        }
-    }
-    input[type="color"] {
-        border-radius: 3px;
-        border: none;
-        padding: 0;
-        background-color: transparent;
-        cursor: pointer;
-        height: 42px;
-        width: 42px;
+        margin-top: 20px;
+        margin-right: 5px;
     }
 }

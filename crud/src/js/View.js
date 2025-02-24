@@ -11,8 +11,12 @@ export default class View {
         if (document.querySelector('[data-crud-view-read]')) {
             this.viewRead();
         }
+        // Delete view
+        if (document.querySelector('[data-crud-view-delete]')) {
+            this.viewDelete();
+        }
     }
-
+    
 
     viewCreate() {
         this.panel = new Panel('dots', 10, 10, 10);
@@ -43,6 +47,7 @@ export default class View {
             
             panel.dots.forEach((row, x) => {
                 row.forEach((dot, y) => {
+                    // signature start
                     const dotElement = document.createElement('div');
                     dotElement.style.width = panel.dotSize + 'px';
                     dotElement.style.height = panel.dotSize + 'px';
@@ -51,10 +56,44 @@ export default class View {
                     dotElement.style.left = x * panel.dotSize + 'px';
                     dotElement.style.top = y * panel.dotSize + 'px';
                     panelElement.appendChild(dotElement);
+                    // signature end
                 });
             });
-            this.panelsSection.appendChild(panelElement);
-            
+
+            const dotSignature = document.createElement('div');
+            dotSignature.classList.add('dot-signature');
+
+            const buttonEdit = document.createElement('button');
+            buttonEdit.textContent = 'Edit';
+            buttonEdit.classList.add('edit');
+            buttonEdit.addEventListener('click', _ => {
+                window.location.href = `edit.html#${panel.id}`;
+            });
+            const buttonDelete = document.createElement('button');
+            buttonDelete.textContent = 'Delete';
+            buttonDelete.classList.add('delete');
+            buttonDelete.addEventListener('click', _ => {
+                window.location.href = `delete.html#${panel.id}`;
+            });
+            dotSignature.appendChild(panelElement);
+            dotSignature.appendChild(buttonEdit);
+            dotSignature.appendChild(buttonDelete);
+            this.panelsSection.appendChild(dotSignature);
+        });
+    }
+
+    viewDelete() {
+        this.panel = new Panel('dots');
+        const id = window.location.hash.replace('#', '');
+
+        const destroyButton = document.querySelector('[data-panel-destroy]');
+        const cancelButton = document.querySelector('[data-panel-cancel]');
+        cancelButton.addEventListener('click', _ => {
+            window.location.href = 'index.html';
+        });
+        destroyButton.addEventListener('click', _ => {
+            this.panel.destroy(id);
+            window.location.href = 'index.html';
         });
     }
 

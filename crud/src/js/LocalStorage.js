@@ -29,6 +29,8 @@ export default class LocalStorage {
 
     destroy(id) {
         console.log('Data deleted:', id); // esamo įrašo pašalinimas pagal id
+        this.data = this.data.filter(item => item.id !== id); // pašalinam įrašą iš masyvo
+        this.save(); // išsaugom duomenis
     }
 
     // Vaizdai prieš veiksmus
