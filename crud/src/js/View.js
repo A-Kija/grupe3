@@ -36,6 +36,7 @@ export default class View {
         const clearButton = document.querySelector('[data-panel-clear]');
         const updateButton = document.querySelector('[data-panel-update]');
         const cancelButton = document.querySelector('[data-panel-cancel]');
+        const verticalMirror = document.querySelector('[data-panel-vertical-mirror]');
 
         cancelButton.addEventListener('click', _ => {
             window.location.href = 'index.html';
@@ -48,6 +49,10 @@ export default class View {
         updateButton.addEventListener('click', _ => {
             this.panel.update({ dots: this.panel.getDotsData(), dotSize: this.panel.dotSize }, id);
             window.location.href = 'index.html';
+        });
+
+        verticalMirror.addEventListener('click', _ => {
+            this.panel.verticalMirror();
         });
     }
 

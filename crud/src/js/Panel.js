@@ -87,5 +87,24 @@ export default class Panel extends LS {
     }
 
 
+    verticalMirror() {
+        const dots = this.getDotsData();
+        for (let x = 0; x < dots.length; x++) {
+            for (let y = 0; y < dots[x].length; y++) {
+                dots[x][y] = dots[dots.length - x - 1][y];
+            }
+        }
+        this.setDots(dots);
+    }
+
+    setDots(dots) {
+        for (let x = 0; x < this.#dots.length; x++) {
+            for (let y = 0; y < this.#dots[x].length; y++) {
+                this.#dots[x][y].dot = dots[x][y];
+            }
+        }
+    }
+
+
 
 }
