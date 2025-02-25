@@ -33,12 +33,22 @@ export default class View {
             return;
         }
 
-        const panelControl = document.querySelector('[data-panel-controls]');
+        const clearButton = document.querySelector('[data-panel-clear]');
         const updateButton = document.querySelector('[data-panel-update]');
         const cancelButton = document.querySelector('[data-panel-cancel]');
 
+        cancelButton.addEventListener('click', _ => {
+            window.location.href = 'index.html';
+        });
 
+        clearButton.addEventListener('click', _ => {
+            this.panel.clear();
+        });
 
+        updateButton.addEventListener('click', _ => {
+            this.panel.update({ dots: this.panel.getDotsData(), dotSize: this.panel.dotSize }, id);
+            window.location.href = 'index.html';
+        });
     }
 
 
@@ -47,6 +57,9 @@ export default class View {
         this.panel.create(); // nereikia, tik dėl pavyzdžio
         const storeButton = document.querySelector('[data-panel-store]');
         const cancelButton = document.querySelector('[data-panel-cancel]');
+        const x = document.querySelector('[data-panel-x]');
+        const y = document.querySelector('[data-panel-y]');
+        const dotSize = document.querySelector('[data-panel-dot-size]');
         cancelButton.addEventListener('click', _ => {
             this.panel.clear(); // išvalom panelį. Nebūtina, nes po nukreipimo viskas išnyksta
             window.location.href = 'index.html'; // nukreipimas į index.html vaizdas po veiksmo
@@ -55,6 +68,14 @@ export default class View {
             this.panel.store({ dots: this.panel.getDotsData(), dotSize: this.panel.dotSize }); // išsaugom duomenis store metodu
             this.panel.clear(); // išvalom panelį. Nebūtina, nes po nukreipimo viskas išnyksta
             window.location.href = 'index.html'; // nukreipimas į index.html vaizdas po veiksmo
+        });
+
+        [x, y, dotSize].forEach(input => {
+            input.addEventListener('input', _ => {
+                this.panel.removeAllDots();
+                this.panel = new Panel('dots', x.value, y.value, dotSize.value);
+                this.panel.create();
+            });
         });
     }
 
@@ -126,7 +147,6 @@ export default class View {
             message.textContent = 'Signature not found.';
             panelControl.appendChild(message);
         }
-
 
         cancelButton.addEventListener('click', _ => {
             window.location.href = 'index.html';

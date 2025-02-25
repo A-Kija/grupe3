@@ -18,10 +18,10 @@ export default class Panel extends LS {
             this.type = 'create';
             // Funkcija su 4 argumentais (create)
         } else {
-            this.data = this.data.find(item => item.id === colsOrId);
-            this.dotSize = this.data.dotSize;
-            this.cols = this.data.dots.length;
-            this.rows = this.data.dots[0].length;
+            this.editData = this.edit(colsOrId);
+            this.dotSize = this.editData.dotSize;
+            this.cols = this.editData.dots.length;
+            this.rows = this.editData.dots[0].length;
             this.type = 'edit';
             // Funkcija su 2 argumentais (edit)
         }
@@ -41,7 +41,7 @@ export default class Panel extends LS {
             for (let y = 0; y < this.rows; y++) {
                 this.#dots[x][y] = new Dot(x, y, this.dotSize, this);
                 if (this.type === 'edit') {
-                    this.#dots[x][y].dot = this.data.dots[x][y];
+                    this.#dots[x][y].dot = this.editData.dots[x][y];
                 }
                 this.panel.appendChild(this.#dots[x][y].element);
             }
@@ -66,6 +66,14 @@ export default class Panel extends LS {
             }
         }
         return data;
+    }
+
+    removeAllDots() {
+        for (let x = 0; x < this.#dots.length; x++) {
+            for (let y = 0; y < this.#dots[x].length; y++) {
+                this.#dots[x][y].element.remove();
+            }
+        }
     }
 
 

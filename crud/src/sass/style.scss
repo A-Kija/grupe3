@@ -75,3 +75,13 @@ section.panels {
         margin-right: 5px;
     }
 }
+
+.size {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    input {
+        width: 50px;
+    }
+}
