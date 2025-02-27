@@ -1,46 +1,98 @@
 const express = require('express');
 const app = express();
+const fs = require('node:fs');
+const Handlebars = require('handlebars');
 
 // public folder
 app.use(express.static('public'));
 
+// For parsing application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
+
 
 // Router
+
+//   http://localhost:3500/gauti-zebra 3500
+//   http://localhost/gauti-zebra 80
+
+
+app.get('/gauti-zebra', (req, res) => {
+
+  const skaiciavimas = 20 * 30;
+  const zebroVardas = '3 Jonas';
+  const zebroHtml = fs.readFileSync('./public/zebro-gavimo-failas.html', 'utf8'); // čia ne URL!
+
+  const template = Handlebars.compile(zebroHtml);
+
+  const resultHtml = template(
+    {
+      kintamasis: skaiciavimas,
+      zv: zebroVardas
+    }
+  );
+
+  res.send(resultHtml);
+
+});
+
+app.get('/forma', (req, res) => {
+
+  const formosFailas = fs.readFileSync('./public/forma.html', 'utf8');
+
+  const template = Handlebars.compile(formosFailas);
+
+  res.send(template({
+    pavadinimas: 'Mano puiki forma',
+    url: 'http://localhost/forma'
+  }));
+
+});
+
+
+app.post('/forma', (req, res) => {
+
+  const {spalva, dydis} = req.body;
+
+  console.log('gavau', spalva, dydis);
+  res.redirect('http://localhost/forma');
+});
+
+
 
 app.get('/', (req, res) => {
   res.send('Labas, Bebrai!');
 });
 
 app.get('/zebras/:spalva/:dydis', (req, res) => {
-    
-    // const { spalva, dydis } = req.params;
-    const spalva = req.params.spalva;
-    const dydis = req.params.dydis;
-    res.send(`<h1 style="color:${spalva}; font-size:${dydis};"> Labas, Zebras! Tavo spalva yra ${spalva}, o dydis ${dydis}.</h1>`);
- 
+
+  // const { spalva, dydis } = req.params;
+  const spalva = req.params.spalva;
+  const dydis = req.params.dydis;
+  res.send(`<h1 style="color:${spalva}; font-size:${dydis};"> Labas, Zebras! Tavo spalva yra ${spalva}, o dydis ${dydis}.</h1>`);
+
 });
 
 app.get('/briedis', (req, res) => {
-    const spalva = req.query.spalva;
-    const dydis = req.query.dydis;
-    res.send(`<h1 style="color:${spalva}; font-size:${dydis};"> Labas, Briedi! Tavo spalva yra ${spalva}, o dydis ${dydis}.</h1>`);
+  const spalva = req.query.spalva;
+  const dydis = req.query.dydis;
+  res.send(`<h1 style="color:${spalva}; font-size:${dydis};"> Labas, Briedi! Tavo spalva yra ${spalva}, o dydis ${dydis}.</h1>`);
 });
 
 app.get('/suma/:s1/:s2', (req, res) => {
-    const { s1, s2 } = req.params;
-    const suma = parseInt(s1) + parseInt(s2);
-    res.send(`Rezultatas: ${suma}`);
+  const { s1, s2 } = req.params;
+  const suma = parseInt(s1) + parseInt(s2);
+  res.send(`Rezultatas: ${suma}`);
 });
 
 app.get('/skirtumas', (req, res) => {
-    const { s1, s2 } = req.query;
-    const skirtumas = parseInt(s1) - parseInt(s2);
-    res.send(`Rezultatas: ${skirtumas}`);
+  const { s1, s2 } = req.query;
+  const skirtumas = parseInt(s1) - parseInt(s2);
+  res.send(`Rezultatas: ${skirtumas}`);
 });
 
 
 
-const port = 3500;
+const port = 80;
 app.listen(port, () => {
   console.log(`Serveris klauso ${port} porto.`);
 });
