@@ -2,12 +2,14 @@ const express = require('express');
 const app = express();
 const fs = require('node:fs');
 const Handlebars = require('handlebars');
+const cookieParser = require('cookie-parser');
 
 // public folder
 app.use(express.static('public'));
 
 // For parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 
 // Router
@@ -35,27 +37,45 @@ app.get('/gauti-zebra', (req, res) => {
 
 });
 
+app.post('/forma', (req, res) => {
+
+  const {spalva, dydis} = req.body; // gaunam iš formos pasiimame iš body
+
+  const sausainioData = JSON.stringify({spalva, dydis: dydis + 'px'}); // duomenys paverčiam stringu
+
+  res.cookie('Sausainis', sausainioData); // stringą pavadiname vardu ir siunčiame kaip sausainį
+  res.redirect('http://localhost/forma');
+});
+
 app.get('/forma', (req, res) => {
 
-  const formosFailas = fs.readFileSync('./public/forma.html', 'utf8');
+  // const spalva = 'skyblue';
+  // const dydis = '20px';
+
+  let spalva, dydis;
+
+  let gautasSausainis = req.cookies.Sausainis; // sausainis kaip JSON pasiimam iš request
+
+  gautasSausainis = JSON.parse(gautasSausainis); // sausainis kaip objektas
+
+  spalva = gautasSausainis.spalva;
+  dydis = gautasSausainis.dydis;
+
+  const formosFailas = fs.readFileSync('./public/forma.hbs', 'utf8');
 
   const template = Handlebars.compile(formosFailas);
 
   res.send(template({
     pavadinimas: 'Mano puiki forma',
-    url: 'http://localhost/forma'
+    url: 'http://localhost/forma',
+    spalva,
+    dydis
   }));
 
 });
 
 
-app.post('/forma', (req, res) => {
 
-  const {spalva, dydis} = req.body;
-
-  console.log('gavau', spalva, dydis);
-  res.redirect('http://localhost/forma');
-});
 
 
 
