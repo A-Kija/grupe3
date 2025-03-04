@@ -39,11 +39,11 @@ app.get('/gauti-zebra', (req, res) => {
 
 app.post('/forma', (req, res) => {
 
-  const {spalva, dydis} = req.body; // gaunam iš formos pasiimame iš body
+  const { spalva, dydis } = req.body; // gaunam iš formos pasiimame iš body
 
-  const sausainioData = JSON.stringify({spalva, dydis: dydis + 'px'}); // duomenys paverčiam stringu
+  const sausainioData = JSON.stringify({ spalva, dydis: dydis + 'px' }); // duomenys paverčiam stringu
 
-  res.cookie('Sausainis', sausainioData); // stringą pavadiname vardu ir siunčiame kaip sausainį
+  res.cookie('Sausainis', sausainioData, { maxAge: 1000 * 60 * 60 * 24 * 365 * 10 }); // stringą pavadiname vardu ir siunčiame kaip sausainį
   res.redirect('http://localhost/forma');
 });
 
@@ -54,16 +54,23 @@ app.get('/forma', (req, res) => {
 
   let spalva, dydis;
 
-  let gautasSausainis = req.cookies.Sausainis; // sausainis kaip JSON pasiimam iš request
+  let gautasSausainis = req.cookies.Sausainis || ''; // sausainis kaip JSON pasiimam iš request
 
-  gautasSausainis = JSON.parse(gautasSausainis); // sausainis kaip objektas
+  if (gautasSausainis) {
+    gautasSausainis = JSON.parse(gautasSausainis); // sausainis kaip objektas
+    spalva = gautasSausainis.spalva;
+    dydis = gautasSausainis.dydis;
+  } else {
+    spalva = '#000000';
+    dydis = '20px';
+  }
 
-  spalva = gautasSausainis.spalva;
-  dydis = gautasSausainis.dydis;
-
+  const formosFailasVirsus = fs.readFileSync('./public/title.hbs', 'utf8');
   const formosFailas = fs.readFileSync('./public/forma.hbs', 'utf8');
 
-  const template = Handlebars.compile(formosFailas);
+  const template = Handlebars.compile(formosFailasVirsus + formosFailas);
+
+  // res.clearCookie('Sausainis');// trynimas kukio
 
   res.send(template({
     pavadinimas: 'Mano puiki forma',
