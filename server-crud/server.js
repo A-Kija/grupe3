@@ -9,10 +9,20 @@ app.use(express.static('public'));
 // For parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-const staticData = {
-  url: 'http://localhost/'
-}
+const trucks = [
+  { id: 1, title: 'Volvo' },
+  { id: 2, title: 'Man' },
+  { id: 3, title: 'Scania' },
+  { id: 4, title: 'MB' },
+  { id: 5, title: 'Kamaz' },
+  { id: 6, title: 'Iveco' },
+  { id: 7, title: 'MAC' }
+];
 
+const staticData = {
+  url: 'http://localhost/',
+  trucks
+}
 
 const makePage = page => {
   const topHtml = fs.readFileSync('./templates/top.hbs', 'utf8');
@@ -30,6 +40,18 @@ app.get('/', (req, res) => {
   res.send(template({
     ...staticData,
     title: 'Fūristų sąrašas',
+  }));
+
+});
+
+
+app.get('/create', (req, res) => {
+
+  const template = makePage('create');
+
+  res.send(template({
+    ...staticData,
+    title: 'New Driver',
   }));
 
 });
