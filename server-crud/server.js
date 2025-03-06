@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const fs = require('node:fs');
 const Handlebars = require('handlebars');
+const { v4: uuidv4 } = require('uuid');
 
 // public folder
 app.use(express.static('public'));
@@ -37,22 +38,46 @@ app.get('/', (req, res) => {
 
   const template = makePage('list');
 
+  let data = fs.readFileSync('./data/data.json', 'utf-8'); // skaitom faila
+  data = JSON.parse(data); // darom masyva nes ten json stringas
+
+  data = data.map(d => ({...d, license: parseInt(d.license), truckModel: trucks.find(t => t.id == d.truck).title}));
+
   res.send(template({
     ...staticData,
-    title: 'Fūristų sąrašas',
+    title: 'Drivers List',
+    data
   }));
 
 });
 
 
 app.get('/create', (req, res) => {
-
   const template = makePage('create');
-
   res.send(template({
     ...staticData,
     title: 'New Driver',
   }));
+});
+
+app.post('/store', (req, res) => {
+
+  const { driver_table, truck, license } = req.body;
+
+  //cia bus kazkadatai padaryta validacija ir sanitizacija
+
+  const id = uuidv4();
+
+  let data = fs.readFileSync('./data/data.json', 'utf-8'); // skaitom sena faila
+  data = JSON.parse(data); // darom masyva nes ten json stringas
+
+  data.unshift({ id, driver_table, truck, license: license ?? '0' }); // pridedam nauja irasa
+
+  data = JSON.stringify(data); // verciam i json stringa
+
+  fs.writeFileSync('./data/data.json', data); // rasom i faila
+
+  res.redirect(staticData.url); // kreipiame i pradini puslapi
 
 });
 

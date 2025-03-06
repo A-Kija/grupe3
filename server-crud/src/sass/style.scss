@@ -1,1 +1,39 @@
 @import "bootstrap/scss/bootstrap";
+
+.item-bin {
+    display: flex;
+    justify-content: space-between;
+
+    &__content {
+        display: flex;
+        column-gap: 20px;
+        align-items: center;
+
+        b {
+            font-size: 20px;
+            display: block;
+            width: 300px;
+        }
+
+        span {
+            letter-spacing: 3px;
+            font-size: 18px;
+            display: block;
+            width: 100px;
+            color: darkgrey;
+        }
+
+        .lic {
+            display: flex;
+            width: 40px;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            background-color: chocolate;
+            font-weight: bold;
+            line-height: 1;
+            color: white;
+        }
+    } 
+}

@@ -1,8 +1,31 @@
 <main>
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                Column
+            <div class="col-10">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h1>Drivers List</h1>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {{#each data}}
+                            <li class="list-group-item">
+                                <div class="item-bin">
+                                    <div class="item-bin__content">
+                                        <b>{{this.driver_table}}</b>
+                                        <span>{{this.truckModel}}</span>
+                                        {{#if this.license}}<div class="lic">L</div>{{/if}}
+                                    </div>
+                                    <div class="item-bin__buttons">
+                                        <a href="{{url}}edit/{{this.id}}" class="btn btn-outline-success">Edit Driver</a>
+                                        <a href="{{url}}delete/{{this.id}}" class="btn btn-outline-danger">Delete Driver</a>
+                                    </div>
+                                </div>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
