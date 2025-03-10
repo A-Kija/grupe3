@@ -2,9 +2,11 @@
   "name": "server-crud",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "server": "node --watch server.js",
-    "start": "npx mix watch"
+    "start": "npx mix watch",
+    "seed": "node ./seeder/index.js"
   },
   "keywords": [],
   "author": "Mr. Volvo",

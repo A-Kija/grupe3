@@ -1,6 +1,7 @@
 // webpack.mix.js
 
 const mix = require('laravel-mix');
+// import mix from 'laravel-mix';
 
 mix
 .js('src/js/app.js', 'public')

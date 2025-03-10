@@ -1,8 +1,13 @@
-const express = require('express');
+import express from 'express';
+import fs from 'node:fs';
+import Handlebars from 'handlebars';
+import {v4 as uuidv4} from 'uuid';
+
 const app = express();
-const fs = require('node:fs');
-const Handlebars = require('handlebars');
-const { v4: uuidv4 } = require('uuid');
+
+Handlebars.registerHelper('isValuesAreEq', function (value1, value2) {
+  return value1 === value2 ? 'selected' : ''
+});
 
 // public folder
 app.use(express.static('public'));
@@ -80,6 +85,54 @@ app.post('/store', (req, res) => {
   res.redirect(staticData.url); // kreipiame i pradini puslapi
 
 });
+
+
+app.get('/delete/:id', (req, res) => {
+
+  const id = req.params.id;
+
+  let data = fs.readFileSync('./data/data.json', 'utf-8'); // skaitom sena faila
+  data = JSON.parse(data); // darom masyva nes ten json stringas
+
+  const driver = data.find(d => d.id === id);
+
+  const template = makePage('delete');
+
+  res.send(template({
+    ...staticData,
+    title: 'Confirm delete',
+    driver,
+    hideMenu: true
+  }));
+
+});
+
+
+app.post('/destroy/:id', (req, res) => {
+  const id = req.params.id;
+  let data = fs.readFileSync('./data/data.json', 'utf-8');
+  data = JSON.parse(data);
+  data = data.filter(d => d.id !== id);
+  data = JSON.stringify(data);
+  fs.writeFileSync('./data/data.json', data);
+  res.redirect(staticData.url);
+});
+
+app.get('/edit/:id', (req, res) => {
+  const id = req.params.id;
+  let data = fs.readFileSync('./data/data.json', 'utf-8');
+  data = JSON.parse(data);
+  const driver = data.find(d => d.id === id);
+  const template = makePage('edit');
+  res.send(template({
+    ...staticData,
+    title: 'Edit driver',
+    driver,
+  }));
+});
+
+
+
 
 
 const port = 80;

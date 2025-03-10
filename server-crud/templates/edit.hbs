@@ -1,0 +1,43 @@
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h1>Edit Driver</h1>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{url}}update/{{driver.id}}" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Driver Table</label>
+                                <input type="text" name="driver_table" value="{{driver.driver_table}}" class="form-control" placeholder="blue shark">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Truck</label>
+                                <select class="form-select" name="truck">
+                                    {{#each trucks}}
+                                    <option value="{{this.id}}" {{isValuesAreEq this.id drive.truck}}>{{this.title}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="mb-5">
+                                <label class="form-label">About license</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="license" type="checkbox" value="1"
+                                        id="driverLicense">
+                                    <label class="form-check-label" for="driverLicense">
+                                        has License?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-outline-primary">Save</button>
+                                <a href="{{url}}" class="btn btn-outline-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
