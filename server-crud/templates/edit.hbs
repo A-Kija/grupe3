@@ -16,15 +16,15 @@
                                 <label class="form-label">Truck</label>
                                 <select class="form-select" name="truck">
                                     {{#each trucks}}
-                                    <option value="{{this.id}}" {{isValuesAreEq this.id drive.truck}}>{{this.title}}</option>
+                                    <option value="{{this.id}}" {{isSelected ../driver.truck this.id}}>{{this.title}}</option>
                                     {{/each}}
                                 </select>
                             </div>
                             <div class="mb-5">
-                                <label class="form-label">About license</label>
+                                <label class="form-label">About license {{driver.license}}</label>
                                 <div class="form-check">
                                     <input class="form-check-input" name="license" type="checkbox" value="1"
-                                        id="driverLicense">
+                                        id="driverLicense" {{#if driver.license}}checked{{/if}}>
                                     <label class="form-check-label" for="driverLicense">
                                         has License?
                                     </label>
