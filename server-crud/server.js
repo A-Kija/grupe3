@@ -40,6 +40,10 @@ const makePage = (page, req, res) => {
   const messageHtml = message ? fs.readFileSync('./templates/msg.hbs', 'utf8') : '';
   res.dynamicData = {};
   res.dynamicData.msg = message;
+  const oldData = readOldData(req, res);
+  if (oldData) {
+    res.dynamicData.oldData = oldData;
+  }
   const pageHtml = fs.readFileSync(`./templates/${page}.hbs`, 'utf8');
   const bottomHtml = fs.readFileSync('./templates/bottom.hbs', 'utf8');
   return Handlebars.compile(topHtml + messageHtml + pageHtml + bottomHtml);
@@ -51,6 +55,12 @@ const addMessage = (res, message, type) => {
   res.cookie('action_message', messageObj);
 }
 
+const saveOldData = (res, data) => {
+  data = JSON.stringify(data);
+  res.cookie('old_data', data);
+  console.log(data);
+}
+
 const readMessage = (req, res) => {
   let msg = req.cookies.action_message || '';
   if (!msg) {
@@ -60,6 +70,36 @@ const readMessage = (req, res) => {
   res.clearCookie('action_message');
   return msg;
 }
+
+const readOldData = (req, res) => {
+  let oldData = req.cookies.old_data || '';
+  if (!oldData) {
+    return null;
+  }
+  oldData = JSON.parse(oldData);
+  res.clearCookie('old_data');
+  return oldData;
+}
+
+const validation = (res, text, returnTo) => {
+  let message;
+  if (!text) {
+    message = 'Driver Table is empty.'
+  } else if(text.length < 3) {
+    message = 'Driver Table must be at least 3 characters';
+  } else if(text.length > 50) {
+    message = 'Driver table is too long';
+  }
+
+  if (message) {
+    addMessage(res, message, 'danger');
+    res.redirect(staticData.url + returnTo);
+    return false;
+  }
+
+  return true;
+}
+
 
 // Listas
 
@@ -95,7 +135,10 @@ app.post('/store', (req, res) => {
 
   const { driver_table, truck, license } = req.body;
 
-  //cia bus kazkadatai padaryta validacija ir sanitizacija
+  saveOldData(res, { driver_table, truck, license });
+  if (!validation(res, driver_table, 'create')) {
+    return;
+  }
 
   const id = uuidv4();
 
@@ -107,7 +150,7 @@ app.post('/store', (req, res) => {
   data = JSON.stringify(data); // verciam i json stringa
 
   fs.writeFileSync('./data/data.json', data); // rasom i faila
-
+  addMessage(res, 'OK. New driver done.', 'success');
   res.redirect(staticData.url); // kreipiame i pradini puslapi
 
 });
@@ -142,6 +185,7 @@ app.post('/destroy/:id', (req, res) => {
   data = data.filter(d => d.id !== id);
   data = JSON.stringify(data);
   fs.writeFileSync('./data/data.json', data);
+  addMessage(res, 'OK. Driver gone.', 'info');
   res.redirect(staticData.url);
 });
 
@@ -165,7 +209,9 @@ app.post('/update/:id', (req, res) => {
   const id = req.params.id;
   const { driver_table, truck, license } = req.body;
 
-  //cia bus kazkadatai padaryta validacija ir sanitizacija
+  if (!validation(res, driver_table, 'edit/' + id)) {
+    return;
+  }
 
   let data = fs.readFileSync('./data/data.json', 'utf-8');
   data = JSON.parse(data);

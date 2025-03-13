@@ -10,13 +10,15 @@
                         <form action="{{url}}store" method="post">
                             <div class="mb-3">
                                 <label class="form-label">Driver Table</label>
-                                <input type="text" name="driver_table" class="form-control" placeholder="blue shark">
+                                <input type="text" name="driver_table" class="form-control" 
+                                value="{{#if oldData.driver_table}}{{oldData.driver_table}}{{/if}}"
+                                placeholder="blue shark">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Truck</label>
                                 <select class="form-select" name="truck">
                                     {{#each trucks}}
-                                    <option value="{{this.id}}">{{this.title}}</option>
+                                    <option value="{{this.id}}" {{isSelected ../oldData.truck this.id}}>{{this.title}}</option>
                                     {{/each}}
                                 </select>
                             </div>
@@ -24,6 +26,7 @@
                                 <label class="form-label">About license</label>
                                 <div class="form-check">
                                     <input class="form-check-input" name="license" type="checkbox" value="1"
+                                        {{#if oldData.license}}checked{{/if}}
                                         id="driverLicense">
                                     <label class="form-check-label" for="driverLicense">
                                         has License?
