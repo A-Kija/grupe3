@@ -10,6 +10,22 @@ Handlebars.registerHelper('isSelected', function (value1, value2) {
   return value1 == value2 ? 'selected' : ''
 });
 
+Handlebars.registerHelper('isCheckedLicense', function (editValue, oldValue) {
+  const haveOldData = !!oldValue;
+  if (haveOldData) {
+    return oldValue?.license ? 'checked' : '';
+  }
+  return editValue.license ? 'checked' : '';
+});
+
+Handlebars.registerHelper('isSelectedTruck', function (editValue, oldValue, id) {
+  const haveOldData = !!oldValue;
+  if (haveOldData) {
+    return oldValue == id ? 'selected' : '';
+  }
+  return editValue == id ? 'selected' : '';
+});
+
 
 
 // public folder
@@ -58,7 +74,6 @@ const addMessage = (res, message, type) => {
 const saveOldData = (res, data) => {
   data = JSON.stringify(data);
   res.cookie('old_data', data);
-  console.log(data);
 }
 
 const readMessage = (req, res) => {
@@ -209,6 +224,7 @@ app.post('/update/:id', (req, res) => {
   const id = req.params.id;
   const { driver_table, truck, license } = req.body;
 
+  saveOldData(res, { driver_table, truck, license });
   if (!validation(res, driver_table, 'edit/' + id)) {
     return;
   }

@@ -9,22 +9,23 @@
                     <div class="card-body">
                         <form action="{{url}}update/{{driver.id}}" method="post">
                             <div class="mb-3">
-                                <label class="form-label">Driver Table</label>
-                                <input type="text" name="driver_table" value="{{driver.driver_table}}" class="form-control" placeholder="blue shark">
+                                <label class="form-label">Driver Table{{oldData.driver_table}}</label>
+                                <input type="text" name="driver_table" 
+                                value="{{#if oldData.driver_table}}{{oldData.driver_table}}{{else}}{{driver.driver_table}}{{/if}}" class="form-control" placeholder="blue shark">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Truck</label>
                                 <select class="form-select" name="truck">
                                     {{#each trucks}}
-                                    <option value="{{this.id}}" {{isSelected ../driver.truck this.id}}>{{this.title}}</option>
+                                    <option value="{{this.id}}" {{isSelectedTruck ../driver.truck ../oldData.truck this.id}}>{{this.title}}</option>
                                     {{/each}}
                                 </select>
                             </div>
                             <div class="mb-5">
-                                <label class="form-label">About license {{driver.license}}</label>
+                                <label class="form-label">About license</label>
                                 <div class="form-check">
                                     <input class="form-check-input" name="license" type="checkbox" value="1"
-                                        id="driverLicense" {{#if driver.license}}checked{{/if}}>
+                                        id="driverLicense" {{isCheckedLicense driver oldData}}>
                                     <label class="form-check-label" for="driverLicense">
                                         has License?
                                     </label>
