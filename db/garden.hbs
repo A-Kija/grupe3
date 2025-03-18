@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sodas</title>
+    <style>
+        body {
+            font-family: monospace;
+        }
+
+        .app {
+            display: flex;
+            column-gap: 20px;
+        }
+
+        fieldset {
+            padding: 10px;
+        }
+
+        legend {
+            font-size: 20px;
+            padding: 10px;
+        }
+
+        li {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        span {
+            display: block;
+        }
+
+        .id {
+            width: 50px;
+        }
+
+        .title {
+            width: 150px;
+        }
+
+        .height {
+            width: 50px;
+        }
+
+        .type {
+            width: 100px;
+        }
+
+        li label {
+            width: 100px;
+        }
+
+        li select,
+        li input {
+            width: 120px;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="app">
+        <fieldset>
+            <legend>Sąrašas</legend>
+            <ul>
+                <li>
+                    <span class="id">ID</span>
+                    <span class="title">Title</span>
+                    <span class="height">Height</span>
+                    <span class="type">Type</span>
+                </li>
+                {{#each trees}}
+                <li>
+                    <span class="id">{{this.id}} </span>
+                    <span class="title">{{this.title}} </span>
+                    <span class="height">{{this.height}}</span>
+                    <span class="type">{{this.type}}</span>
+                </li>
+                {{/each}}
+            </ul>
+
+        </fieldset>
+
+        <fieldset>
+            <legend>Sodinti</legend>
+            <form method="post" action="http://localhost:3000/plant">
+                <ul>
+                    <li class="input">
+                        <label>Pavadinimas</label>
+                        <input type="text" name="title">
+                    </li>
+                    <li class="input">
+                        <label>Aukštis</label>
+                        <input type="text" name="height">
+                    </li>
+                    <li class="input">
+                        <label>Tipas</label>
+                        <select name="type">
+                            <option value="Lapuotis">Lapuotis</option>
+                            <option value="Sygliuotis">Sygliuotis</option>
+                            <option value="Palmė">Palmė</option>
+                        </select>
+                    </li>
+                    <li class="input">
+                        <button type="submit">Pasodinti</button>
+                    </li>
+                </ul>
+            </form>
+        </fieldset>
+    </section>
+</body>
+
+</html>
