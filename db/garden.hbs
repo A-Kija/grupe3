@@ -62,6 +62,18 @@
         li input {
             width: 120px;
         }
+
+        li.sort {
+            margin-top: 30px;
+        }
+
+        li.sort label {
+            width: 150px;
+        }
+
+        li a {
+            margin-left: 30px;
+        }
     </style>
 </head>
 
@@ -84,8 +96,40 @@
                     <span class="type">{{this.type}}</span>
                 </li>
                 {{/each}}
+
+                <form method="get" action="http://localhost:3000/">
+
+                    <li class="sort">
+                        <label>Rūšiuoti pagal:</label>
+                        <select name="sort">
+                            <option value="id-asc">ID 0-9</option>
+                            <option value="id-desc">ID 9-0</option>
+                            <option value="height-asc">Aukštis 0-9</option>
+                            <option value="height-desc">Aukštis 9-0</option>
+                            <option value="title-asc">Pavadinimas A-Z</option>
+                            <option value="title-desc">Pavadinimas Z-A</option>
+                        </select>
+                    </li>
+                    <li>
+                        <button type="submit">Rūšiuoti</button>
+                        <a href="http://localhost:3000/">Išvalyti rūšiavimą</a>
+                    </li>
+
+                </form>
+
             </ul>
 
+        </fieldset>
+
+        <fieldset>
+            <legend>Statistika</legend>
+            <ul>
+                <li>Viso augalų: {{count}}</li>
+                <li>Bendras aukštis: {{sum}}</li>
+                <li>Aukščio vidurkis: {{average}}</li>
+                <li>Mažiausias augalas: {{min}}</li>
+                <li>Didžiausias augalas: {{max}}</li>
+            </ul>
         </fieldset>
 
         <fieldset>
@@ -104,12 +148,48 @@
                         <label>Tipas</label>
                         <select name="type">
                             <option value="Lapuotis">Lapuotis</option>
-                            <option value="Sygliuotis">Sygliuotis</option>
+                            <option value="Spygliuotis">Spygliuotis</option>
                             <option value="Palmė">Palmė</option>
                         </select>
                     </li>
                     <li class="input">
                         <button type="submit">Pasodinti</button>
+                    </li>
+                </ul>
+            </form>
+        </fieldset>
+
+
+
+        <fieldset>
+            <legend>Kirsti</legend>
+            <form method="post" action="http://localhost:3000/cut">
+                <ul>
+                    <li class="input">
+                        <label>ID</label>
+                        <input type="text" name="id">
+                    </li>
+                    <li class="input">
+                        <button type="submit">Nukirsti</button>
+                    </li>
+                </ul>
+            </form>
+        </fieldset>
+
+        <fieldset>
+            <legend>Laistyti</legend>
+            <form method="post" action="http://localhost:3000/water">
+                <ul>
+                    <li class="input">
+                        <label>ID</label>
+                        <input type="text" name="id">
+                    </li>
+                    <li class="input">
+                        <label>Aukštis</label>
+                        <input type="text" name="height">
+                    </li>
+                    <li class="input">
+                        <button type="submit">Laistyti</button>
                     </li>
                 </ul>
             </form>
