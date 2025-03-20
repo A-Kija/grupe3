@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klientai</title>
+    <style>
+        body {
+            font-family: monospace;
+        }
+
+        .app {
+            display: flex;
+            column-gap: 20px;
+        }
+
+        fieldset {
+            padding: 10px;
+        }
+
+        legend {
+            font-size: 20px;
+            padding: 10px;
+        }
+
+        li {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        span {
+            display: block;
+        }
+
+        .id {
+            width: 50px;
+        }
+
+        .title {
+            width: 150px;
+        }
+
+        .height {
+            width: 50px;
+        }
+
+        .type {
+            width: 100px;
+        }
+
+        li label {
+            width: 100px;
+        }
+
+        li select,
+        li input {
+            width: 120px;
+        }
+
+        li.sort {
+            margin-top: 30px;
+        }
+
+        li.sort label {
+            width: 150px;
+        }
+
+        li a {
+            margin-left: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="app">
+        <fieldset>
+            <legend>INNER JOIN</legend>
+            <ul>
+                <li>
+                    <span class="id">Client ID</span>
+                    <span class="title">Name</span>
+                    <span class="id">Phone ID</span>
+                    <span class="title">Phone</span>
+                </li>
+                {{#each clients}}
+                <li>
+                    <span class="id">{{this.id}} </span>
+                    <span class="title">{{this.name}} </span>
+                    <span class="id">{{this.pid}}</span>
+                    <span class="title">{{this.number}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>LEFT JOIN</legend>
+            <ul>
+                <li>
+                    <span class="id">Client ID</span>
+                    <span class="title">Name</span>
+                    <span class="id">Phone ID</span>
+                    <span class="title">Phone</span>
+                </li>
+                {{#each clientsL}}
+                <li>
+                    <span class="id">{{this.id}} </span>
+                    <span class="title">{{this.name}} </span>
+                    <span class="id">{{this.pid}}</span>
+                    <span class="title">{{this.number}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        </fieldset>
+                <fieldset>
+            <legend>RIGHT JOIN</legend>
+            <ul>
+                <li>
+                    <span class="id">Client ID</span>
+                    <span class="title">Name</span>
+                    <span class="id">Phone ID</span>
+                    <span class="title">Phone</span>
+                </li>
+                {{#each clientsR}}
+                <li>
+                    <span class="id">{{this.id}} </span>
+                    <span class="title">{{this.name}} </span>
+                    <span class="id">{{this.pid}}</span>
+                    <span class="title">{{this.number}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        </fieldset>
+
+        
+    </section>
+</body>
+
+</html>

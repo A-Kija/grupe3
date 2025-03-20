@@ -21,6 +21,63 @@ con.connect(function (err) {
 
 // Listas
 
+app.get('/clients', (req, res) => {
+
+  const html = fs.readFileSync('./clients.hbs', 'utf8');
+  const template = Handlebars.compile(html);
+  const sql = `
+  SELECT clients.id, clients.name, phones.id AS pid, phones.number
+  FROM clients
+  INNER JOIN phones
+  ON clients.id = phones.client_id
+  ORDER BY clients.name
+`;
+  con.query(sql, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send('KLAIDA!');
+    }
+
+    const sqlL = `
+    SELECT clients.id, clients.name, phones.id AS pid, phones.number
+    FROM clients
+    LEFT JOIN phones
+    ON clients.id = phones.client_id
+    ORDER BY clients.name
+  `;
+
+    con.query(sqlL, (err, resultL) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('KLAIDA!');
+      }
+
+      const sqlR = `
+      SELECT clients.id, clients.name, phones.id AS pid, phones.number
+      FROM clients
+      RIGHT JOIN phones
+      ON clients.id = phones.client_id
+      ORDER BY clients.name
+    `;
+
+      con.query(sqlR, (err, resultR) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send('KLAIDA!');
+        }
+
+        res.send(template({
+          clients: result,
+          clientsL: resultL,
+          clientsR: resultR,
+        }));
+
+      });
+    });
+  });
+});
+
+
 app.get('/', (req, res) => {
 
   const html = fs.readFileSync('./garden.hbs', 'utf8');
@@ -47,7 +104,7 @@ app.get('/', (req, res) => {
     case 'title-desc':
       orderQuery = 'ORDER BY title DESC';
       break;
-   default:
+    default:
       orderQuery = 'ORDER BY type, height';
   }
 
