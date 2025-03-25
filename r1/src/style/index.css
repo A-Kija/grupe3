@@ -67,3 +67,27 @@ button:focus-visible {
   }
 }
 
+.sq {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  font-family: monospace;
+  background-color: #70707070;
+  border: 3px solid #707070;
+  border-radius: 5px;
+}
+
+.sq-bin {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  row-gap: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  padding: 40px;
+}
