@@ -1,0 +1,13 @@
+.red-circle {
+    width: 160px;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: monospace;
+    font-size: 14px;
+    color: white;
+    background-color: crimson;
+    border-radius: 50%;
+    border: 3px solid brown;
+}
