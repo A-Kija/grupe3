@@ -6,21 +6,25 @@ export default function Buttons() {
         console.log(e.target.name);
     }
 
-    const goColor = color => {
+    const goColor = (color, e) => {
         console.log(color + ' button!');
+        if (e) {
+            console.log(e.target.name);
+        }
     }
 
-    const goColorFancy = color => _ => {
+    const goColorFancy = color => e => {
         console.log(color + ' button!');
+        console.log(e.target.name);
     }
 
     return (
         <>
             <button name="paprastas" onClick={goSimple}>Simple</button>
-            <button className="green" onClick={_ => goColor('Green')}>Green</button>
-            <button className="red" onClick={goColorFancy('Red')}>Red</button>
-            <button className="blue" onClick={_ => goColor('Blue')}>Blue</button>
-            <button className="yellow" onClick={_ => goColor('Yellow')}>Yellow</button>
+            <button name="zalias" className="green" onClick={e => goColor('Green', e)}>Green</button>
+            <button name="raudonas" className="red" onClick={goColorFancy('Red')}>Red</button>
+            <button name="melynas" className="blue" onClick={e => goColor('Blue', e)}>Blue</button>
+            <button name="geltonas" className="yellow" onClick={_ => goColor('Yellow')}>Yellow</button>
         </>
     )
 }
