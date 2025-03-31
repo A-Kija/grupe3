@@ -1,60 +1,84 @@
-import { useState } from 'react';
 import './App.css';
+import { useRef, useState } from 'react';
 import rand from './functions/random';
-import Sq from './Components/047/Sq';
 import randomColor from './functions/randomColor';
+import Sq from './Components/048/Sq';
 
 function App() {
 
-    const [skaicius, setSkaicius] = useState(1); // skaicius yra steitas
-    const [spalva, keistiSpalva] = useState('crimson');
-    const [kitoks, setKitoks] = useState(rand(1, 3));
+    const animals = ['Bebras', 'Barsukas', 'Briedis', 'Meškėnas', 'Zebras'];
 
-    const [kv, setKv] = useState([]);
+    const row = useRef(0); // grazina objekta su vienintele savybe current
+
+    const newSq = _ => {
+        return {
+            id: rand(100000000, 999999999), // pseudo unikalus numeris
+            color: randomColor(),
+            animal: animals[rand(0, animals.length - 1)],
+            // pridedame savo pagalbinius duomenis
+            row: ++row.current,
+            show: true 
+        }
+    }
+    
+    const [sq, setSq] = useState(_ => {
+        const squares = [];
+        for (let i = 0; i < rand(7, 17); i++) {
+            squares.push(newSq());
+        }
+        return squares;
+    });
 
 
-    const pliusVienas = _ => {
-        setSkaicius(priesTaibuvusReiksme => priesTaibuvusReiksme + 1); // sitas vyksta NE momentaliai, o kazkada veliau
-        setSkaicius(priesTaibuvusReiksme => priesTaibuvusReiksme + 1);
-        setSkaicius(priesTaibuvusReiksme => priesTaibuvusReiksme + 1);
-        console.log('Plius vienas', skaicius);
+
+    const addSq = _ => {
+        setSq(s => [...s, newSq()]);
     }
 
-    const keisti = _ => {
-        const naujaSpalva = spalva === 'crimson' ? 'skyblue' : 'crimson'; // blogai, nes reikia pries tai buvusios reiksmes
-        keistiSpalva(naujaSpalva);
+    const sortAnimal = _ => {
+        setSq(s => s.toSorted((a, b) => a.animal.localeCompare(b.animal)));
     }
 
-    const random19 = _ => {
-        setKitoks(rand(1, 9)); // gerai, nes nereikia reiksmes, kuri buvo pries tai
+    const sortDefault = _ => {
+        setSq(s => s.toSorted((a, b) => a.row - b.row));
     }
 
-    const addSq =  _ => {
-        const color = randomColor();
-        setKv(seniKv => [...seniKv, color]);
+    const showBebras = _ => {
+        setSq(s => s.map(sq => sq.animal === 'Bebras' ? {...sq, show: true} : {...sq, show: false}));
     }
+
+    const showZebras = _ => {
+        setSq(s => s.map(sq => sq.animal === 'Zebras' ? {...sq, show: true} : {...sq, show: false}));
+    }
+
+    const showAll = _ => {
+        setSq(s => s.map(sq => ({...sq, show: true})));
+    }
+
+    const deleteSquare = id => {
+        setSq(s => s.filter(sq => sq.id !== id));
+    }
+    
 
   return (
     <>
-      <h1>Kitoks skaičius: {kitoks}</h1>
-      <h1 style={{color: spalva}}>State: {skaicius}</h1>
-      <button onClick={pliusVienas} className="yellow">+ 3</button>
-      <button onClick={keisti} className="yellow">Spalvos keitimo mygtukas</button>
-      <button onClick={random19} className="green">Random 1-9</button>
-
+      <h1>SHOW, ROW - Masyvo atvaizdavimas</h1>
       <div className="sq-bin">
         {
-            kv.map((s, i) => <Sq key={i} color={s} />)
+            sq.map(s => s.show ? <Sq key={s.id} square={s} deleteSquare={deleteSquare} /> : null)
         }
-
-        
       </div>
-      <button onClick={addSq} className="red">Pridėti KV</button>
+      <div className="sq-bin">
+        <button className="green" onClick={addSq}>Add</button>
+        <button className="blue" onClick={sortAnimal}>Sort by animal</button>
+        <button className="blue" onClick={sortDefault}>Sort by default</button>
+        <button className="yellow" onClick={showBebras}>Show BEBRAS</button>
+        <button className="yellow" onClick={showZebras}>Show ZEBRAS</button>
+        <button className="yellow" onClick={showAll}>Show All</button>
+      </div>
 
     </>
   );
 }
 
 export default App;
-
-// padaryti žalią mygtuką, kuris skaičių "kitoks" keistų į atsistiktinį skaičių nuo 1 iki 9. Pradinis "kitoks" skaičius irgi atsitiktinis nuo 1 iki 3

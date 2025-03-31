@@ -1,0 +1,46 @@
+.sq {
+    position: relative;
+    flex-direction: column;
+    row-gap: 5px;
+
+    &.spin {
+        animation: logo-spin infinite 10s linear;
+    }
+
+    .id {
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        font-size: 11px;
+        color: #fff;
+    }
+
+    .row {
+        position: absolute;
+        left: 5px;
+        bottom: 5px;
+        font-size: 11px;
+        color: #fff;
+    }
+
+    .delete {
+        padding: 0 10px;
+        background: crimson;
+        border: 1px solid #fff;
+        user-select: none;
+        cursor: pointer;
+        border-radius: 7px;
+        font-size: 14px;
+    }
+
+    .sp {
+        padding: 0 10px;
+        background: salmon;
+        border: 1px solid #fff;
+        user-select: none;
+        cursor: pointer;
+        border-radius: 7px;
+        font-size: 14px;
+    }
+
+}
