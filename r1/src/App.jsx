@@ -1,81 +1,59 @@
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
-import { useRef, useState } from 'react';
-import rand from './functions/random';
-import randomColor from './functions/randomColor';
-import Sq from './Components/048/Sq';
+
 
 function App() {
 
-    const animals = ['Bebras', 'Barsukas', 'Briedis', 'Meškėnas', 'Zebras'];
+    const [s1, setS1] = useState(3); // 1 s1 === 3
+    const [s2, setS2] = useState(5); // 2 s2 === 5
 
-    const row = useRef(0); // grazina objekta su vienintele savybe current
+    const [s3, setS3] = useState(8);
 
-    const newSq = _ => {
-        return {
-            id: rand(100000000, 999999999), // pseudo unikalus numeris
-            color: randomColor(),
-            animal: animals[rand(0, animals.length - 1)],
-            // pridedame savo pagalbinius duomenis
-            row: ++row.current,
-            show: true 
+    const startas = useRef(false);
+
+    const goFun = _ => {
+        setS1(s => s + 2); // 3 s1 = 3 + 2 : 5
+        setS2(s => s * s1); // 4 s2 = 5 * s1   s1 pas mus nespejo atsinaujint ir liko senas 3
+    }
+
+    const goOk = _ => {
+        setS1(s => s + 2);
+    }
+
+    useEffect(_ => {
+
+        if (s1 === 3) { // apeiname useEffect paleidima uzsikrovomo metu
+            return;
         }
-    }
-    
-    const [sq, setSq] = useState(_ => {
-        const squares = [];
-        for (let i = 0; i < rand(7, 17); i++) {
-            squares.push(newSq());
+
+        setS2(s => s * s1 + s3);
+
+
+    }, [s1, s3]); // 3 => 5
+
+
+    useEffect(_ => {
+
+        if (!startas.current) {
+            startas.current = true;
+            return;
         }
-        return squares;
-    });
 
 
+        console.log('s2, bet ne uzsikraunant');
 
-    const addSq = _ => {
-        setSq(s => [...s, newSq()]);
-    }
+    }, [s2]);
 
-    const sortAnimal = _ => {
-        setSq(s => s.toSorted((a, b) => a.animal.localeCompare(b.animal)));
-    }
 
-    const sortDefault = _ => {
-        setSq(s => s.toSorted((a, b) => a.row - b.row));
-    }
+    useEffect(_ => console.log('EFEKTAS!'), []); // nuo nieko nepriklauso
+    useEffect(_ => console.log('EFEKTAS S1!', s1), [s1]); // priklauso nuo s1
 
-    const showBebras = _ => {
-        setSq(s => s.map(sq => sq.animal === 'Bebras' ? {...sq, show: true} : {...sq, show: false}));
-    }
-
-    const showZebras = _ => {
-        setSq(s => s.map(sq => sq.animal === 'Zebras' ? {...sq, show: true} : {...sq, show: false}));
-    }
-
-    const showAll = _ => {
-        setSq(s => s.map(sq => ({...sq, show: true})));
-    }
-
-    const deleteSquare = id => {
-        setSq(s => s.filter(sq => sq.id !== id));
-    }
-    
 
   return (
     <>
-      <h1>SHOW, ROW - Masyvo atvaizdavimas</h1>
-      <div className="sq-bin">
-        {
-            sq.map(s => s.show ? <Sq key={s.id} square={s} deleteSquare={deleteSquare} /> : null)
-        }
-      </div>
-      <div className="sq-bin">
-        <button className="green" onClick={addSq}>Add</button>
-        <button className="blue" onClick={sortAnimal}>Sort by animal</button>
-        <button className="blue" onClick={sortDefault}>Sort by default</button>
-        <button className="yellow" onClick={showBebras}>Show BEBRAS</button>
-        <button className="yellow" onClick={showZebras}>Show ZEBRAS</button>
-        <button className="yellow" onClick={showAll}>Show All</button>
-      </div>
+    <h1>USE EFFECT {s2}</h1>
+    <button className="red" onClick={goFun}>Go</button>
+    <button className="green" onClick={goOk}>Go OK</button>
 
     </>
   );
