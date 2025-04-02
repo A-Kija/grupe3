@@ -1,0 +1,57 @@
+$green: #60992D;
+$blue: #390099;
+$red: #FC2F00;
+$yellow: #FFBC0A;
+$gray: #5C5552;
+
+fieldset {
+    border: 1px solid $yellow;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 500px;
+
+    legend {
+        font-size: 20px;
+        padding: 0 20px;
+        font-family: monospace;
+        color: $yellow;
+    }
+
+    input[type="text"] {
+        width: calc(100% - 50px);
+        background-color: transparent;
+        outline: none;
+        border: 1px solid white;
+        font-size: 18px;
+        padding: 5px 15px;
+        border-radius: 7px;
+        font-family: monospace;
+    }
+
+    input[type="range"] {
+        width: calc(100% - 50px);
+    }
+
+    select {
+        width: calc(100% - 50px);
+        background-color: $gray;
+        outline: none;
+        border: 1px solid white;
+        font-size: 18px;
+        padding: 5px 15px;
+        border-radius: 7px;
+        font-family: monospace;
+        margin-bottom: 50px;
+    }
+
+    .result {
+        font-size: 18px;
+        color: $red;
+        padding: 15px 0;
+        height: 30px;
+    }
+}
