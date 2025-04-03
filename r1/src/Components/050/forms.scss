@@ -36,6 +36,8 @@ fieldset {
         width: calc(100% - 50px);
     }
 
+
+
     select {
         width: calc(100% - 50px);
         background-color: $gray;
@@ -46,6 +48,24 @@ fieldset {
         border-radius: 7px;
         font-family: monospace;
         margin-bottom: 50px;
+    }
+
+    label {
+        font-size: 22px;
+        color: $yellow;
+        font-family: monospace;
+        user-select: none;
+        cursor: pointer;
+        border: 1px solid $yellow;
+        padding: 0 6px;
+    }
+    input[type="checkbox"] {
+        display: none;
+    }
+
+    input[type="checkbox"]:checked + label {
+        background-color: $yellow;
+        color: white;
     }
 
     .result {
