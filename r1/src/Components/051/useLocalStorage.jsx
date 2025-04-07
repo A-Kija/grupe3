@@ -24,6 +24,6 @@ export default function useLocalStorage(key) {
         setText('');
     }
 
-    return [ handleText, save, clear, text ]
+    return [ handleText, save, clear, text ];
 
 }

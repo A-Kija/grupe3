@@ -1,34 +1,40 @@
+import { useState } from 'react';
 import './App.css';
-import usePlus1 from './Components/051/usePlus1';
 import './Components/050/forms.scss';
-import useLocalStorage from './Components/051/useLocalStorage';
+import useImage from './Components/052/useImage';
+import useLocalStorage from './Components/052/useLocalStorage';
 
 
 function App() {
 
-    const { count, getResult } = usePlus1(100, '+');
-
-    const [handleText, save, clear, text] = useLocalStorage('manoTekstas');
-    const [handleText2, save2, clear2, text2] = useLocalStorage('manoTekstas2');
+    const { image, handleImage, removeImage } = useImage();
+    const [title, setTitle] = useState('');
+    const [ save, clear, data ] = useLocalStorage();
 
     return (
         <>
-            <h1>Custom HOOK & Local Storage</h1>
-            <h2>{count}</h2>
-            <button className="blue" onClick={getResult}>GO</button>
-
+            <h1>File & Local Storage</h1>
             <fieldset>
-                <legend>LS Text</legend>
-                <input type="text" value={text} onChange={handleText} />
-                <button className="green" onClick={save}>save</button>
-                <button className="red" onClick={clear}>clear</button>
-            </fieldset>
-
-            <fieldset>
-                <legend>LS Text 2</legend>
-                <input type="text" value={text2} onChange={handleText2} />
-                <button className="green" onClick={save2}>save</button>
-                <button className="red" onClick={clear2}>clear</button>
+                <legend>IMAGE & TITLE</legend>
+                <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
+                <input type="file" onChange={handleImage} id="nice-image" />
+                {
+                    image === null
+                        ?
+                        <span>no image</span>
+                        :
+                        <div className="form-image">
+                            <img src={image} alt="My picture" />
+                        </div>
+                }
+                <div>
+                    <label htmlFor="nice-image">add image</label>
+                    <label onClick={removeImage}>-</label>
+                </div>
+                <div>
+                    <button className="green">save</button>
+                    <button className="red">clear</button>
+                </div>
             </fieldset>
 
         </>
