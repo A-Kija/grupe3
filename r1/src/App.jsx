@@ -1,42 +1,35 @@
-import { useState } from 'react';
 import './App.css';
-import './Components/050/forms.scss';
-import useImage from './Components/052/useImage';
-import useLocalStorage from './Components/052/useLocalStorage';
-
+import Create from './Components/inv/Create';
+import List from './Components/inv/List';
 
 function App() {
 
-    const { image, handleImage, removeImage } = useImage();
-    const [title, setTitle] = useState('');
-    const [ save, clear, data ] = useLocalStorage();
 
     return (
         <>
-            <h1>File & Local Storage</h1>
-            <fieldset>
-                <legend>IMAGE & TITLE</legend>
-                <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
-                <input type="file" onChange={handleImage} id="nice-image" />
-                {
-                    image === null
-                        ?
-                        <span>no image</span>
-                        :
-                        <div className="form-image">
-                            <img src={image} alt="My picture" />
-                        </div>
-                }
-                <div>
-                    <label htmlFor="nice-image">add image</label>
-                    <label onClick={removeImage}>-</label>
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+                            <div className="container-fluid">
+                                <a className="navbar-brand">Practical Invoices System</a>
+                                <div className="collapse navbar-collapse">
+                                    <div className="navbar-nav">
+                                        {/* <a className="nav-link">Features</a>
+                                        <a className="nav-link">Pricing</a> */}
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
                 </div>
-                <div>
-                    <button className="green">save</button>
-                    <button className="red">clear</button>
+            </div>
+            <div className="container">
+                <div className="row">
+                    <div className="col-8"><Create /></div>
+                    <div className="col-4"><List /></div>
                 </div>
-            </fieldset>
-
+            </div>
         </>
     );
 }

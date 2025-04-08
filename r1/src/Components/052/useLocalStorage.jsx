@@ -20,8 +20,8 @@ export default function useLocalStorage(key) {
     });
 
 
-    const save = _ => {
-        localStorage.setItem(key, JSON.stringify(data));
+    const save = newData => {
+        localStorage.setItem(key, JSON.stringify(newData));
     }
 
     const clear = _ => {

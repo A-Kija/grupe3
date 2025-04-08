@@ -1,0 +1,30 @@
+@import "bootstrap/scss/bootstrap";
+
+.invoice.card {
+    padding: 5px;
+}
+
+.invoice-line {
+    display: flex;
+    column-gap: 5px;
+    width: 100%;
+    &.mb-3 {
+        display: flex;
+    }
+    &__title {
+        flex: 5;
+    }
+    &__price {
+        flex: 1;
+    }
+    &__quantity {
+        flex: 1;
+    }
+    &__total {
+        flex: 1;
+    }
+    &__delete {
+        flex: 1;
+    }
+    
+}

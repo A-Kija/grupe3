@@ -29,6 +29,6 @@ export default function useImage() {
     }
 
     return {
-        image, handleImage, removeImage
+        image, handleImage, removeImage, setImage
     }
 }
