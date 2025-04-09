@@ -12,7 +12,7 @@ function App() {
                     <div className="col">
                         <nav className="navbar navbar-expand-lg bg-body-tertiary">
                             <div className="container-fluid">
-                                <a className="navbar-brand">Practical Invoices System</a>
+                                <a className="navbar-brand">Practical Invoices Systems</a>
                                 <div className="collapse navbar-collapse">
                                     <div className="navbar-nav">
                                         {/* <a className="nav-link">Features</a>

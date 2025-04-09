@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useRef, useState } from 'react';
+import country from 'country-list-js';
 
 export default function Create() {
 
@@ -6,19 +7,56 @@ export default function Create() {
         title: '',
         price: '',
         quantity: ''
+    };
+
+    const emptyBuyer = {
+        company: '',
+        country: '0',
+        vat_code: ''
     }
+
+    const invoiceTotals = useRef({
+        subtotal: 0,
+        vat: 0,
+        total: 0
+    });
 
     const [number, setNumber] = useState('');
     const [date, setDate] = useState('');
     const [lines, setLines] = useState([emptyLine]);
+    const [buyer, setBuyer] = useState(emptyBuyer);
 
-    const countLineTotal = i => {
+    const countLineTotal = (i, number = false) => {
         const price = parseFloat(lines[i].price);
         const quantity = parseInt(lines[i].quantity);
         if (isNaN(price) || isNaN(quantity)) {
             return 0;
         }
-        return (price * quantity).toFixed(2);
+        if (number) {
+            return (price * quantity); // grazina skaiciu
+        }
+        return (price * quantity).toFixed(2); // grazina stringa
+    }
+
+    const subTotal = _ => {
+        let subTotalValue = 0;
+        for (let i = 0; i < lines.length; i++) {
+            subTotalValue += countLineTotal(i, true);
+        }
+        invoiceTotals.current.subtotal = subTotalValue;
+        return subTotalValue.toFixed(2);
+    }
+
+    const vat = _ => {
+        const vatValue = invoiceTotals.current.subtotal * 0.21;
+        invoiceTotals.current.vat = vatValue;
+        return vatValue.toFixed(2);
+    }
+
+    const total = _ => {
+        const totalValue = invoiceTotals.current.subtotal + invoiceTotals.current.vat;
+        invoiceTotals.current.total = totalValue;
+        return totalValue.toFixed(2);
     }
 
     const handleLineInput = (e, i) => {
@@ -33,6 +71,10 @@ export default function Create() {
 
     const addLine = _ => {
         setLines(l => [...l, emptyLine]);
+    }
+
+    const handleBuyer = e => {
+        setBuyer(b => ({...b, [e.target.name]: e.target.value}));
     }
 
 
@@ -54,6 +96,26 @@ export default function Create() {
                                 <div>
                                     <label className="form-label">Date</label>
                                     <input type="date" className="form-control" value={date} onChange={e => setDate(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="invoice-buyer">
+                                <h2>Buyer</h2>
+                                <div className="mb-3 invoice-buyer__company">
+                                    <label className="form-label">Company</label>
+                                    <input type="text" name="company" className="form-control" value={buyer.company} onChange={handleBuyer} />
+                                </div>
+                                <div className="mb-3 invoice-buyer__company">
+                                    <label className="form-label">Country</label>
+                                    <select className="form-select" name="country" value={buyer.country} onChange={handleBuyer}>
+                                        <option value="0">Select country</option>
+                                        {
+                                            country.names().map(c => <option key={c} value={c}>{c}</option>)
+                                        }
+                                    </select>
+                                </div>
+                                <div className="mb-3 invoice-buyer__company">
+                                    <label className="form-label">VAT CODE</label>
+                                    <input type="text" name="vat_code" className="form-control" value={buyer.vat_code} onChange={handleBuyer} />
                                 </div>
                             </div>
                             {
@@ -88,15 +150,15 @@ export default function Create() {
                             <div className="invoice-totals">
                                 <div className="invoice-totals__line">
                                     <span className="title">Subtotal:</span>
-                                    <span className="value">500.77</span>
+                                    <span className="value">{subTotal()}</span>
                                 </div>
                                 <div className="invoice-totals__line">
                                     <span className="title">VAT 21%:</span>
-                                    <span className="value">100.51</span>
+                                    <span className="value">{vat()}</span>
                                 </div>
                                 <div className="invoice-totals__line">
                                     <span className="title">Total:</span>
-                                    <span className="value">601.28</span>
+                                    <span className="value">{total()}</span>
                                 </div>
                             </div>
                         </div>
