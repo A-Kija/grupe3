@@ -25,6 +25,40 @@
     }
     &__delete {
         flex: 1;
+        margin-top: 32px;
     }
     
+}
+
+.invoice-line-add {
+    display: flex;
+    width: 100%;
+}
+
+.invoice-header {
+    display: flex;
+    width: 100%;
+    column-gap: 20px;
+    align-items: center;
+    margin-bottom: 40px;
+    justify-content: space-between;
+    input {
+        width: 150px
+    }
+}
+
+.invoice-totals {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+    padding: 20px 100px 0 0;
+    flex-direction: column;
+    gap: 10px;
+    &__line {
+        display: flex;
+        column-gap: 10px;
+        span {
+            font-weight: bold
+        }
+    }
 }
