@@ -51,7 +51,7 @@
     display: flex;
     width: 100%;
     align-items: flex-end;
-    padding: 20px 100px 0 0;
+    padding: 20px 80px 0 0;
     flex-direction: column;
     gap: 10px;
     &__line {
@@ -64,8 +64,12 @@
 }
 
 .invoice-buyer {
+    .flex {
+        display: flex;
+        column-gap: 10px;
+    }
     display: flex;
-    width: 60%;
+    width: 100%;
     flex-direction: column;
     border: 1px solid var(--bs-card-border-color);
     border-radius: var(--bs-card-border-radius);

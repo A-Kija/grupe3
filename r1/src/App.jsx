@@ -1,8 +1,31 @@
 import './App.css';
+import { useEffect, useState } from 'react';
 import Create from './Components/inv/Create';
 import List from './Components/inv/List';
+import { store, read, update, destroy } from './Components/inv/ls';
+
+
+const KEY = 'invoices';
 
 function App() {
+
+    const [dataStore, setDataStore] = useState(null); //CRUD store
+    const [dataRead, setDataRead] = useState(null); //CRUD read
+
+    useEffect(_ => {
+
+        setDataRead(read(KEY));
+
+    }, []);
+
+
+    useEffect(_ => {
+        if (null === dataStore) {
+            return;
+        }
+        store(KEY, dataStore);
+
+    }, [dataStore]);
 
 
     return (
@@ -26,8 +49,8 @@ function App() {
             </div>
             <div className="container">
                 <div className="row">
-                    <div className="col-8"><Create /></div>
-                    <div className="col-4"><List /></div>
+                    <div className="col-6"><Create setDataStore={setDataStore} /></div>
+                    <div className="col-6"><List dataRead={dataRead} /></div>
                 </div>
             </div>
         </>

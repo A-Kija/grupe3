@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import country from 'country-list-js';
+import useCount from './useCount';
 
-export default function Create() {
+export default function Create({setDataStore}) {
 
     const emptyLine = {
         title: '',
@@ -15,49 +16,15 @@ export default function Create() {
         vat_code: ''
     }
 
-    const invoiceTotals = useRef({
-        subtotal: 0,
-        vat: 0,
-        total: 0
-    });
-
+    
     const [number, setNumber] = useState('');
     const [date, setDate] = useState('');
     const [lines, setLines] = useState([emptyLine]);
     const [buyer, setBuyer] = useState(emptyBuyer);
 
-    const countLineTotal = (i, number = false) => {
-        const price = parseFloat(lines[i].price);
-        const quantity = parseInt(lines[i].quantity);
-        if (isNaN(price) || isNaN(quantity)) {
-            return 0;
-        }
-        if (number) {
-            return (price * quantity); // grazina skaiciu
-        }
-        return (price * quantity).toFixed(2); // grazina stringa
-    }
+    const { countLineTotal, subTotal, vat, total } = useCount(lines);
 
-    const subTotal = _ => {
-        let subTotalValue = 0;
-        for (let i = 0; i < lines.length; i++) {
-            subTotalValue += countLineTotal(i, true);
-        }
-        invoiceTotals.current.subtotal = subTotalValue;
-        return subTotalValue.toFixed(2);
-    }
-
-    const vat = _ => {
-        const vatValue = invoiceTotals.current.subtotal * 0.21;
-        invoiceTotals.current.vat = vatValue;
-        return vatValue.toFixed(2);
-    }
-
-    const total = _ => {
-        const totalValue = invoiceTotals.current.subtotal + invoiceTotals.current.vat;
-        invoiceTotals.current.total = totalValue;
-        return totalValue.toFixed(2);
-    }
+    
 
     const handleLineInput = (e, i) => {
         const name = e.target.name;
@@ -77,7 +44,19 @@ export default function Create() {
         setBuyer(b => ({...b, [e.target.name]: e.target.value}));
     }
 
-
+    const submit = _ => {
+        const inv = {
+            number,
+            date,
+            lines,
+            buyer
+        };
+        setDataStore(inv);
+        setLines([emptyLine]);
+        setBuyer(emptyBuyer);
+        setDate('');
+        setNumber('');
+    }
 
     return (
         <div className="container">
@@ -104,18 +83,20 @@ export default function Create() {
                                     <label className="form-label">Company</label>
                                     <input type="text" name="company" className="form-control" value={buyer.company} onChange={handleBuyer} />
                                 </div>
-                                <div className="mb-3 invoice-buyer__company">
-                                    <label className="form-label">Country</label>
-                                    <select className="form-select" name="country" value={buyer.country} onChange={handleBuyer}>
-                                        <option value="0">Select country</option>
-                                        {
-                                            country.names().map(c => <option key={c} value={c}>{c}</option>)
-                                        }
-                                    </select>
-                                </div>
-                                <div className="mb-3 invoice-buyer__company">
-                                    <label className="form-label">VAT CODE</label>
-                                    <input type="text" name="vat_code" className="form-control" value={buyer.vat_code} onChange={handleBuyer} />
+                                <div className="flex">
+                                    <div className="mb-3 invoice-buyer__company">
+                                        <label className="form-label">Country</label>
+                                        <select className="form-select" name="country" value={buyer.country} onChange={handleBuyer}>
+                                            <option value="0">Select country</option>
+                                            {
+                                                country.names().map(c => <option key={c} value={c}>{c}</option>)
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className="mb-3 invoice-buyer__company">
+                                        <label className="form-label">VAT CODE</label>
+                                        <input type="text" name="vat_code" className="form-control" value={buyer.vat_code} onChange={handleBuyer} />
+                                    </div>
                                 </div>
                             </div>
                             {
@@ -163,7 +144,7 @@ export default function Create() {
                             </div>
                         </div>
                         <div className="card-footer text-body-secondary">
-                            <button className="btn btn-primary">Save</button>
+                            <button className="btn btn-primary" onClick={submit}>Save</button>
                         </div>
                     </div>
                 </div>
