@@ -22,9 +22,9 @@ export default function Create({setDataStore}) {
     const [lines, setLines] = useState([emptyLine]);
     const [buyer, setBuyer] = useState(emptyBuyer);
 
-    const { countLineTotal, subTotal, vat, total } = useCount(lines);
+    const { countLineTotal, subTotal, vat, total, setInvLines } = useCount();
 
-    
+    setInvLines(lines); // Cia nustatome inv linijas su kuriom darysim skaiciavima
 
     const handleLineInput = (e, i) => {
         const name = e.target.name;

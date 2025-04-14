@@ -84,3 +84,46 @@
         }
     }
 }
+
+.inv-list-item {
+    display: flex;
+    column-gap: 5px;
+    width: 100%;
+    align-items: center;
+    &.mb-3 {
+        display: flex;
+    }
+    &__number {
+        flex: 2;
+    }
+    &__date {
+        flex: 2;
+    }
+    &__company {
+        flex: 4;
+    }
+    &__total {
+        flex: 2;
+    }
+    &__buttons {
+        display: flex;
+        flex: 2;
+        column-gap: 5px;
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            svg {
+                width: 20px;
+                height: 20px;
+                fill: #fff;
+            }
+        }
+    }
+
+}
+
+.modal {
+    display: block;
+    background-color: rgba(0, 0, 0, 0.5);
+}

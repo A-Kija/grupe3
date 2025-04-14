@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-export default function useCount(lines) {
+export default function useCount() {
 
     const invoiceTotals = useRef({
         subtotal: 0,
@@ -8,9 +8,15 @@ export default function useCount(lines) {
         total: 0
     });
 
+    const invLines = useRef(null);
+
+    const setInvLines = l => {
+        invLines.current = l;
+    }
+
     const countLineTotal = (i, number = false) => {
-        const price = parseFloat(lines[i].price);
-        const quantity = parseInt(lines[i].quantity);
+        const price = parseFloat(invLines.current[i].price);
+        const quantity = parseInt(invLines.current[i].quantity);
         if (isNaN(price) || isNaN(quantity)) {
             return 0;
         }
@@ -22,7 +28,7 @@ export default function useCount(lines) {
 
     const subTotal = _ => {
         let subTotalValue = 0;
-        for (let i = 0; i < lines.length; i++) {
+        for (let i = 0; i < invLines.current.length; i++) {
             subTotalValue += countLineTotal(i, true);
         }
         invoiceTotals.current.subtotal = subTotalValue;
@@ -41,6 +47,14 @@ export default function useCount(lines) {
         return totalValue.toFixed(2);
     }
 
-    return { countLineTotal, subTotal, vat, total }
+    const invTotal = inv => {
+        setInvLines(inv.lines);
+        subTotal();
+        vat();
+        return total();
+    }
+
+
+    return { countLineTotal, subTotal, vat, total, setInvLines, invTotal }
 
 }

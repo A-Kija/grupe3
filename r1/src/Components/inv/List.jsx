@@ -1,6 +1,9 @@
-export default function List({ dataRead }) {
+import useCount from './useCount';
+import * as icon from './svg';
 
-    
+export default function List({ dataRead, setDataDelete }) {
+
+    const { invTotal } = useCount();
 
     if (null === dataRead) {
         return (
@@ -40,7 +43,11 @@ export default function List({ dataRead }) {
                                                     {inv.buyer.company}
                                                 </div>
                                                 <div className="inv-list-item__total">
-                                                    {inv.buyer.company}
+                                                    {invTotal(inv)}
+                                                </div>
+                                                <div className="inv-list-item__buttons">
+                                                    <button className="btn btn-success">{icon.edit}</button>
+                                                    <button className="btn btn-danger" onClick={_ => setDataDelete(inv)}>{icon.remove}</button>
                                                 </div>
                                             </div>
                                         </li>
