@@ -26,6 +26,16 @@
     &__delete {
         flex: 1;
         margin-top: 32px;
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            svg {
+                width: 20px;
+                height: 20px;
+                fill: #fff;
+            }
+        }
     }
     
 }
@@ -126,4 +136,13 @@
 .modal {
     display: block;
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+.messages-bin {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    width: 500px;
 }

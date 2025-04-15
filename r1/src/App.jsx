@@ -1,10 +1,12 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Create from './Components/inv/Create';
 import List from './Components/inv/List';
 import { store, read, update, destroy } from './Components/inv/ls';
 import Delete from './Components/inv/Delete';
 import Edit from './Components/inv/Edit';
+import Messages from './Components/inv/Messages';
+import { v4 } from 'uuid';
 
 
 const KEY = 'invoices';
@@ -19,6 +21,30 @@ function App() {
     const [dataDestroy, setDataDestroy] = useState(null);
 
     const [dataEdit, setDataEdit] = useState(null);
+    const [dataUpdate, setDataUpdate] = useState(null);
+
+    const [messages, setMessages] = useState([]);
+
+    /*
+    [
+        {id, text, type},
+        {id, text, type},
+        {id, text, type},
+    ]
+    */
+
+    const msg = useCallback((text, type) => {
+        const id = v4();
+        setMessages(m => [{ id, text, type }, ...m]);
+        setTimeout(_ => {
+            setMessages(m => m.filter(msg => msg.id !== id));
+        }, 5000);
+    }, [setMessages]);
+
+    const remMsg = id => {
+        setMessages(m => m.filter(msg => msg.id !== id));
+    }
+
 
     // Saraso uzkrovimas
     useEffect(_ => {
@@ -34,7 +60,8 @@ function App() {
         }
         store(KEY, dataStore);
         setUpdateTime(Date.now());
-    }, [dataStore, setUpdateTime]);
+        msg('Ok. New invoice was created', 'success');
+    }, [dataStore, setUpdateTime, msg]);
 
 
     useEffect(_ => {
@@ -44,7 +71,18 @@ function App() {
         destroy(KEY, dataDestroy.id);
         setUpdateTime(Date.now());
         setDataDelete(null);
-    }, [dataDestroy, setUpdateTime]);
+        msg('The invoice was deleted', 'info');
+    }, [dataDestroy, setUpdateTime, msg]);
+
+
+    useEffect(_ => {
+        if (null === dataUpdate) {
+            return;
+        }
+        update(KEY, dataUpdate, dataUpdate.id);
+        setUpdateTime(Date.now());
+        setDataEdit(null);
+    }, [dataUpdate, setUpdateTime]);
 
 
     return (
@@ -68,12 +106,28 @@ function App() {
             </div>
             <div className="container">
                 <div className="row">
-                    <div className="col-6"><Create setDataStore={setDataStore} /></div>
-                    <div className="col-6"><List dataRead={dataRead} setDataDelete={setDataDelete} /></div>
+                    <div className="col-6"><Create
+                        msg={msg}
+                        setDataStore={setDataStore}
+                    /></div>
+                    <div className="col-6"><List
+                        dataRead={dataRead}
+                        setDataDelete={setDataDelete}
+                        setDataEdit={setDataEdit}
+                    /></div>
                 </div>
             </div>
-            <Edit dataEdit={dataEdit} />
-            <Delete dataDelete={dataDelete} setDataDelete={setDataDelete} setDataDestroy={setDataDestroy} />
+            <Edit
+                dataEdit={dataEdit}
+                setDataEdit={setDataEdit}
+                setDataUpdate={setDataUpdate}
+            />
+            <Delete
+                dataDelete={dataDelete}
+                setDataDelete={setDataDelete}
+                setDataDestroy={setDataDestroy}
+            />
+            <Messages messages={messages} remMsg={remMsg} />
         </>
     );
 }

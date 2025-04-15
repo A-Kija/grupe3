@@ -1,7 +1,7 @@
 import useCount from './useCount';
 import * as icon from './svg';
 
-export default function List({ dataRead, setDataDelete }) {
+export default function List({ dataRead, setDataDelete, setDataEdit }) {
 
     const { invTotal } = useCount();
 
@@ -46,7 +46,7 @@ export default function List({ dataRead, setDataDelete }) {
                                                     {invTotal(inv)}
                                                 </div>
                                                 <div className="inv-list-item__buttons">
-                                                    <button className="btn btn-success">{icon.edit}</button>
+                                                    <button className="btn btn-success" onClick={_ => setDataEdit(inv)}>{icon.edit}</button>
                                                     <button className="btn btn-danger" onClick={_ => setDataDelete(inv)}>{icon.remove}</button>
                                                 </div>
                                             </div>

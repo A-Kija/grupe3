@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import country from 'country-list-js';
 import useCount from './useCount';
+import * as icon from './svg';
 
-export default function Create({setDataStore}) {
+export default function Create({ setDataStore, msg }) {
 
     const emptyLine = {
         title: '',
@@ -16,7 +17,7 @@ export default function Create({setDataStore}) {
         vat_code: ''
     }
 
-    
+
     const [number, setNumber] = useState('');
     const [date, setDate] = useState('');
     const [lines, setLines] = useState([emptyLine]);
@@ -41,10 +42,31 @@ export default function Create({setDataStore}) {
     }
 
     const handleBuyer = e => {
-        setBuyer(b => ({...b, [e.target.name]: e.target.value}));
+        setBuyer(b => ({ ...b, [e.target.name]: e.target.value }));
     }
 
     const submit = _ => {
+
+        let error = false;
+
+        // Validation
+        if (!number) {
+            msg('Number is empty', 'danger');
+            error = true;
+        }
+        if (!buyer.company) {
+            msg('Client company name is empty', 'danger');
+            error = true;
+        }
+
+
+        if (error) {
+            return;
+        }
+
+
+
+
         const inv = {
             number,
             date,
@@ -119,7 +141,7 @@ export default function Create({setDataStore}) {
                                             <input readOnly={true} type="text" className="form-control" value={countLineTotal(i)} />
                                         </div>
                                         <div className="mb-3 invoice-line__delete">
-                                            <button className="btn btn-danger" onClick={_ => removeLine(i)}>X</button>
+                                            <button className="btn btn-danger" onClick={_ => removeLine(i)}>{icon.remove}</button>
                                         </div>
                                     </div>
                                 )

@@ -8,7 +8,10 @@ export default function Delete({ dataDelete, setDataDelete, setDataDestroy }) {
 
     return (
         <div className="modal">
-            <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-dialog modal-dialog-centered" style={{
+                width: '80vw',
+                maxWidth: '700px'
+            }}>
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">Confirm delete</h5>
@@ -20,7 +23,7 @@ export default function Delete({ dataDelete, setDataDelete, setDataDestroy }) {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={_ => setDataDelete(null)}>Cancel</button>
-                        <button type="button" className="btn btn-danger" onClick={_=> setDataDestroy(dataDelete)}>Delete</button>
+                        <button type="button" className="btn btn-danger" onClick={_ => setDataDestroy(dataDelete)}>Delete</button>
                     </div>
                 </div>
             </div>
