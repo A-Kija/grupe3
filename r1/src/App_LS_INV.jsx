@@ -2,14 +2,14 @@ import './App.css';
 import { useEffect, useState, useCallback } from 'react';
 import Create from './Components/inv/Create';
 import List from './Components/inv/List';
+import { store, read, update, destroy } from './Components/inv/ls';
 import Delete from './Components/inv/Delete';
 import Edit from './Components/inv/Edit';
 import Messages from './Components/inv/Messages';
 import { v4 } from 'uuid';
-import axios from 'axios';
 
 
-const URL = 'http://localhost:3000/';
+const KEY = 'invoices';
 
 function App() {
 
@@ -49,7 +49,7 @@ function App() {
     // Saraso uzkrovimas
     useEffect(_ => {
 
-
+        setDataRead(read(KEY));
 
     }, [updateTime]);
 
@@ -58,15 +58,9 @@ function App() {
         if (null === dataStore) {
             return;
         }
-
-        axios.post(URL + 'inv', dataStore)
-        .then(res => {
-            console.log(res)
-        })
-        .catch(error => {
-            console.log(error)
-        });
-
+        store(KEY, dataStore);
+        setUpdateTime(Date.now());
+        msg('Ok. New invoice was created', 'success');
     }, [dataStore, setUpdateTime, msg]);
 
 
@@ -74,7 +68,10 @@ function App() {
         if (null === dataDestroy) {
             return;
         }
-
+        destroy(KEY, dataDestroy.id);
+        setUpdateTime(Date.now());
+        setDataDelete(null);
+        msg('The invoice was deleted', 'info');
     }, [dataDestroy, setUpdateTime, msg]);
 
 
@@ -82,7 +79,9 @@ function App() {
         if (null === dataUpdate) {
             return;
         }
-
+        update(KEY, dataUpdate, dataUpdate.id);
+        setUpdateTime(Date.now());
+        setDataEdit(null);
     }, [dataUpdate, setUpdateTime]);
 
 

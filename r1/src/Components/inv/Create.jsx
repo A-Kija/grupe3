@@ -22,6 +22,7 @@ export default function Create({ setDataStore, msg }) {
     const [date, setDate] = useState('');
     const [lines, setLines] = useState([emptyLine]);
     const [buyer, setBuyer] = useState(emptyBuyer);
+    const [errorsData, setErrorsData] = useState({});
 
     const { countLineTotal, subTotal, vat, total, setInvLines } = useCount();
 
@@ -43,19 +44,36 @@ export default function Create({ setDataStore, msg }) {
 
     const handleBuyer = e => {
         setBuyer(b => ({ ...b, [e.target.name]: e.target.value }));
+        setErrorsData(err => ({ ...err, [e.target.name]: false }));
+    }
+
+    const validateNumber = _ => {
+
+        if (!number) {
+            msg('Number is empty', 'danger');
+            setErrorsData(err => ({ ...err, number: true }));
+            return true;
+        }
+        if (number.trim().length < 3) {
+            msg('Number is too short. Min 3 symbols', 'danger');
+            setErrorsData(err => ({ ...err, number: true }));
+            return true;
+        }
+
+        return false;
     }
 
     const submit = _ => {
 
         let error = false;
+        setErrorsData(_ => ({})); // nera klaidu pradzioje
 
         // Validation
-        if (!number) {
-            msg('Number is empty', 'danger');
-            error = true;
-        }
+        error = validateNumber();
+
         if (!buyer.company) {
             msg('Client company name is empty', 'danger');
+            setErrorsData(err => ({ ...err, company: true }));
             error = true;
         }
 
@@ -92,7 +110,17 @@ export default function Create({ setDataStore, msg }) {
                             <div className="invoice-header">
                                 <div>
                                     <label className="form-label">Number</label>
-                                    <input type="text" className="form-control" value={number} onChange={e => setNumber(e.target.value)} />
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={number}
+                                        onChange={e => setNumber(e.target.value)}
+                                        style={{
+                                            borderColor: errorsData?.number ? 'crimson' : null
+                                        }}
+                                        onFocus={_ => setErrorsData(err => ({ ...err, number: false }))}
+                                        onBlur={validateNumber}
+                                    />
                                 </div>
                                 <div>
                                     <label className="form-label">Date</label>
@@ -103,7 +131,16 @@ export default function Create({ setDataStore, msg }) {
                                 <h2>Buyer</h2>
                                 <div className="mb-3 invoice-buyer__company">
                                     <label className="form-label">Company</label>
-                                    <input type="text" name="company" className="form-control" value={buyer.company} onChange={handleBuyer} />
+                                    <input
+                                        type="text"
+                                        name="company"
+                                        className="form-control"
+                                        value={buyer.company}
+                                        onChange={handleBuyer}
+                                        style={{
+                                            borderColor: errorsData?.company ? 'crimson' : null
+                                        }}
+                                    />
                                 </div>
                                 <div className="flex">
                                     <div className="mb-3 invoice-buyer__company">
