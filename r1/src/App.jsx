@@ -62,12 +62,15 @@ function App() {
     }, [updateTime]);
 
 
+
+
+
     useEffect(_ => {
         if (null === dataStore) {
             return;
         }
 
-        axios.post(URL + 'inv', dataStore)
+        axios.post(URL + 'inv', dataStore) // perdavimas per body
         .then(res => {
             console.log(res);
             setUpdateTime(Date.now());
@@ -84,6 +87,16 @@ function App() {
             return;
         }
 
+        axios.delete(URL + 'inv/' + dataDestroy.id) // perdavimas per parametra
+        .then(res => {
+            setDataDelete(null);
+            console.log(res);
+            setUpdateTime(Date.now());
+        })
+        .catch(error => {
+            console.log(error)
+        });
+
     }, [dataDestroy, setUpdateTime, msg]);
 
 
@@ -91,6 +104,16 @@ function App() {
         if (null === dataUpdate) {
             return;
         }
+
+        axios.put(URL + 'inv/' + dataUpdate.id, dataUpdate) // perdavimas per parametra ir body
+        .then(res => {
+            setDataEdit(null);
+            console.log(res);
+            setUpdateTime(Date.now());
+        })
+        .catch(error => {
+            console.log(error)
+        });
 
     }, [dataUpdate, setUpdateTime]);
 

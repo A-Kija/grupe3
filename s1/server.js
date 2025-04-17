@@ -30,39 +30,43 @@ con.connect(function (err) {
 
 app.get('/inv', (req, res) => {
 
-  const sql = `
+  setTimeout(_ => {
+
+    const sql = `
     SELECT *
     FROM invoices
   `;
 
-  con.query(sql, (err, result) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-
-    // console.log(result);  
-    
-    const invoices = result.map(inv => (
-      {
-        id: inv.id,
-        number: inv.number,
-        date: inv.date,
-        buyer: {
-          company: inv.company,
-          country: inv.country,
-          vat: inv.vat
-        },
-        lines: JSON.parse(inv.invoice_lines)
+    con.query(sql, (err, result) => {
+      if (err) {
+        res.status(500).send(err);
       }
-    ))
-    
+
+      // console.log(result);  
+
+      const invoices = result.map(inv => (
+        {
+          id: inv.id,
+          number: inv.number,
+          date: inv.date,
+          buyer: {
+            company: inv.company,
+            country: inv.country,
+            vat: inv.vat
+          },
+          lines: JSON.parse(inv.invoice_lines)
+        }
+      ))
+
       res.status(200).json({
         status: 'success',
         list: invoices
       });
-   
 
-  });
+
+    });
+
+  }, 1500);
 
 });
 
@@ -102,7 +106,66 @@ app.post('/inv', (req, res) => {
 });
 
 
+app.delete('/inv/:id', (req, res) => {
 
+  setTimeout(_ => {
+
+    const id = parseInt(req.params.id);
+
+    const sql = `
+    DELETE FROM invoices
+    WHERE id = ?
+  `;
+
+    con.query(sql, [id], (err) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+
+
+
+      res.status(200).json({
+        status: 'success'
+      });
+
+    });
+
+  }, 2000);
+
+});
+
+
+app.put('/inv/:id', (req, res) => {
+
+  const id = parseInt(req.params.id);
+  const inv = req.body;
+
+  const sql = `
+    UPDATE invoices
+    SET number = ?, invoice_date = ?, company = ?, country = ?, vat = ?, invoice_lines = ?
+    WHERE id = ?
+  `;
+
+  con.query(sql, [
+    inv.number,
+    inv.date,
+    inv.buyer.company,
+    inv.buyer.country,
+    inv.buyer.vat,
+    JSON.stringify(inv.lines),
+    id
+  ], (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+
+    res.status(200).json({
+      status: 'success'
+    });
+
+  });
+
+});
 
 
 const port = 3000;
