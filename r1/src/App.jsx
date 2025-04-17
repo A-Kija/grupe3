@@ -49,6 +49,14 @@ function App() {
     // Saraso uzkrovimas
     useEffect(_ => {
 
+        axios.get(URL + 'inv')
+        .then(res => {
+            console.log(res)
+            setDataRead(res.data.list)
+        })
+        .catch(error => {
+            console.log(error)
+        });
 
 
     }, [updateTime]);
@@ -61,7 +69,8 @@ function App() {
 
         axios.post(URL + 'inv', dataStore)
         .then(res => {
-            console.log(res)
+            console.log(res);
+            setUpdateTime(Date.now());
         })
         .catch(error => {
             console.log(error)
