@@ -63,4 +63,22 @@
   color: white;
 }
 
+.shape {
+  margin: 150px;
+  transition: all 1s;
+}
+
+.shape-control {
+  display: flex;
+  column-gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  
+}
+
+.shape-control label {
+  width: 30px;
+}
+
 
