@@ -1,50 +1,77 @@
+import { useReducer, useState } from 'react';
 import './App.css';
-import { useState, createContext } from 'react';
-import A from './Components/060/A';
-import Vartai from './Components/060/Vartai';
-import { Naujas } from './Components/060/ContextNaujas';
+import countReducer from './Components/061/countReducer';
+import shapeReducer from './Components/061/shapeReducer';
 
-
-export const ContextKomponentas = createContext(); // cia yra visiskai atskiras spec komponentas. Reiktu deti atskirame faile
 
 
 function App() {
 
-    const [count1, setCount1] = useState(0);
-    const [count2, setCount2] = useState(0);
-    const [vartai, setVartai] = useState(false);
+    const [count1, setCount1] = useState(11);
+    const [count2, dispachCount2] = useReducer(countReducer, 11);
 
-    const addCount1 = _ => setCount1(c => c + 1);
-    const addCount2 = _ => setCount2(c => c + 1);
+    const [x, setX] = useState('');
+
+    const [shape, dispachShape] = useReducer(shapeReducer, {
+        color: '#5c8ac0',
+        shape: 'sq',
+        size: 100
+    });
+
+
+
+    const doCount1 = _ => setCount1(c => c + 1);
+    const doMinusCount1 = _ => setCount1(c => c - 1);
+
+    const doCount2 = _ => {
+        const actionObjektas = {
+            type: 'pliusVienas'
+        };
+        dispachCount2(actionObjektas);
+    }
+
+    const doMinusCount2 = _ => {
+        const actionObjektas = {
+            type: 'minusVienas'
+        }
+        dispachCount2(actionObjektas);
+    }
+
+    const doDiv233Count2 = _ => {
+        const actionObjektas = {
+            type: 'dalyba2.33'
+        }
+        dispachCount2(actionObjektas);
+    }
+
+    const doXCount2 = _ => {
+        const actionObjektas = {
+            type: 'plusX', 
+            payload: x
+        }
+        dispachCount2(actionObjektas);
+    }
 
     return (
         <>
-            <h1>Context</h1>
-            <Vartai vartai={vartai}>
-                <h2>Vartai atidaryti</h2>
-            </Vartai>
-
-
-            <div className="buttons">
-                <button className="green" onClick={addCount1}>+1 drill</button>
-                <button className="blue" onClick={addCount2}>+1 context</button>
-                <button className="red" onClick={_ => setVartai(v => !v)}>Vartų valdymas</button>
+            <h1>useReducer</h1>
+            <h2>useState: {count1}</h2>
+            <h2>useReducer: {count2.toFixed(2)}</h2>
+            <div>
+                <button className="green" onClick={doCount1}>+1 useState</button>
+                <button className="green" onClick={doMinusCount1}>-1 useState</button>
+                <button className="red"  onClick={doCount2}>+1 useReducer</button>
+                <button className="red" onClick={doMinusCount2}>-1 useReducer</button>
+                <button className="red" onClick={doDiv233Count2}>/2.33 useReducer</button>
+                <button className="red" onClick={doXCount2}>+X useReducer</button>
+                <label>X: </label>
+                <input type="number" value={x} onChange={e => setX(e.target.value)}></input>
             </div>
-
-            <Naujas>
-
-                <ContextKomponentas.Provider value={
-                    {
-                        count2: count2
-                    }
-                }>
-                    <A count1={count1} />
-                </ContextKomponentas.Provider>
-
-            </Naujas>
 
         </>
     );
 }
 
 export default App;
+
+// Padarykit mygtuką, kuris state dalina iš 2.33
