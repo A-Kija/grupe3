@@ -81,4 +81,28 @@
   width: 30px;
 }
 
+.router-menu {
+  display: flex;
+  column-gap: 20px;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #646cffaa;
+}
+
+.router-page {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.router-menu a {
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+}
+
+.router-menu a.active {
+  border-bottom: 3px solid #646cffaa;
+}
+
 

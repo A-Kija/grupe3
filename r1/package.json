@@ -16,6 +16,7 @@
     "country-list-js": "^3.1.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router": "^7.5.1",
     "sass": "^1.86.0",
     "uuid": "^11.1.0"
   },
