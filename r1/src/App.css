@@ -105,4 +105,30 @@
   border-bottom: 3px solid #646cffaa;
 }
 
+/* AUTH */
+
+#root:has(.auth-nav) {
+  box-sizing: border-box;
+  height: 100vh;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.auth-nav {
+  align-self: flex-start;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.auth-nav .left, .auth-nav .right {
+  column-gap: 30px;
+  display: flex;
+}
+
+.auth-nav .left a.active {
+  color: crimson;
+}
+
 

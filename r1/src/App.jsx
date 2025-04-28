@@ -1,30 +1,26 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { BrowserRouter, Routes, Route } from 'react-router';
 import './App.css';
+import Home from './Components/auth/Home';
+import Nav from './Components/auth/Nav';
+import Login from './Components/auth/Login';
+import MyProfile from './Components/auth/MyProfile';
+import Register from './Components/auth/Register';
 
 function App() {
 
-    const [counts, setCounts] = useState(null);
-
-
-    useEffect(_ => {
-        axios.get('http://localhost:3000/get-count', { withCredentials: true })
-            .then(res => {
-                console.log(res.data);
-                setCounts(res.data.counts);
-            })
-            .catch(error => {
-                console.log(error);
-            })
-
-    }, []);
-
-
 
     return (
-        <>
-            <h1>Cookies. Visits count: {counts}</h1>
-        </>
+        <BrowserRouter>
+            <Nav />
+
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="login" element={<Login />} />
+                <Route path="my-profile" element={<MyProfile />} />
+                <Route path="register" element={<Register />} />
+
+            </Routes>
+        </BrowserRouter>
     );
 }
 
