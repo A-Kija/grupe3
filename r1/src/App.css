@@ -131,4 +131,31 @@
   color: crimson;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  background-color: #60992D;
+  position: relative;
+}
+
+.form h1 {
+  margin: 0 0 30px 0;
+}
+
+.form .inputs {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  row-gap: 20px;
+}
+
+.form .inputs .input {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 20px;
+}
+
+
+
 

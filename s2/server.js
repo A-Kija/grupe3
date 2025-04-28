@@ -33,6 +33,8 @@ con.connect(function (err) {
 });
 
 
+
+
 app.get('/get-count', (req, res) => {
 
   let counts = req.cookies.visitsCount || 0;
@@ -47,6 +49,23 @@ app.get('/get-count', (req, res) => {
 
 });
 
+
+app.post('/register', (req, res) => {
+
+  setTimeout(_ => {
+
+  res.json({
+    success: true
+  });
+
+
+}, 1500);
+
+
+
+
+
+});
 
 
 const port = 3000;
