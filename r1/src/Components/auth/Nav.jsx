@@ -2,7 +2,13 @@ import { NavLink, useLocation } from 'react-router';
 
 export default function Nav() {
 
+    const { pathname } = useLocation();
 
+    const noNav = ['/login', '/register'];
+
+    if (noNav.includes(pathname)) {
+        return null;
+    }
 
     return (
         <nav className="auth-nav">

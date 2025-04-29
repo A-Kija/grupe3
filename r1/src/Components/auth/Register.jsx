@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import axios from 'axios';
 import * as C from './constants';
 import Loader from './Loader';
@@ -70,6 +70,7 @@ export default function Register() {
                 </div>
                 <div className="input">
                     <button className="blue" onClick={doRegister}>Register</button>
+                    <button className="blue"><Link to="/">Return</Link></button>
                 </div>
             </div>
             <Loader show={show} />

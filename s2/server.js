@@ -3,6 +3,7 @@ import mysql from 'mysql';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import md5 from 'md5';
+import { v4 } from 'uuid';
 
 
 const app = express();
@@ -68,6 +69,7 @@ app.post('/register', (req, res) => {
     con.query(sql1, [email], (err, result) => {
       if (err) {
         res.status(500).send(err);
+        return;
       }
       if (result.length) { // toks emailas rastas, vadinasi neunikalus
         res.json({
@@ -86,6 +88,7 @@ app.post('/register', (req, res) => {
         con.query(sql2, [email, password], (err) => {
           if (err) {
             res.status(500).send(err);
+            return;
           }
           res.json({
             success: true,
@@ -98,6 +101,46 @@ app.post('/register', (req, res) => {
       }
     });
   }, 1500);
+});
+
+app.post('/login', (req, res) => {
+
+  const email = req.body.name;
+  const password = md5(req.body.password); // reiketu naudoti labiau siuolaikini hasinima
+
+  const sql1 = `
+    SELECT *
+    FROM users
+    WHERE email = ? AND password = ?
+  `;
+
+  con.query(sql1, [email, password], (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    if (!result.length) { // emailas arba slaptazodis blogas
+      res.json({
+        success: false,
+        message: {
+          type: 'error',
+          text: 'Email or password is invalid'
+        }
+      });
+    } else { // viskas ok
+      const token = v4(); // reiketu naudoti kriptografiniu algoritmu paremta generavima
+      const user_id = result.id;
+      const valid = Date.now() / 1000 + (60 * 60 * 24); // galioja para laiko
+
+      const sql2 = `
+      INSERT INTO sessions
+      (token, user_id, valid)
+      VALUES (?, ?, ?)
+      `;
+    }
+
+  });
+
 });
 
 

@@ -154,6 +154,11 @@
   display: flex;
   justify-content: space-between;
   column-gap: 20px;
+  align-items: center;
+}
+
+.form .inputs .input a {
+  color: white;
 }
 
 
