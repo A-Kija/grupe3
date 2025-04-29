@@ -2,6 +2,7 @@ import express from 'express';
 import mysql from 'mysql';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import md5 from 'md5';
 
 
 const app = express();
@@ -54,17 +55,49 @@ app.post('/register', (req, res) => {
 
   setTimeout(_ => {
 
-  res.json({
-    success: true
-  });
+    const email = req.body.name;
+    const password = md5(req.body.password); // reiketu naudoti labiau siuolaikini hasinima
 
+    // tikriname emailo unikaluma
+    const sql1 = `
+  SELECT id
+  FROM users
+  WHERE email = ?
+  `;
 
-}, 1500);
-
-
-
-
-
+    con.query(sql1, [email], (err, result) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+      if (result.length) { // toks emailas rastas, vadinasi neunikalus
+        res.json({
+          success: false,
+          message: {
+            type: 'error',
+            text: 'Email already exists'
+          }
+        });
+      } else { // nera tokio, registruojam
+        const sql2 = `
+        INSERT INTO users
+        (email, password)
+        VALUES (?, ?)
+      `;
+        con.query(sql2, [email, password], (err) => {
+          if (err) {
+            res.status(500).send(err);
+          }
+          res.json({
+            success: true,
+            message: {
+              type: 'ok',
+              text: 'Registered'
+            }
+          });
+        });
+      }
+    });
+  }, 1500);
 });
 
 

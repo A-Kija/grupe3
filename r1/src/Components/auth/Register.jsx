@@ -57,7 +57,7 @@ export default function Register() {
             <h1>Register</h1>
             <div className="inputs">
                 <div className="input">
-                    <label>User Name</label>
+                    <label>User Email</label>
                     <input type="text" value={name} onChange={e => setName(e.target.value)} />
                 </div>
                 <div className="input">
