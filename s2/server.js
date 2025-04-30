@@ -34,8 +34,56 @@ con.connect(function (err) {
   console.log('Valio prisijungėme prie autorizacijos DB!');
 });
 
+// MIDDLEWARE
+app.use((req, res, next) => {
+
+  const token = req.cookies.authToken;
+
+  if (!token) {
+    req.user = {
+      id: 0
+    }
+    next();
+  } else {
+    const sql = `
+      SELECT u.id, u.email AS name, u.role
+      FROM sessions AS s
+      INNER JOIN users AS u
+      ON u.id = s.user_id
+      WHERE s.token = ?
+    `;
+    con.query(sql, [token], (err, result) => {
+      if (err) {
+        res.status(500).send(err);
+        return;
+      }
+      if (!result.length) {
+        req.user = {
+          id: 0
+        }
+      } else {
+        req.user = {
+          id: result[0].id,
+          name: result[0].name,
+          role: result[0].role
+        }
+      }
+      next();
+    });
+  }
+});
 
 
+// ROUTER
+
+app.get('/get-user', (req, res) => {
+
+  res.json({
+    success: req.user.id === 0 ? false : true,
+    user: req.user
+  });
+
+});
 
 app.get('/get-count', (req, res) => {
 
