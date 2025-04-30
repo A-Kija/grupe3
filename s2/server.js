@@ -128,19 +128,40 @@ app.post('/login', (req, res) => {
         }
       });
     } else { // viskas ok
+
+      
+
       const token = v4(); // reiketu naudoti kriptografiniu algoritmu paremta generavima
-      const user_id = result.id;
-      const valid = Date.now() / 1000 + (60 * 60 * 24); // galioja para laiko
+      const user_id = result[0].id;
 
       const sql2 = `
       INSERT INTO sessions
-      (token, user_id, valid)
-      VALUES (?, ?, ?)
+      (token, user_id)
+      VALUES (?, ?)
       `;
+
+      con.query(sql2, [token, user_id], (err) => {
+        if (err) {
+          res.status(500).send(err);
+          return;
+        }
+
+        res.cookie('authToken', token, { maxAge: 1000 * 60 * 60 * 24 }); // siunciame tokena kaip kuki
+        res.json({
+          success: true,
+          message: {
+            type: 'success',
+            text: 'Logged in'
+          },
+          user: {
+            name: result[0].email,
+            id: result[0].id,
+            role: result[0].role
+          }
+        });
+      });
     }
-
   });
-
 });
 
 

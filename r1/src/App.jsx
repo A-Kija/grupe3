@@ -6,21 +6,24 @@ import Nav from './Components/auth/Nav';
 import Login from './Components/auth/Login';
 import MyProfile from './Components/auth/MyProfile';
 import Register from './Components/auth/Register';
+import { AuthProvider } from './Components/auth/Auth';
 
 function App() {
 
 
     return (
         <BrowserRouter>
-            <Nav />
+            <AuthProvider>
+                <Nav />
 
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="login" element={<Login />} />
-                <Route path="my-profile" element={<MyProfile />} />
-                <Route path="register" element={<Register />} />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="login" element={<Login />} />
+                    <Route path="my-profile" element={<MyProfile />} />
+                    <Route path="register" element={<Register />} />
 
-            </Routes>
+                </Routes>
+            </AuthProvider>
         </BrowserRouter>
     );
 }
