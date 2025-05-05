@@ -9,11 +9,15 @@ const Auth = createContext();
 
 export const AuthProvider = ({children}) => {
 
-    const [user, setUser] = useState({
+    const defaultUser = {
         id: 0,
         name: 'Guest',
         role: 'quest'
-    });
+    };
+
+    const [user, setUser] = useState(defaultUser);
+
+    const makeDefault = _ => setUser(defaultUser);
 
     useEffect(_ => {
 
@@ -32,7 +36,7 @@ export const AuthProvider = ({children}) => {
     }, []);
 
     return (
-        <Auth.Provider value={{user, setUser}}>
+        <Auth.Provider value={{user, setUser, makeDefault}}>
             {children}
         </Auth.Provider>
     );

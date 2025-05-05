@@ -99,7 +99,6 @@ app.get('/get-count', (req, res) => {
 
 });
 
-
 app.post('/register', (req, res) => {
 
   setTimeout(_ => {
@@ -177,7 +176,7 @@ app.post('/login', (req, res) => {
       });
     } else { // viskas ok
 
-      
+
 
       const token = v4(); // reiketu naudoti kriptografiniu algoritmu paremta generavima
       const user_id = result[0].id;
@@ -209,6 +208,91 @@ app.post('/login', (req, res) => {
         });
       });
     }
+  });
+});
+
+app.post('/logout', (req, res) => {
+
+  const id = req.user.id; // gautas is auth middleware
+
+  const sql = `
+    DELETE FROM sessions
+    WHERE user_id = ?
+  `;
+
+  con.query(sql, [id], (err) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    res.clearCookie('authToken');
+    res.json({
+      success: true,
+      message: {
+        type: 'success',
+        text: 'Logged out'
+      }
+    });
+  });
+});
+
+app.put('/user-data', (req, res) => {
+
+  const userId = req.user.id;
+  const color = req.body.color;
+  const pet = req.body.pet;
+  const userData = JSON.stringify({ color, pet });
+
+  const sql = `
+    UPDATE users
+    SET user_data = ?
+    WHERE id = ?
+  `;
+  con.query(sql, [userData, userId], (err) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    res.json({
+      success: true,
+      message: {
+        type: 'success',
+        text: 'Data was updated'
+      }
+    });
+  });
+
+});
+
+app.get('/user-data', (req, res) => {
+
+  const userId = req.user.id;
+
+  if (userId === 0) {
+    res.status(401).json({
+      success: false,
+      message: {
+        type: 'error',
+        text: 'Not authorized'
+      }
+    });
+    return;
+  }
+
+  const sql = `
+    SELECT user_data
+    FROM users
+    WHERE id = ?
+  `;
+  con.query(sql, [userId], (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    res.json({
+      success: true,
+      userData: JSON.parse(result[0].user_data)
+    });
   });
 });
 

@@ -161,6 +161,19 @@
   color: white;
 }
 
+.profile {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile h1 {
+  width: 100%;
+}
+
+.profile .profile-side {
+  width: 50%;
+}
+
 
 
 

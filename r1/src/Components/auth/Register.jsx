@@ -13,7 +13,7 @@ export default function Register() {
     const [regUser, setRegUser] = useState(null);
     const [show, setShow] = useState(false);
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const doRegister = _ => {
         if (password.length < 3) {
@@ -41,7 +41,7 @@ export default function Register() {
             if (res.data.success) {
                 navigate(C.LOGIN_PAGE);
             } else {
-                console.error('Server error')
+                console.error('Server error');
             }
         })
         .catch(error => {
