@@ -19,6 +19,7 @@ export default function Nav() {
             <div className="left">
                 <NavLink to="/">Home</NavLink>
                 <NavLink to="/my-profile">Profile</NavLink>
+                <NavLink to="/admin">Admin</NavLink>
             </div>
             {
                 user.id

@@ -296,6 +296,29 @@ app.get('/user-data', (req, res) => {
   });
 });
 
+app.get('/admin-get-users', (req, res) => {
+
+
+  const sql = `
+    SELECT *
+    FROM users
+  `;
+
+  con.query(sql, (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+
+    result = result.map(r => ({...r, password: null, user_data: JSON.parse(r.user_data)}));
+
+    res.json({
+      success: true,
+      usersData: result
+    });
+  });
+});
+
 
 const port = 3000;
 app.listen(port, () => {

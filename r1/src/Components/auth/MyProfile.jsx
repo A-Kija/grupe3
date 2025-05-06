@@ -11,16 +11,22 @@ export default function MyProfile() {
     const [color, setColor] = useState('#4dc885');
     const [pet, setPet] = useState('');
     const [userDataToUpdate, setUserDataToUpdate] = useState(null);
+    const [userData, setUserData] = useState(null);
 
 
     useEffect(_ => {
-        axios.get(C.SERVER_URL + 'user-data', {withCredentials: true})
-        .then(res => {
-            console.log(res.data);
-        })
-        .catch(error => {
-            console.error(error);
-        });
+        axios.get(C.SERVER_URL + 'user-data', { withCredentials: true })
+            .then(res => {
+                console.log(res.data);
+                if (res.data.success) {
+                    setColor(res.data.userData.color);
+                    setPet(res.data.userData.pet);
+                    setUserData(res.data.userData);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }, []);
 
 
@@ -28,13 +34,14 @@ export default function MyProfile() {
         if (null === userDataToUpdate) {
             return;
         }
-        axios.put(C.SERVER_URL + 'user-data', userDataToUpdate, {withCredentials: true})
-        .then(res => {
-            console.log(res.data);
-        })
-        .catch(error => {
-            console.error(error);
-        });
+        setUserData(userDataToUpdate);
+        axios.put(C.SERVER_URL + 'user-data', userDataToUpdate, { withCredentials: true })
+            .then(res => {
+                console.log(res.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
 
     }, [userDataToUpdate]);
 
@@ -58,7 +65,7 @@ export default function MyProfile() {
             <h1>My Profile</h1>
             <div className="profile-side">
                 <div className="form">
-                    <h1>Eidit</h1>
+                    <h1>Edit</h1>
                     <div className="inputs">
                         <div className="input">
                             <label>Color</label>
@@ -76,7 +83,13 @@ export default function MyProfile() {
                 </div>
             </div>
             <div className="profile-side">
-                dlsjghkjdfh
+                {
+                    userData === null
+                        ?
+                        <div>User data loading</div>
+                        :
+                        <h1 style={{ color: userData.color }}>{userData.pet}</h1>
+                }
             </div>
         </div>
     );
