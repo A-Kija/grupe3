@@ -174,6 +174,34 @@
   width: 50%;
 }
 
+.admin-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-page .admin-users-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-page .admin-users-list li {
+  display: flex;
+  gap: 20px;
+  font-size: 18px;
+}
+
+.admin-page .admin-users-list li div {
+  width: 150px;
+}
+
+.admin-page .admin-users-list li div.id {
+  width: 10px;
+}
+
 
 
 

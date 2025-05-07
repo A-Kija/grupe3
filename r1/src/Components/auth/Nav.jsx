@@ -18,8 +18,13 @@ export default function Nav() {
         <nav className="auth-nav">
             <div className="left">
                 <NavLink to="/">Home</NavLink>
-                <NavLink to="/my-profile">Profile</NavLink>
-                <NavLink to="/admin">Admin</NavLink>
+                {
+                    user.id !== 0 && <NavLink to="/my-profile">Profile</NavLink>
+                }
+                {
+                    user.role === 'admin' && <NavLink to="/admin">Admin</NavLink>
+                }
+                    
             </div>
             {
                 user.id

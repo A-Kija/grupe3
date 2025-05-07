@@ -298,6 +298,19 @@ app.get('/user-data', (req, res) => {
 
 app.get('/admin-get-users', (req, res) => {
 
+  const role = req.user.role;
+
+  if (role !== 'admin') {
+    res.status(401).json({
+      success: false,
+      message: {
+        type: 'error',
+        text: 'Not authorized'
+      }
+    });
+    return;
+  }
+
 
   const sql = `
     SELECT *
