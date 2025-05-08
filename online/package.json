@@ -1,0 +1,23 @@
+{
+  "name": "online",
+  "version": "1.0.0",
+  "description": "Online learning platform ",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "seed": "node ./seeder/index.js"
+  },
+  "keywords": [
+    "online",
+    "programimg",
+    "design",
+    "bebras"
+  ],
+  "author": "BIT",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^9.7.0",
+    "md5": "^2.3.0",
+    "mysql": "^2.18.1"
+  }
+}
