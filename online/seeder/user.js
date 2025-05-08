@@ -12,7 +12,7 @@ import { faker } from '@faker-js/faker';
 import md5 from 'md5';
 
 
-export function createUser() {
+function createUser() {
 
   return {
     email: faker.internet.email(),
@@ -22,7 +22,7 @@ export function createUser() {
   }
 }
 
-export function createUserTeacher() {
+function createUserTeacher() {
 
   return {
     email: faker.internet.email(),
@@ -32,7 +32,7 @@ export function createUserTeacher() {
   }
 }
 
-export function createUserAdmin(name) {
+function createUserAdmin(name) {
 
   return {
     email: name + '@gmail.com',
@@ -42,12 +42,36 @@ export function createUserAdmin(name) {
   }
 }
 
-export function createUserEditor(name) {
+function createUserEditor(name) {
 
   return {
     email: name + '@gmail.com',
     name: name,
     password: md5('123'),
     role: 'editor'
+  }
+}
+
+export default function createAllUsers() {
+  const users = [];
+  const usersCount = 52;
+  const teachersCount = 7;
+
+  for (let i = 0; i < usersCount; i++) {
+      users.push(createUser());
+  }
+
+  for (let i = 0; i < teachersCount; i++) {
+      users.push(createUserTeacher());
+  }
+
+  users.push(createUserAdmin('briedis'));
+  users.push(createUserEditor('bebras'));
+
+  return {
+    users,
+    teachersIds: [usersCount + 1, usersCount + 1 + teachersCount],
+    adminId: usersCount + 2 + teachersCount,
+    editorId: usersCount + 3 + teachersCount,
   }
 }

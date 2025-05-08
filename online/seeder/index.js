@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import mysql from 'mysql';
+import createAllUsers from './user.js';
 
 console.log('Start db seeding.');
 
@@ -18,20 +19,41 @@ con.connect(err => {
     }
 });
 
+const {users, teachersIds, adminId, editorId} = createAllUsers();
+
+
 let sql;
 
 console.log('Connecting to DB.');
 
 // DROPS
+const drops = [
+    'part_contents',
+    'parts',
+    'sessions',
+    'payments',
+    'reviews',
+    'certificates',
+    'user_courses',
+    'courses',
+    'topics',
+    'users'
+];
 
-sql = 'DROP TABLE IF EXISTS users';
-con.query(sql, (err) => {
-    if (err) {
-        console.log('User table drop error', err);
-        return;
-    }
-    console.log('User table was dropped');
+
+drops.forEach(table => {
+    sql = `DROP TABLE IF EXISTS ${table}`;
+    con.query(sql, (err) => {
+        if (err) {
+            console.log(`${table} table drop error`, err);
+            return;
+        }
+        console.log(`${table} table was dropped`);
+    });
 });
+
+
+
 
 
 
