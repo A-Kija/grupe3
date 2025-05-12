@@ -19,7 +19,7 @@ con.connect(err => {
     }
 });
 
-const {users, teachersIds, adminId, editorId} = createAllUsers();
+const { users, teachersIds, adminId, editorId } = createAllUsers();
 
 
 let sql;
@@ -50,6 +50,32 @@ drops.forEach(table => {
         }
         console.log(`${table} table was dropped`);
     });
+});
+
+// USERS
+sql = `
+    CREATE TABLE users (
+    id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    email varchar(98) NOT NULL,
+    name varchar(54) NOT NULL,
+    password char(32) NOT NULL,
+    role set('subscriber','free','admin','editor','teacher') NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Users table error', err);
+    else console.log('Users table OK');
+});
+
+sql = `
+    INSERT INTO users
+    (email, name, password, role)
+    VALUES ?
+`;
+
+con.query(sql, [], (err) => {
+    if (err) console.log('Users table seed error', err);
+    else console.log('Users table seed OK');
 });
 
 
