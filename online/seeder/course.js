@@ -19,7 +19,7 @@ function createCourse(teachersIds, topicsCount) {
         description: faker.word.words({ count: { min: 15, max: 200 } }),
         teacher_id: faker.number.int({ min: teachersIds[0], max: teachersIds[1] }),
         topic_id: faker.number.int({ min: 1, max: topicsCount }),
-        req_plan: faker.helpers.arrayElement(['free','silver','gold']),
+        req_plan: faker.helpers.arrayElement(['free', 'silver', 'gold']),
         rating: 0
     }
 }
@@ -31,5 +31,5 @@ export default function createAllCourses(teachersIds, topicsCount) {
         courses.push(createCourse(teachersIds, topicsCount));
     }
 
-    return {courses, coursesCount}
+    return { courses, coursesCount }
 }

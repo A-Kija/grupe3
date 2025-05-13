@@ -3,6 +3,7 @@ import mysql from 'mysql';
 import createAllUsers from './user.js';
 import createAllTopic from './topic.js';
 import createAllCourses from './course.js';
+import createAllParts  from './part.js';
 
 console.log('Start db seeding.');
 
@@ -21,9 +22,10 @@ con.connect(err => {
     }
 });
 
-const { users, teachersIds, adminId, editorId } = createAllUsers();
+const { users, teachersIds, adminId, editorId, usersCount } = createAllUsers();
 const { topics, topicsCount } = createAllTopic();
 const { courses, coursesCount } = createAllCourses(teachersIds, topicsCount);
+const { coursesPartCount, parts } = createAllParts(coursesCount);
 
 
 let sql;
@@ -104,6 +106,38 @@ con.query(sql, [topics.map(topic => [topic.title, topic.topic_type])], (err) => 
     if (err) console.log('Topics table seed error', err);
     else console.log('Topics table seed OK');
 });
+
+
+// COURSES
+
+sql = `
+CREATE TABLE courses (
+    id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    title varchar(200) NOT NULL,
+    description text NOT NULL,
+    teacher_id int(11) UNSIGNED NOT NULL,
+    topic_id int(11) UNSIGNED NOT NULL,
+    req_plan set('free','silver','gold') NOT NULL,
+    rating decimal(3,2) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Courses table error', err);
+    else console.log('Courses table OK');
+});
+sql = `
+    INSERT INTO courses
+    (title, description, teacher_id, topic_id, req_plan, rating)
+    VALUES ?
+`;
+con.query(sql, [courses.map(course => [course.title, course.description, course.teacher_id, course.topic_id, course.req_plan, course.rating])], (err) => {
+    if (err) console.log('Couirses table seed error', err);
+    else console.log('Courses table seed OK');
+});
+
+
+
+
 
 
 con.end();
