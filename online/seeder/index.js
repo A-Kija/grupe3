@@ -181,13 +181,13 @@ con.query(sql, (err) => {
     else console.log('Certificates table OK');
 });
 sql = `
-    INSERT INTO Certificates
-    (user_id, course_id, progress, finished)
+    INSERT INTO certificates
+    (user_id, course_id, certificate_number, certificate_date)
     VALUES ?
 `;
-con.query(sql, [userCourses.map(userCourse => [userCourse.user_id, userCourse.course_id, userCourse.progress, userCourse.finished])], (err) => {
-    if (err) console.log('User_courses table seed error', err);
-    else console.log('User_courses table seed OK');
+con.query(sql, [certificates.map(certificate => [certificate.user_id, certificate.course_id, certificate.certificate_number, certificate.certificate_date])], (err) => {
+    if (err) console.log('Certificates table seed error', err);
+    else console.log('Certificates table seed OK');
 });
 
 
