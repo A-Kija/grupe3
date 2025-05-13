@@ -3,7 +3,9 @@ import mysql from 'mysql';
 import createAllUsers from './user.js';
 import createAllTopic from './topic.js';
 import createAllCourses from './course.js';
-import createAllParts  from './part.js';
+import createAllParts from './part.js';
+import createAllUsersCourses from './userCourses.js';
+import createAllCertificates from './certificate.js';
 
 console.log('Start db seeding.');
 
@@ -26,7 +28,8 @@ const { users, teachersIds, adminId, editorId, usersCount } = createAllUsers();
 const { topics, topicsCount } = createAllTopic();
 const { courses, coursesCount } = createAllCourses(teachersIds, topicsCount);
 const { coursesPartCount, parts } = createAllParts(coursesCount);
-
+const { finishedCourses, userCourses } = createAllUsersCourses(usersCount, coursesPartCount, coursesCount);
+const certificates = createAllCertificates(finishedCourses);
 
 let sql;
 
@@ -134,6 +137,59 @@ con.query(sql, [courses.map(course => [course.title, course.description, course.
     if (err) console.log('Couirses table seed error', err);
     else console.log('Courses table seed OK');
 });
+
+
+// USER COURSES
+
+sql = `
+CREATE TABLE user_courses (
+    id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    user_id int(10) UNSIGNED NOT NULL,
+    course_id int(10) UNSIGNED DEFAULT NULL,
+    progress smallint(5) UNSIGNED DEFAULT NULL,
+    finished int(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('User_courses table error', err);
+    else console.log('User_courses table OK');
+});
+sql = `
+    INSERT INTO user_courses
+    (user_id, course_id, progress, finished)
+    VALUES ?
+`;
+con.query(sql, [userCourses.map(userCourse => [userCourse.user_id, userCourse.course_id, userCourse.progress, userCourse.finished])], (err) => {
+    if (err) console.log('User_courses table seed error', err);
+    else console.log('User_courses table seed OK');
+});
+
+
+// CERTIFICATES
+
+sql = `
+CREATE TABLE certificates (
+  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id int(10) UNSIGNED DEFAULT NULL,
+  course_id int(10) UNSIGNED DEFAULT NULL,
+  certificate_number varchar(32) NOT NULL,
+  certificate_date date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Certificates table error', err);
+    else console.log('Certificates table OK');
+});
+sql = `
+    INSERT INTO Certificates
+    (user_id, course_id, progress, finished)
+    VALUES ?
+`;
+con.query(sql, [userCourses.map(userCourse => [userCourse.user_id, userCourse.course_id, userCourse.progress, userCourse.finished])], (err) => {
+    if (err) console.log('User_courses table seed error', err);
+    else console.log('User_courses table seed OK');
+});
+
 
 
 

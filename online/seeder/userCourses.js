@@ -27,6 +27,7 @@ export default function createAllUsersCourses(usersCount, coursesPartCount, cour
 
     const maxHasCourses = Math.ceil(coursesCount / 2);
     const finishedCourses = [];
+    const userCourses = [];
 
     for (let user_id = 1; user_id <= usersCount; user_id++) {
 
@@ -40,11 +41,11 @@ export default function createAllUsersCourses(usersCount, coursesPartCount, cour
 
         coursesIds.forEach(course_id => {
             const finished = faker.number.int({ min: 1, max: 5 }) === 1 ? 1 : 0;
-            finished && finishedCourses.push({user_id, course_id});
-
+            finished && finishedCourses.push({ user_id, course_id });
+            userCourses.push(createUserCourses(user_id, course_id, coursesPartCount, finished));
         });
-
-
     }
+
+    return { finishedCourses, userCourses };
 
 }
