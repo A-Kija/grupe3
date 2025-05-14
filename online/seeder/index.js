@@ -6,6 +6,8 @@ import createAllCourses from './course.js';
 import createAllParts from './part.js';
 import createAllUsersCourses from './userCourses.js';
 import createAllCertificates from './certificate.js';
+import createAllReviews from './review.js';
+import createAllPayments from './payment.js';
 
 console.log('Start db seeding.');
 
@@ -30,6 +32,18 @@ const { courses, coursesCount } = createAllCourses(teachersIds, topicsCount);
 const { coursesPartCount, parts } = createAllParts(coursesCount);
 const { finishedCourses, userCourses } = createAllUsersCourses(usersCount, coursesPartCount, coursesCount);
 const certificates = createAllCertificates(finishedCourses);
+const { coursesRating, reviews } = createAllReviews(userCourses);
+
+courses.forEach((c, i) => {
+    const id = i + 1;
+    if (coursesRating.has(id)) {
+        const { count, sum } = coursesRating.get(id);
+        c.rating = (parseInt(sum / count * 100)) / 100;
+    }
+});
+
+const payments = createAllPayments(users);
+
 
 let sql;
 
@@ -188,6 +202,56 @@ sql = `
 con.query(sql, [certificates.map(certificate => [certificate.user_id, certificate.course_id, certificate.certificate_number, certificate.certificate_date])], (err) => {
     if (err) console.log('Certificates table seed error', err);
     else console.log('Certificates table seed OK');
+});
+
+// REVIEWS
+
+sql = `
+CREATE TABLE reviews (
+  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id int(10) UNSIGNED DEFAULT NULL,
+  course_id int(10) UNSIGNED NOT NULL,
+  rating tinyint(3) UNSIGNED NOT NULL,
+  description text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Reviews table error', err);
+    else console.log('Reviews table OK');
+});
+sql = `
+    INSERT INTO reviews
+    (user_id, course_id, rating, description)
+    VALUES ?
+`;
+con.query(sql, [reviews.map(review => [review.user_id, review.course_id, review.rating, review.description])], (err) => {
+    if (err) console.log('Reviews table seed error', err);
+    else console.log('Reviews table seed OK');
+});
+
+
+// PAYMENTS
+
+sql = `
+CREATE TABLE payments (
+  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id int(10) UNSIGNED NOT NULL,
+  plan set('free','silver','gold') NOT NULL,
+  end_plan datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Payments table error', err);
+    else console.log('Payments table OK');
+});
+sql = `
+    INSERT INTO payments
+    (user_id, plan, end_plan)
+    VALUES ?
+`;
+con.query(sql, [payments.map(payment => [payment.user_id, payment.plan, payment.end_plan])], (err) => {
+    if (err) console.log('Payments table seed error', err);
+    else console.log('Payments table seed OK');
 });
 
 

@@ -42,7 +42,7 @@ export default function createAllReviews(userCourses) {
                 coursesRating.set(uc.course_id, { count: newCount, sum: newSum })
             }
 
-            reviews.push(createReview(user_id, course_id, rating));
+            reviews.push(createReview(uc.user_id, uc.course_id, rating));
 
         }
 
