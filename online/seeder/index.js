@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker';
 import mysql from 'mysql';
 import createAllUsers from './user.js';
 import createAllTopic from './topic.js';
@@ -8,6 +7,7 @@ import createAllUsersCourses from './userCourses.js';
 import createAllCertificates from './certificate.js';
 import createAllReviews from './review.js';
 import createAllPayments from './payment.js';
+import createAllPartContents from './partContents.js';
 
 console.log('Start db seeding.');
 
@@ -43,6 +43,7 @@ courses.forEach((c, i) => {
 });
 
 const payments = createAllPayments(users);
+const partContents = createAllPartContents(parts);
 
 
 let sql;
@@ -253,6 +254,79 @@ con.query(sql, [payments.map(payment => [payment.user_id, payment.plan, payment.
     if (err) console.log('Payments table seed error', err);
     else console.log('Payments table seed OK');
 });
+
+
+// SESSIONS
+
+sql = `
+CREATE TABLE sessions (
+  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id int(10) UNSIGNED NOT NULL,
+  token char(36) NOT NULL,
+  start_time timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Sessions table error', err);
+    else console.log('Sessions table OK');
+});
+
+
+// PARTS
+
+sql = `
+CREATE TABLE parts (
+  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  course_id int(10) UNSIGNED NOT NULL,
+  row_number tinyint(4) NOT NULL,
+  title varchar(98) NOT NULL,
+  description text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Parts table error', err);
+    else console.log('Parts table OK');
+});
+sql = `
+    INSERT INTO parts
+    (course_id, row_number, title, description)
+    VALUES ?
+`;
+con.query(sql, [parts.map(part => [part.course_id, part.row_number, part.title, part.description])], (err) => {
+    if (err) console.log('Parts table seed error', err);
+    else console.log('Parts table seed OK');
+});
+
+
+// PART_CONTENTS
+
+sql = `
+CREATE TABLE part_contents (
+  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  row_number tinyint(4) NOT NULL,
+  video_link varchar(250) DEFAULT NULL,
+  image_link varchar(250) DEFAULT NULL,
+  text_block text DEFAULT NULL,
+  part_id int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Part_contents table error', err);
+    else console.log('Part_contents table OK');
+});
+sql = `
+    INSERT INTO part_contents
+    (row_number, video_link, image_link, text_block, part_id)
+    VALUES ?
+`;
+con.query(sql, [partContents.map(partContent => [partContent.row_number, partContent.video_link, partContent.image_link, partContent.text_block, partContent.part_id])], (err) => {
+    if (err) console.log('Part_contents table seed error', err);
+    else console.log('Part_contents table seed OK');
+});
+
+
+
+
 
 
 
