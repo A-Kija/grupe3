@@ -5,7 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "seed": "node ./seeder/index.js"
+    "seed": "node ./seeder/index.js",
+    "front": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
   "keywords": [
     "online",
