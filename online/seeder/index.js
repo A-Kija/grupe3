@@ -324,14 +324,134 @@ con.query(sql, [partContents.map(partContent => [partContent.row_number, partCon
     else console.log('Part_contents table seed OK');
 });
 
+sql = `ALTER TABLE certificates
+  ADD KEY course_id (course_id),
+  ADD KEY user_id (user_id);
+`;
+con.query(sql, (err) => {
+    if (err) console.log('ADD KEY table error', err);
+});
+
+sql = `ALTER TABLE courses
+  ADD KEY teacher_id (teacher_id),
+  ADD KEY topic_id (topic_id);
+`;
+con.query(sql, (err) => {
+    if (err) console.log('ADD KEY table error', err);
+});
+
+sql = `
+ALTER TABLE parts
+  ADD KEY course_id (course_id);
+`;
+con.query(sql, (err) => {
+    if (err) console.log('ADD KEY table error', err);
+});
+
+sql = `ALTER TABLE part_contents
+  ADD KEY part_id (part_id);
+`;
+con.query(sql, (err) => {
+    if (err) console.log('ADD KEY table error', err);
+});
+
+sql = `ALTER TABLE payments
+  ADD KEY user_id (user_id);
+`;
+con.query(sql, (err) => {
+    if (err) console.log('ADD KEY table error', err);
+});
+
+sql = `ALTER TABLE reviews
+  ADD KEY user_id (user_id),
+  ADD KEY course_id (course_id);
+`;
+con.query(sql, (err) => {
+    if (err) console.log('ADD KEY table error', err);
+});
+
+sql = `ALTER TABLE sessions
+  ADD KEY user_id (user_id);
+`;
+con.query(sql, (err) => {
+    if (err) console.log('ADD KEY table error', err);
+});
+
+sql = `ALTER TABLE users
+  ADD UNIQUE KEY email (email);
+`;
+con.query(sql, (err) => {
+    if (err) console.log('ADD KEY table error', err);
+});
+
+sql = `ALTER TABLE user_courses
+  ADD KEY course_id (course_id),
+  ADD KEY user_id (user_id);
+`;
+con.query(sql, (err) => {
+    if (err) console.log('ADD KEY table error', err);
+});
 
 
+sql = `ALTER TABLE certificates
+  ADD CONSTRAINT certificates_ibfk_1 FOREIGN KEY (course_id) REFERENCES courses (id) ON DELETE SET NULL,
+  ADD CONSTRAINT certificates_ibfk_2 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Certificates table error', err);
+});
 
+sql = `ALTER TABLE courses
+  ADD CONSTRAINT courses_ibfk_1 FOREIGN KEY (teacher_id) REFERENCES users (id),
+  ADD CONSTRAINT courses_ibfk_2 FOREIGN KEY (topic_id) REFERENCES topics (id);
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Courses table error', err);
+});
 
+sql = `ALTER TABLE parts
+  ADD CONSTRAINT parts_ibfk_1 FOREIGN KEY (course_id) REFERENCES courses (id) ON DELETE CASCADE;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Parts table error', err);
+});
 
+sql = `ALTER TABLE part_contents
+  ADD CONSTRAINT part_contents_ibfk_1 FOREIGN KEY (part_id) REFERENCES parts (id) ON DELETE CASCADE;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Part_contents table error', err);
+});
 
+sql = `ALTER TABLE payments
+  ADD CONSTRAINT payments_ibfk_1 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Payments table error', err);
+});
 
+sql = `ALTER TABLE reviews
+  ADD CONSTRAINT reviews_ibfk_1 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL,
+  ADD CONSTRAINT reviews_ibfk_2 FOREIGN KEY (course_id) REFERENCES courses (id) ON DELETE CASCADE;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Reviews table error', err);
+});
 
+sql = `ALTER TABLE sessions
+  ADD CONSTRAINT sessions_ibfk_1 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('Sessions table error', err);
+});
+
+sql = `ALTER TABLE user_courses
+  ADD CONSTRAINT user_courses_ibfk_1 FOREIGN KEY (course_id) REFERENCES courses (id) ON DELETE SET NULL,
+  ADD CONSTRAINT user_courses_ibfk_2 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
+`;
+con.query(sql, (err) => {
+    if (err) console.log('User_courses table error', err);
+});
 
 
 con.end();
