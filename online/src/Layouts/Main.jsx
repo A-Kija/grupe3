@@ -4,13 +4,13 @@ import Home from '../Pages/Home';
 
 export default function Main() {
 
+    console.log('Main');
 
     return (
         <div className="page-bin">
             <header>
                 <Nav />
             </header>
-
             <main>
                 <Routes>
                     <Route path="/" element={<Home />} />
