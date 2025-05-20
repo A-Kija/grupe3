@@ -1,4 +1,5 @@
 import { useEffect, useContext } from 'react';
+import { Link } from 'react-router';
 import Data from '../Data/Data';
 
 export default function Home() {
@@ -39,17 +40,25 @@ export default function Home() {
         );
     }
 
-
-
-    console.log(topics)
-
     return (
         <div className="home-page">
             <div className="home-page__content">
-                <ul>
+                <h1>All topics</h1>
+                <ul className="home-page__content__types">
                     {
-                        topics.map(t =>
-                            <li key={t.id}>{t.title}</li>
+                        sortTopics(topics).map(ty =>
+                            <li key={ty.topicType}>
+                                <h2>{ty.topicType}</h2>
+                                <ul className="home-page__content__types__topics">
+                                    {
+                                        ty.topicsByType.map(t =>
+                                            <li key={t.id}>
+                                                <Link to={'/course-list/' + t.id}>{t.title}</Link>
+                                            </li>
+                                        )
+                                    }
+                                </ul>
+                            </li>
                         )
                     }
                 </ul>

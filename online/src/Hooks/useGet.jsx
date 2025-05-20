@@ -7,6 +7,9 @@ export default function useGet(url, prop) {
     const [response, setResponse] = useState(null);
 
     const request = _ => {
+        if (null !== response) {
+            return;
+        }
         axios.get(C.SERVER_URL + url)
             .then(res => {
                 console.log(res.data);

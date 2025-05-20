@@ -1,0 +1,53 @@
+@use '../var.scss' as V;
+
+.home-page {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        max-width: V.$xl;
+        margin-top: 50px;
+
+        h1 {
+            padding: 0 30px;
+        }
+
+        &__types {
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+
+            li {
+                display: flex;
+                flex-direction: column;
+                width: 50%;
+                padding: 0 30px;
+            }
+
+            &__topics {
+                li {
+                    display: flex;
+                    flex-direction: row;
+                    width: 100%;
+                    padding: 3px 0;
+                    a {
+                        text-decoration: none;
+                        color: V.$black;
+                        font-size: 14px;
+                        font-weight: 500;
+                        &:hover {
+                            color: V.$blue;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
