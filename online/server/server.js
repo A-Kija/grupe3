@@ -29,11 +29,37 @@ con.connect(function (err) {
   console.log('Connected to ONLINE DB');
 });
 
-// Listas
+const dbError = (res, err) => {
+  if (err) {
+    res.status(500).send({
+      success: false,
+      message: err
+    });
+    return true;
+  }
+  return false;
+}
 
-app.get('/clients', (req, res) => {
-
+// Topics Listas
+app.get('/topics-list', (req, res) => {
+  const sql = `
+    SELECT id, title, topic_type AS topicType
+    FROM topics
+    `;
+      con.query(sql, (err, result) => {
+      if (dbError(res, err)) return; 
+      res.json({
+        success: true,
+        topics: result
+      });
+    })
 });
+
+
+
+
+
+
 
 
 

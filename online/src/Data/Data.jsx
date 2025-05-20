@@ -7,12 +7,12 @@ const Data = createContext();
 
 export const DataProvider = ({ children }) => {
 
-    const [topicsRequest] = useGet('topics-list');
+    const [topicsRequest, topics] = useGet('topics-list', 'topics');
 
 
     return (
         <Data.Provider value={{
-            topicsRequest
+            topicsRequest, topics
         }}>
             {children}
         </Data.Provider>

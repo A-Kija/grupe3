@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "seed": "node ./seeder/index.js",
-    "server": "node ./server/server.js",
+    "server": "node --watch ./server/server.js",
     "front": "vite",
     "build": "vite build",
     "lint": "eslint .",
