@@ -40,7 +40,7 @@ const dbError = (res, err) => {
   return false;
 }
 
-// Topics Listas
+// Topics List
 app.get('/topics-list', (req, res) => {
   const sql = `
     SELECT id, title, topic_type AS topicType
@@ -52,7 +52,29 @@ app.get('/topics-list', (req, res) => {
         success: true,
         topics: result
       });
-    })
+    });
+});
+
+
+// Courses List
+app.get('/courses-list/:topicId', (req, res) => {
+
+  const topicId = parseInt(req.params.topicId);
+
+  const sql = `
+    SELECT c.id, title, description, teacher_id AS teacherId, req_plan AS plan, u.name AS teacherName
+    FROM courses AS c
+    INNER JOIN users AS u
+    ON u.id = c.teacher_id
+    WHERE c.topic_id = ?
+    `;
+      con.query(sql, [topicId], (err, result) => {
+      if (dbError(res, err)) return; 
+      res.json({
+        success: true,
+        courses: result
+      });
+    });
 });
 
 

@@ -14,12 +14,14 @@ export const DataProvider = ({ children }) => {
 
 
     const [topicsRequest, topics] = useGet('topics-list', 'topics');
+    const [coursesRequest, courses] = useGet('courses-list', 'courses');
 
 
 
     return (
         <Data.Provider value={{
-            topicsRequest, topics
+            topicsRequest, topics,
+            coursesRequest, courses, coursesList, dispachCoursesList
         }}>
             {children}
         </Data.Provider>
