@@ -10,7 +10,7 @@ const Data = createContext();
 
 export const DataProvider = ({ children }) => {
 
-    const [coursesList, dispachCoursesList] = useReducer(coursesListReducer, null);
+    const [coursesList, dispachCoursesList] = useReducer(coursesListReducer, []);
 
 
     const [topicsRequest, topics] = useGet('topics-list', 'topics');
