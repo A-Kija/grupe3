@@ -1,0 +1,91 @@
+@use '../var.scss' as V;
+
+.courses-page {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        max-width: V.$xl;
+        margin-top: 50px;
+
+        h1,
+        h2 {
+            padding: 0 30px;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 16px;
+            color: V.$blue;
+            font-weight: 400;
+            margin-bottom: 50px;
+        }
+
+        &__list {
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+
+            li {
+                display: flex;
+                flex-direction: column;
+                width: 50%;
+                padding: 0 30px;
+                position: relative;
+
+                .plan {
+                    position: absolute;
+                    top: 20px;
+                    right: 10px;
+                    background-color: V.$bg-color2;
+                    color: V.$white;
+                    border-radius: 10px;
+                    padding: 5px 10px;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    font-weight: 700;
+                    letter-spacing: 2px;
+                }
+
+                p {
+                    margin: 0;
+                    font-size: 14px;
+                    font-family: V.$font1;
+                    text-align: justify;
+                }
+
+                h3 {
+                    color: V.$orange;
+                    font-weight: 400;
+
+                    a {
+                        color: V.$orange;
+                        text-decoration: none;
+                        font-weight: 400;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+
+                    span {
+                        font-weight: 200;
+                    }
+
+                    b {
+                        font-weight: 400;
+                        font-size: 14px;
+                    }
+                }
+            }
+
+
+        }
+    }
+}

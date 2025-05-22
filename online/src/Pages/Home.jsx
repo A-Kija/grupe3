@@ -26,7 +26,7 @@ export default function Home() {
         return topicsArray;
     }
 
-    console.log(sortTopics(topics));
+    // console.log(sortTopics(topics));
 
 
 

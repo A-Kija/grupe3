@@ -4,7 +4,9 @@ import { useState, useRef } from 'react';
 
 export default function useGet(url, prop) {
 
-    const [response, setResponse] = useState(null);
+    const [response, setResponse] = useState(null); 
+    // topiku atveju respose => topics
+    // kursu atveju response => courses
 
     const cachedIds = useRef(new Set());
 

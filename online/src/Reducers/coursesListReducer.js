@@ -5,7 +5,7 @@ export default function coursesListReducer(state, action) {
     const newState = structuredClone(state);
 
 
-    console.log('REDUCER', action)
+    // console.log('REDUCER', action)
 
     switch(action.type) {
 

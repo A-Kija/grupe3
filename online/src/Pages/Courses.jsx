@@ -1,11 +1,14 @@
-import { useEffect, useContext } from 'react';
-import { Link, useParams } from 'react-router';
+import { useEffect, useContext, useRef } from 'react';
+import { Link, useParams, useNavigate } from 'react-router';
 import Data from '../Data/Data';
 import { getCoursesByTopicId } from '../Actions/courses';
 
 export default function Courses() {
 
     const { topicId } = useParams();
+    const navigate = useNavigate();
+
+    const pageLoaded = useRef(false);
 
 
 
@@ -18,20 +21,26 @@ export default function Courses() {
     }, []);
 
     useEffect(_ => {
+        if (!pageLoaded.current) {
+            pageLoaded.current = true;
+            return;
+        }
         if (null === courses) {
             return;
         }
         let topic;
         if (null === topics) {
-            topic = null;
-        } else {
-            topic = topics.find(t => t.id == topicId);
+            navigate('/');
+            return;
         }
+        topic = topics.find(t => t.id == topicId);
 
         dispachCoursesList(getCoursesByTopicId(courses, topic, topicId));
     }, [courses]);
 
-    if (!coursesList.some(l => l.topicId == topicId)) {
+    const displayCourses = coursesList.find(l => l.topicId == topicId);
+
+    if (!displayCourses) {
         return (
             <div>Loading...</div>
         );
@@ -39,17 +48,23 @@ export default function Courses() {
 
 
     return (
-        <>
-        <h1>Courses</h1>
-        <ul>
-        {
-            
-            coursesList.find(l => l.topicId == topicId).courses.map(c =>
-                <li key={c.id}>{c.title}</li>
-            )
-        }
-        </ul>
-        </>
+        <div className="courses-page">
+            <div className="courses-page__content">
+                <h1>Courses <span>{displayCourses.topicType}</span></h1>
+                <h2>{displayCourses.topicTitle}</h2>
+                <ul className="courses-page__content__list">
+                    {
+                        displayCourses.courses.map(c =>
+                            <li key={c.id}>
+                                <div className="plan">{c.plan}</div>
+                                <h3><Link to={'/course/' + c.id}>{c.title}</Link> <span>By: <b>{c.teacherName}</b></span></h3>
+                                <p>{c.description}</p>
+                            </li>
+                        )
+                    }
+                </ul>
+            </div>
+        </div>
     );
 
 
