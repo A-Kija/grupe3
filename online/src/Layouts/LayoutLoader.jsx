@@ -5,7 +5,8 @@ export default function LayoutLoader() {
 
     const layoutsMap = [
         { path: '', layout: <Main /> },
-        { path: 'course-list', layout: <Main /> }
+        { path: 'course-list', layout: <Main /> },
+        { path: 'course', layout: <Main /> }
     ];
 
     const { pathname } = useLocation();

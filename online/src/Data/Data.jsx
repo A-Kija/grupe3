@@ -15,13 +15,15 @@ export const DataProvider = ({ children }) => {
 
     const [topicsRequest, topics] = useGet('topics-list', 'topics');
     const [coursesRequest, courses] = useGet('courses-list', 'courses');
+    const [courseRequest, course] = useGet('course', 'course');
 
 
 
     return (
         <Data.Provider value={{
             topicsRequest, topics,
-            coursesRequest, courses, coursesList, dispachCoursesList
+            coursesRequest, courses, coursesList, dispachCoursesList,
+            courseRequest, course
         }}>
             {children}
         </Data.Provider>

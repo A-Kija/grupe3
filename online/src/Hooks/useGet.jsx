@@ -18,6 +18,8 @@ export default function useGet(url, prop) {
             return;
         }
 
+        
+
         axios.get(C.SERVER_URL + url + id)
             .then(res => {
                 cachedIds.current.add(id);
