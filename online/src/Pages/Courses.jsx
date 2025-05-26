@@ -14,7 +14,7 @@ export default function Courses() {
 
     const { coursesRequest, courses, coursesList, dispachCoursesList, topics } = useContext(Data);
 
-    console.log(coursesList);
+
 
     useEffect(_ => {
         coursesRequest(topicId);
@@ -39,6 +39,8 @@ export default function Courses() {
     }, [courses]);
 
     const displayCourses = coursesList.find(l => l.topicId == topicId);
+
+
 
     if (!displayCourses) {
         return (

@@ -9,3 +9,11 @@ export const getCoursesByTopicId = (courses, topic, topicId) => {
         topicId: parseInt(topicId)
     }
 }
+
+export const getCourseById = (course, courseId) => {
+    return {
+        type: T.ADD_COURSE,
+        course,
+        courseId: parseInt(courseId)
+    }
+}

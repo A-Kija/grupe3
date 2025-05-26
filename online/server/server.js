@@ -77,7 +77,25 @@ app.get('/courses-list/:topicId', (req, res) => {
     });
 });
 
+// Course Parts
+app.get('/course/:courseId', (req, res) => {
 
+  const courseId = parseInt(req.params.courseId);
+
+    const sql = `
+      SELECT id, row_number AS row, title, description
+      FROM parts
+      WHERE course_id = ?
+      ORDER BY row_number
+    `;
+      con.query(sql, [courseId], (err, result) => {
+      if (dbError(res, err)) return; 
+      res.json({
+        success: true,
+        course: result
+      });
+    });
+});
 
 
 
