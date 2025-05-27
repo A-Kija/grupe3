@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router';
 import Data from '../Data/Data';
 import { getCourseById } from '../Actions/courses';
 
-export default function Courses() {
+export default function Course() {
 
     const { courseId } = useParams();
     const navigate = useNavigate();
@@ -33,6 +33,7 @@ export default function Courses() {
   
 
     useEffect(_ => {
+        console.log('GET PARTS');
         courseRequest(courseId);
     }, []);
 
@@ -52,10 +53,10 @@ export default function Courses() {
 
     const displayCourse = findDisplayCourse();
 
-        console.log(displayCourse);
+        console.log('displayCourse----->', displayCourse);
 
 
-    if (!displayCourse) {
+    if (!displayCourse || !displayCourse?.parts) {
         return (
             <div>Loading...</div>
         );
@@ -65,7 +66,25 @@ export default function Courses() {
     return (
         <div className="course-page">
             <div className="course-page__content">
-                <h1>{displayCourse.title}</h1>
+                <h1>
+                    {displayCourse.title}
+                    <span>By: {displayCourse.teacherName}</span>
+                    <b>{displayCourse.plan}</b>
+                </h1>
+                <p className="course-page__content__desc">
+                    {displayCourse.description}
+                </p>
+                <ul className="course-page__content__list">
+                    {
+                        displayCourse.parts.map(p =>
+                            <li key={p.id}>
+                                <h4>{('' + p.row).padStart(2, '0')}.</h4>
+                                <h5><Link to={'/part/' + p.id}>{p.title}</Link></h5>
+                                <p>{p.description}</p>
+                            </li>
+                        )
+                    }
+                </ul>
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router';
+import { useLocation } from 'react-router';
 import Main from './Main';
 
 export default function LayoutLoader() {
@@ -6,7 +6,8 @@ export default function LayoutLoader() {
     const layoutsMap = [
         { path: '', layout: <Main /> },
         { path: 'course-list', layout: <Main /> },
-        { path: 'course', layout: <Main /> }
+        { path: 'course', layout: <Main /> },
+        { path: 'part', layout: <Main /> }
     ];
 
     const { pathname } = useLocation();

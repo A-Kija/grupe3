@@ -97,6 +97,33 @@ app.get('/course/:courseId', (req, res) => {
     });
 });
 
+// Part Content
+app.get('/part/:partId', (req, res) => {
+
+  const partId = parseInt(req.params.partId);
+
+    const sql = `
+      SELECT c.id, c.row_number AS row, c.video_link AS video, c.part_id AS partId,
+       c.image_link AS image, c.text_block AS textBlock, p.row_namber AS partNumber,
+       p.title AS partTitle, cr.title AS courseTitle
+      FROM part_contents AS c
+      INNER JOIN parts AS p
+      ON c.part_id = p.id
+      INNER JOIN courses AS cr
+      ON p.course_id = cr.id
+      WHERE c.part_id = ?
+      ORDER BY c.row_number
+
+    `;
+      con.query(sql, [partId], (err, result) => {
+      if (dbError(res, err)) return; 
+      res.json({
+        success: true,
+       part: result
+      });
+    });
+});
+
 
 
 
