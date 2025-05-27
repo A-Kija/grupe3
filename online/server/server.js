@@ -17,6 +17,8 @@ app.use(express.json());
 // Cookies
 app.use(cookieParser());
 
+app.use(express.static('content'));
+
 const con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -104,7 +106,7 @@ app.get('/part/:partId', (req, res) => {
 
     const sql = `
       SELECT c.id, c.row_number AS row, c.video_link AS video, c.part_id AS partId,
-       c.image_link AS image, c.text_block AS textBlock, p.row_namber AS partNumber,
+       c.image_link AS image, c.text_block AS textBlock, p.row_number AS partNumber,
        p.title AS partTitle, cr.title AS courseTitle
       FROM part_contents AS c
       INNER JOIN parts AS p
@@ -113,13 +115,35 @@ app.get('/part/:partId', (req, res) => {
       ON p.course_id = cr.id
       WHERE c.part_id = ?
       ORDER BY c.row_number
-
     `;
       con.query(sql, [partId], (err, result) => {
       if (dbError(res, err)) return; 
+
+      const part = {
+        partNumber: '',
+        partTitle: '',
+        courseTitle: '',
+        partId: 0,
+        content: []
+      }
+
+      if (result.length) {
+        part.partNumber = result[0].partNumber;
+        part.partTitle = result[0].partTitle;
+        part.courseTitle = result[0].courseTitle;
+        part.partId = result[0].partId;
+        part.content = result.map(c => {
+          delete c.partNumber;
+          delete c.partTitle;
+          delete c.courseTitle;
+          delete c.partId;
+          return c;
+        });
+      }
+
       res.json({
         success: true,
-       part: result
+        part
       });
     });
 });

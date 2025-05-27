@@ -1,0 +1,27 @@
+@use '../var.scss' as V;
+
+.part-page {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        max-width: V.$xl;
+        margin-top: 50px;
+
+        &__list {
+
+            img {
+                width: 70%;
+                height: auto;
+                max-width: 70%;
+            }
+        }
+
+    }
+
+}

@@ -17,3 +17,11 @@ export const getCourseById = (course, courseId) => {
         courseId: parseInt(courseId)
     }
 }
+
+export const getPartContentByPartId = (part, partId) => {
+    return {
+        type: T.ADD_PART,
+        part,
+        partId: parseInt(partId)
+    }
+}
