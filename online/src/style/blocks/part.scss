@@ -13,12 +13,37 @@
         max-width: V.$xl;
         margin-top: 50px;
 
-        &__list {
+        h1 {
+            padding: V.$pad;
+            position: relative;
+            width: 100%;
+            .part-title {
+                font-size: 30px;
+                font-weight: 600;
+                color: V.$blue;
+                display: block;
+                margin-bottom: 20px;
+            }
+            .course-title {
+                font-size: 15px;
+                color: V.$red
+            }
 
+            .part-number {
+                font-size: 40px;
+                color: V.$orange;
+                position: absolute;
+                top: 0;
+                right: V.$pad;
+            }
+        }
+
+        &__list {
+            padding: V.$pad;
             img {
-                width: 70%;
+                width: 50%;
                 height: auto;
-                max-width: 70%;
+                max-width: 50%;
             }
         }
 

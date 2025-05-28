@@ -107,7 +107,7 @@ app.get('/part/:partId', (req, res) => {
     const sql = `
       SELECT c.id, c.row_number AS row, c.video_link AS video, c.part_id AS partId,
        c.image_link AS image, c.text_block AS textBlock, p.row_number AS partNumber,
-       p.title AS partTitle, cr.title AS courseTitle
+       p.title AS partTitle, cr.title AS courseTitle, cr.id AS courseId
       FROM part_contents AS c
       INNER JOIN parts AS p
       ON c.part_id = p.id
@@ -124,6 +124,7 @@ app.get('/part/:partId', (req, res) => {
         partTitle: '',
         courseTitle: '',
         partId: 0,
+        courseId: 0,
         content: []
       }
 
@@ -132,11 +133,13 @@ app.get('/part/:partId', (req, res) => {
         part.partTitle = result[0].partTitle;
         part.courseTitle = result[0].courseTitle;
         part.partId = result[0].partId;
+        part.courseId = result[0].courseId;
         part.content = result.map(c => {
           delete c.partNumber;
           delete c.partTitle;
           delete c.courseTitle;
           delete c.partId;
+          delete c.courseId;
           return c;
         });
       }

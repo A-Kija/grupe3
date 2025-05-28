@@ -49,9 +49,9 @@ export default function Part() {
         <div className="part-page">
             <div className="part-page__content">
                 <h1>
-                    <span class="course-title">Course: {displayPart.courseTitle}</span>
-                    <span class="part-number">Part: {displayPart.partNumber}</span>
-                    <span class="part-title">{displayPart.partTitle}</span>
+                    <span className="part-title">{displayPart.partTitle}</span>
+                    <Link to={'/course/' + displayPart.courseId} className="course-title">Course: {displayPart.courseTitle}</Link>
+                    <span className="part-number">Part No: {displayPart.partNumber}</span>
                 </h1>
                 <ul className="part-page__content__list">
                     {

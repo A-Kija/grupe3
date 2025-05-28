@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router';
 import Main from './Main';
+import Full from './Full';
 
 export default function LayoutLoader() {
 
@@ -7,7 +8,8 @@ export default function LayoutLoader() {
         { path: '', layout: <Main /> },
         { path: 'course-list', layout: <Main /> },
         { path: 'course', layout: <Main /> },
-        { path: 'part', layout: <Main /> }
+        { path: 'part', layout: <Main /> },
+        { path: 'register', layout: <Full /> }
     ];
 
     const { pathname } = useLocation();
