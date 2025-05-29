@@ -3,6 +3,7 @@ import useGet from '../Hooks/useGet';
 import { useReducer } from 'react';
 import coursesListReducer from '../Reducers/coursesListReducer';
 import partsReducer from '../Reducers/partsReducers';
+import { v4 } from 'uuid';
 
 
 
@@ -20,6 +21,17 @@ export const DataProvider = ({ children }) => {
     const [courseRequest, course] = useGet('course', 'course');
     const [partRequest, part] = useGet('part', 'part');
 
+    const [messages, setMessages] = useState([]);
+
+
+    const addMessage = msg => {
+        const id = v4();
+        setMessages(m => [{...msg, id}, ...m]);
+    }
+
+    const closeMessage = id => {
+        setMessages(m => m.find(ms => ms.id !== id));
+    }
 
 
     return (
@@ -27,7 +39,8 @@ export const DataProvider = ({ children }) => {
             topicsRequest, topics,
             coursesRequest, courses, coursesList, dispachCoursesList,
             courseRequest, course,
-            parts, dispachParts, partRequest, part
+            parts, dispachParts, partRequest, part,
+            messages, addMessage, closeMessage
         }}>
             {children}
         </Data.Provider>

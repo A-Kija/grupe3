@@ -9,8 +9,6 @@ export default function Register() {
 
     const [hp, setHp] = useState(false);
 
-    const [request, response] = usePost('make-new-registration', 'reg', form);
-
     const [form, setForm] = useState({
         email: '',
         name: '',
@@ -18,11 +16,24 @@ export default function Register() {
         pass2: ''
     });
 
+    const [request, response] = usePost('make-new-registration', 'reg');
+
     const hpMessage = hp ? 'Show password' : 'Hide password';
     const inputType = hp ? 'password' : 'text';
 
     const h = e => setForm(f => ({...f, [e.target.name]: e.target.value}));
 
+    const register = _ => {
+        request(form);
+    }
+
+    useEffect(_ => {
+        if (null === response) {
+            return;
+        }
+        
+
+    }, [response])
 
 
 
@@ -50,7 +61,7 @@ export default function Register() {
                     <label className="hp" onClick={_ => setHp(p => !p)}>{hpMessage}</label>
                 </div>
                 <div className="register-box__inputs__input">
-                    <button type="button">Register</button>
+                    <button type="button" onClick={register}>Register</button>
                 </div>
             </div>
         </div>

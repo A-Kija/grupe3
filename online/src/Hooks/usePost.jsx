@@ -2,14 +2,13 @@ import axios from 'axios';
 import * as C from '../Constants/main';
 import { useState } from 'react';
 
-export default function usePost(url, prop, data) {
+export default function usePost(url, prop) {
 
     const [response, setResponse] = useState(null);
 
-    const request = id => {
+    const request = (data, id = false) => {
 
         id = id ? '/' + id : '';
-
 
         axios.post(C.SERVER_URL + url + id, data)
             .then(res => {

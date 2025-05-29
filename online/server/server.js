@@ -3,6 +3,7 @@ import mysql from 'mysql';
 // import fs from 'node:fs';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import md5 from 'md5';
 
 const app = express();
 // Use CORS to allow cross-origin requests
@@ -153,7 +154,29 @@ app.get('/part/:partId', (req, res) => {
 
 
 
+app.post('/make-new-registration', (req, res) => {
 
+  const form = req.body;
+
+  const sql = 
+  `
+    INSERT INTO users
+    (email, name, password)
+    VALUES (?, ?, ?)
+  `;
+
+    con.query(sql, [form.email, form.name, md5(form.pass1)], (err) => {
+    if (dbError(res, err)) return; 
+        res.json({
+        success: true,
+        reg: {
+          email: form.email,
+          name: form.name
+        }
+      });
+    });
+
+});
 
 
 

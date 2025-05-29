@@ -2,6 +2,7 @@ import { useLocation } from 'react-router';
 import Main from './Main';
 import Full from './Full';
 
+
 export default function LayoutLoader() {
 
     const layoutsMap = [
@@ -11,6 +12,8 @@ export default function LayoutLoader() {
         { path: 'part', layout: <Main /> },
         { path: 'register', layout: <Full /> }
     ];
+
+
 
     const { pathname } = useLocation();
     const toMap = pathname.split('/')[1];
