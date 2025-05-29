@@ -1,6 +1,5 @@
-import { createContext } from 'react';
+import { createContext, useReducer, useState } from 'react';
 import useGet from '../Hooks/useGet';
-import { useReducer } from 'react';
 import coursesListReducer from '../Reducers/coursesListReducer';
 import partsReducer from '../Reducers/partsReducers';
 import { v4 } from 'uuid';
@@ -30,7 +29,7 @@ export const DataProvider = ({ children }) => {
     }
 
     const closeMessage = id => {
-        setMessages(m => m.find(ms => ms.id !== id));
+        setMessages(m => m.filter(ms => ms.id !== id));
     }
 
 

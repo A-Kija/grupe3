@@ -3,7 +3,7 @@ import Data from '../Data/Data';
 
 export default function Messages() {
 
-    const { messages } = useContext(Data);
+    const { messages, closeMessage } = useContext(Data);
 
     if (!messages.length) {
         return null;
@@ -14,7 +14,10 @@ export default function Messages() {
             {
                 messages.map(m =>
                     <div className="msg-bin__msg" key={m.id}>
-
+                        <div className={m.type}>
+                            <p>{m.text}</p>
+                            <span onClick={_ => closeMessage(m.id)}>Close</span>
+                        </div>
                     </div>
                 )
             }

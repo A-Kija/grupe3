@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router';
 import Main from './Main';
 import Full from './Full';
+import Messages from './Messages';
 
 
 export default function LayoutLoader() {
@@ -19,5 +20,10 @@ export default function LayoutLoader() {
     const toMap = pathname.split('/')[1];
     const layout = layoutsMap.find(m => m.path === toMap)?.layout ?? <Main />
 
-    return <>{layout}</>
+    return (
+        <>
+            <Messages/>
+            {layout}
+        </>
+    )
 }
